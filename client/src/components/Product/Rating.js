@@ -6,7 +6,6 @@ const Rating = ({ rating, text, color}) => {
         <div className="rating my-3">
             <span>
                 {[...Array(5)].map((_, i) => {
-                    console.log(i);
                     const cls = rating >= i + 1
                         ? 'fas fa-star'                 //full star
                         : rating >= i + 0.5
@@ -16,7 +15,9 @@ const Rating = ({ rating, text, color}) => {
                     return <i key={'Star' + i}
                             style={{ color }}  
                             className={cls} />
+                            
                 })}
+                &nbsp; {text}
             </span>
         </div>
     );

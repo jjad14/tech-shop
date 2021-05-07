@@ -12,7 +12,11 @@ const Header = () => {
                         </Navbar.Brand>
                     </LinkContainer>
 
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{color: 'white'}}>
+                        <span>
+                        <i className="fas fa-bars"></i>
+                        </span>
+                    </Navbar.Toggle>
 
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">

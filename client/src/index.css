@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 main {
   min-height: 87vh;
   width: 100vw;

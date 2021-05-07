@@ -1,8 +1,8 @@
-const express = require('express');
-// const { body, validationResult } = require('express-validator');
-// const jwt = require('jsonwebtoken');
+import express from 'express';
+// import { body, validationResult } from 'express-validator';
+// import jwt from 'jsonwebtoken';
 
-const products = require('../../data/products');
+import products from '../../data/products.js';
 
 require('dotenv').config();
 

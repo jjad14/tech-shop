@@ -4,11 +4,9 @@ import express from 'express';
 
 import products from '../../data/products.js';
 
-require('dotenv').config();
-
 const router = express.Router();
 
- 
+
 router.get('/api/products', (req, res) => {
     res.json(products);
 });

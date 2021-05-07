@@ -1,11 +1,16 @@
 import express from 'express';
 import dotenv from 'dotenv';
+
+import connectDB from './data/db.js';
 import products from './data/products.js';
 
 dotenv.config();
 
 // create express app
 const app = express();
+
+// Connect to database
+connectDB();
 
 // Init Middleware
 app.use(express.json());

@@ -43,3 +43,7 @@ export const getProduct = (id) => async dispatch => {
     });
   }
 };
+
+export const clearProductDetails = () => async dispatch => {
+  dispatch({ type: types.CLEAR_PRODUCT_DETAILS, payload: {} });
+};

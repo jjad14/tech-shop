@@ -30,6 +30,11 @@ const reducer = (state= initialState, action) => {
                 ...state,
                 error: action.payload,
             }; 
+        case types.CLEAR_PRODUCT_DETAILS:
+            return {
+                ...state,
+                product: { reviews: []}
+            }; 
         default:
             return state;
     }

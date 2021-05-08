@@ -5,7 +5,7 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
-import { getProduct } from '../../actions/productActions';
+import { getProduct, clearProductDetails } from '../../actions/productActions';
 import Rating from './Rating';
 
 // individual product page
@@ -17,6 +17,11 @@ const Product = ({ match }) => {
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
+
+    // equivalent to implementing componentWillUnmount
+    return () => {
+      dispatch(clearProductDetails());
+    };
   }, [dispatch, match.params.id]);
 
   return (

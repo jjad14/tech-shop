@@ -3,7 +3,7 @@ import * as types from '../constants/productTypes';
 const initialState = {
     products: [],
     loading: false,
-    error: {}
+    error: null
 };
 
 const reducer = (state= initialState, action) => {
@@ -20,6 +20,7 @@ const reducer = (state= initialState, action) => {
                 loading: false 
             };
         case types.GET_PRODUCTS_FAIL:
+            console.log(action.payload);
             return {
                 ...state,
                 error: action.payload,

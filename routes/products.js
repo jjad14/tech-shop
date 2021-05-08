@@ -13,6 +13,8 @@ router.get(
   asyncHandler(async (req, res) => {
     const products = await Product.find({});
 
+    // @todo: return error if no products
+
     res.json(products);
   })
 );

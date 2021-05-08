@@ -14,6 +14,7 @@ export const getProducts = () => async (dispatch) => {
       type: types.GET_PRODUCTS_SUCCESS,
       payload: data,
     });
+    
   } catch (error) {
     dispatch({
       type: types.GET_PRODUCTS_FAIL,

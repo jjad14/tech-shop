@@ -13,7 +13,7 @@ const Product = ({ match }) => {
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.product);
-  const { product, error, loading } = productDetails;
+  const { product, error } = productDetails;
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
@@ -24,8 +24,7 @@ const Product = ({ match }) => {
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
-      {/* @todo: infer loading instead, product == null  */}
-      {loading ? (
+      { !product._id || product._id !== match.params.id ? (
         <Loading />
       ) : error ? (
         <Message variant='danger'>{error}</Message>

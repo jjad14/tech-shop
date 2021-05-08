@@ -11,7 +11,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.product);
-  const { products, loading, error } = productList;
+  const { products, error } = productList;
 
   useEffect(() => {
     dispatch(getProducts());
@@ -20,8 +20,7 @@ const Home = () => {
   return (
     <>
       <h1>Latest Products</h1>
-      {/* @todo: infer loading instead, products.length === 0  */}
-      {loading ? (
+      {products.length === 0 ? (
         <Loading />
       ) : error ? (
         <Message variant="danger">{error}</Message>

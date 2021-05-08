@@ -4,9 +4,6 @@ import * as types from '../constants/productTypes';
 
 export const getProducts = () => async (dispatch) => {
   try {
-    dispatch({
-      type: types.GET_PRODUCTS_START,
-    });
 
     const { data } = await axios.get('/api/products');
 
@@ -28,9 +25,6 @@ export const getProducts = () => async (dispatch) => {
 
 export const getProduct = (id) => async dispatch => {
   try {
-    dispatch({
-      type: types.GET_PRODUCT_DETAILS_START,
-    });
 
     const { data } = await axios.get(`/api/products/${id}`);
 

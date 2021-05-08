@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
 
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
@@ -9,7 +9,9 @@ import { getProduct, clearProductDetails } from '../../actions/productActions';
 import Rating from './Rating';
 
 // individual product page
-const Product = ({ match }) => {
+const Product = ({ history, match }) => {
+  const [qty, setQty] = useState(0);
+
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.product);
@@ -24,6 +26,16 @@ const Product = ({ match }) => {
     };
   }, [dispatch, match.params.id]);
 
+
+  const submitHandler = () => {
+    // dispatch(addToCart(product._id, qty))
+
+    console.log(product._id);
+    console.log(qty);
+    
+    history.push('/cart')
+  };
+
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -35,10 +47,10 @@ const Product = ({ match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <Row>
-          <Col md={5}>
+          <Col md={6} className="product-page-section">
             <Image src={product.image} alt={product.name} fluid />
           </Col>
-          <Col md={4}>
+          <Col md={3} className="product-page-section">
             <Card className='p-3 rounded shadow'>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
@@ -58,35 +70,58 @@ const Product = ({ match }) => {
               </ListGroup>
             </Card>
           </Col>
-          <Col md={3}>
+          <Col md={3} className="product-page-section">
             <Card className='p-3 rounded shadow'>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Price:</Col>
-                    <Col>
+                    <Col className="product-page-section">Price:</Col>
+                    <Col className="product-page-section">
                       <strong>${product.price}</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Status:</Col>
+                    <Col className="product-page-section">Status:</Col>
                     <Col
                       className={
-                        product.countInStock > 0
-                          ? 'text-success'
-                          : 'text-danger'
+                        product.inventory > 0
+                          ? 'text-success product-page-section'
+                          : 'text-danger product-page-section'
                       }
                     >
-                      {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
+                      {product.inventory > 0 ? 'In Stock' : 'Out of Stock'}
                     </Col>
                   </Row>
                 </ListGroup.Item>
+                { product.inventory > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col className="product-page-section">Quantity</Col>
+                      <Col className="product-page-section">
+                        <Form.Control 
+                          as='select' 
+                          value={qty}
+                          className="form-control-select"
+                          onChange={(e) => setQty(e.target.value)}>
+                          {                        
+                          [...Array(product.inventory).keys()].map(x => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))
+                          }
+                          </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
                 <ListGroup.Item>
                   <Button
-                    variant={product.countInStock > 0 ? 'success' : 'secondary'}
-                    disabled={product.countInStock === 0}
+                  onClick={submitHandler}
+                    variant={product.inventory > 0 ? 'success' : 'secondary'}
+                    disabled={product.inventory === 0}
                     block
                   >
                     Add To Cart

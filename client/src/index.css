@@ -3,7 +3,7 @@ body {
 }
 
 main {
-  min-height: 87vh;
+  min-height: 88vh;
   width: 100vw;
 }
 
@@ -13,4 +13,18 @@ h3 {
 
 .rating span {
   margin: 0.1rem;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+  .product-page-section {
+    min-width: 350px;
+  }
+
+  .product-page-section:nth-child(3) {
+    margin: 20px 0 0 50%;
+  }
+
+  .form-control-select {
+    width: 250px;
+  }
 }

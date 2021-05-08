@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap';
 
 import Rating from './Rating';
 
-// product in a list
+// product in a list (Home Screen)
 const ProductItem = ({ product }) => {
     return (
         <Card className="my-3 p-3 rounded shadow">

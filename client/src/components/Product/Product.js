@@ -1,91 +1,100 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
+import Loading from '../shared/Loading';
+import Message from '../shared/Message';
+import { getProduct } from '../../actions/productActions';
 import Rating from './Rating';
-
 
 // individual product page
 const Product = ({ match }) => {
-    const [product, setProduct] = useState({});
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            const res = await axios.get(`/api/products/${match.params.id}`);
+  const productDetails = useSelector((state) => state.product);
+  const { product, error, loading } = productDetails;
 
-            setProduct(res.data);
-        };
+  useEffect(() => {
+    dispatch(getProduct(match.params.id));
+  }, [dispatch, match.params.id]);
 
-        fetchProduct();
-    }, [match.params.id]);
-
-
-    return (
-        <>
-        <Link className="btn btn-light my-3" to="/">Go Back</Link>
+  return (
+    <>
+      <Link className='btn btn-light my-3' to='/'>
+        Go Back
+      </Link>
+      {/* @todo: infer loading instead, product == null  */}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
+      ) : (
         <Row>
-            <Col md={5}>
-                <Image src={product.image} alt={product.name} fluid />
-            </Col>
-            <Col md={4}>
-                <Card className="p-3 rounded shadow">
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <h4>{product.name}</h4>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Rating 
-                                rating={product.rating} 
-                                text={`${product.numReviews} reviews`}
-                                color="red"/>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <strong>Price:</strong> ${product.price}
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            {product.description}
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Card>
-            </Col>
-            <Col md={3}>
-                <Card className="p-3 rounded shadow">
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <Row>
-                                <Col>
-                                    Price: 
-                                </Col>
-                                <Col>
-                                    <strong>${product.price}</strong>
-                                </Col>
-                            </Row>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Row>
-                                <Col>
-                                    Status:
-                                </Col>
-                                <Col className={product.countInStock > 0 ? "text-success" : "text-danger"}>
-                                    { product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
-                                </Col>
-                            </Row>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Button
-                                variant={product.countInStock > 0 ? "success" : "secondary"}
-                                disabled={product.countInStock === 0}
-                                block>
-                                Add To Cart
-                            </Button>
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Card>
-            </Col>
+          <Col md={5}>
+            <Image src={product.image} alt={product.name} fluid />
+          </Col>
+          <Col md={4}>
+            <Card className='p-3 rounded shadow'>
+              <ListGroup variant='flush'>
+                <ListGroup.Item>
+                  <h4>{product.name}</h4>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Rating
+                    rating={product.rating}
+                    text={`${product.numReviews} reviews`}
+                    color='red'
+                  />
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Price:</strong> ${product.price}
+                </ListGroup.Item>
+                <ListGroup.Item>{product.description}</ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
+          <Col md={3}>
+            <Card className='p-3 rounded shadow'>
+              <ListGroup variant='flush'>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Price:</Col>
+                    <Col>
+                      <strong>${product.price}</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Status:</Col>
+                    <Col
+                      className={
+                        product.countInStock > 0
+                          ? 'text-success'
+                          : 'text-danger'
+                      }
+                    >
+                      {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Button
+                    variant={product.countInStock > 0 ? 'success' : 'secondary'}
+                    disabled={product.countInStock === 0}
+                    block
+                  >
+                    Add To Cart
+                  </Button>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card>
+          </Col>
         </Row>
-        </>
-    );
+      )}
+    </>
+  );
 };
 
 export default Product;

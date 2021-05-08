@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 
-import Spinner from '../layout/Spinner';
+import Loading from '../shared/Loading';
+import Message from '../shared/Message';
 import ProductItem from '../Product/ProductItem';
 import { getProducts } from '../../actions/productActions';
 
@@ -19,10 +20,11 @@ const Home = () => {
   return (
     <>
       <h1>Latest Products</h1>
+      {/* @todo: infer loading instead, products.length === 0  */}
       {loading ? (
-        <Spinner />
+        <Loading />
       ) : error ? (
-        <h2>{error}</h2>
+        <Message variant="danger">{error}</Message>
       ) : (
         <Row>
         {products.map((product) => (

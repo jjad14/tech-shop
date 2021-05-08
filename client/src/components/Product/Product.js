@@ -6,11 +6,16 @@ import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
 import { getProduct, clearProductDetails } from '../../actions/productActions';
+import { addToCart } from '../../actions/cartActions';
 import Rating from './Rating';
+
+// @Todo: pass product id and quantity to reducer
+// anytime user adds product to cart from this page, overwrite the existing product in cart if there is one
+
 
 // individual product page
 const Product = ({ history, match }) => {
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -28,10 +33,8 @@ const Product = ({ history, match }) => {
 
 
   const submitHandler = () => {
-    // dispatch(addToCart(product._id, qty))
-
-    console.log(product._id);
-    console.log(qty);
+    
+    dispatch(addToCart(product._id, qty))
     
     history.push('/cart')
   };

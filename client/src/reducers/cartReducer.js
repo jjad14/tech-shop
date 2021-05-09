@@ -21,7 +21,7 @@ const reducer = (state= initialState, action) => {
                 return {
                     ...state,
                     cartItems: state.cartItems.map(x => 
-                        x.product === existItem.product ? item: x
+                        x.product === existItem.product ? item : x
                     )
                 };
             }
@@ -32,27 +32,12 @@ const reducer = (state= initialState, action) => {
                     cartItems: [...state.cartItems, item]
                 };
             }
-
-        // alternative to update quantity
-        //     cartItems: state.cartItems.map((x) =>
-        //     x.product === existItem.product
-        //       ? { ...x, qty: x.qty + item.qty }
-        //       : x
-        //   )
         case types.CART_REMOVE_ITEM:
             return {
                 ...state,
-                 
-            };
-        case types.CART_INCREMENT_ITEM:
-            return {
-                ...state,
-                 
-            };
-        case types.CART_DECREMENT_ITEM:
-            return {
-                ...state,
-                 
+                cartItems: state.cartItems.filter(x => 
+                    x.product !== action.payload
+                )
             };
         case types.CLEAR_CART:
             return {

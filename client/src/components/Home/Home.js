@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <>
-      <h1>Latest Products</h1>
+      <h2>Latest Products</h2>
       {products.length === 0 ? (
         <Loading />
       ) : error ? (

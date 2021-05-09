@@ -1,0 +1,26 @@
+import jwt from 'jsonwebtoken';
+
+import User from '../models/User.js';
+
+const protect = async (req, res, next) => {
+  const token = req.cookies['Bearer'];
+
+  if (!token) {
+    res.status(401);
+    throw new Error('Not authorized, no token found');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+
+    req.user = await User.findById(decoded.id).select('-password');
+
+    next();
+  } catch (err) {
+    res.clearCookie('Bearer');
+    res.status(401);
+    throw new Error('Not authorized, failed to get token');
+  }
+};
+
+export default protect;

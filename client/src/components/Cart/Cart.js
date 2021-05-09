@@ -12,14 +12,14 @@ import {
 } from 'react-bootstrap';
 
 import Message from '../shared/Message';
-import { addToCart } from '../../actions/cartActions';
+import { addToCart, removeFromCart } from '../../actions/cartActions';
 
 const Cart = ({ history }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
 
   const removeItemHandler = (id) => {
-    console.log(`Remove ${id}`);
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
@@ -111,7 +111,7 @@ const Cart = ({ history }) => {
                 <Button variant="success"
                     type='button' 
                     className="btn-block" 
-                    disable={cartItems.length === 0}
+                    disabled={cartItems.length === 0}
                     onClick={checkoutHandler}>
                     Proceed To Checkout
                 </Button>

@@ -5,6 +5,7 @@ import colors from 'colors';
 import connectDB from './data/db.js';
 import { notFound, errorHandler } from './middleware/errors.js';
 import productRoutes from './routes/products.js';
+import userRoutes from './routes/users.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.get('/', (req, res) => res.send('API is running...'));
 
 // Define Routes
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(notFound);
 

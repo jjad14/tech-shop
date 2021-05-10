@@ -20,11 +20,13 @@ const authUser = asyncHandler(async (req, res) => {
     // check if email is in user
     const user = await User.findOne({ email });
 
+    // user with that email doesnt exist
     if(!user) {
         res.status(401);
         throw new Error('Invalid User Credentials');
     }
 
+    // compare req.body and stored hash password
     const match = await user.matchPassword(password);
 
     if (!match) {
@@ -32,10 +34,13 @@ const authUser = asyncHandler(async (req, res) => {
         throw new Error('Incorrect password');      
     }
 
+    // gennerate token
     const token = generateToken(user._id);
 
+    // set cookie
     res.cookie('Bearer', token, cookieOptions);
 
+    // return user info
     return res.json({
         _id: user._id,
         name: user.name,
@@ -45,13 +50,52 @@ const authUser = asyncHandler(async (req, res) => {
 
 });
 
+// POST /api/users/
+// Register a new user
+// Public Access
+const registerUser = asyncHandler(async (req, res) => {
+    const { email, password, name } = req.body;
+  
+    // check if email is in use
+    const userExists = await User.findOne({ email });
+  
+    if (userExists) {
+      res.status(400);
+      throw new Error('User already exists');
+    }
+  
+    // create a user object
+    // create is basically syntactic sugar for the save method
+    const user = await User.create({
+      name,
+      email,
+      password, // hashed in user model
+    });
+  
+    // generate token
+    const token = generateToken(user._id);
+  
+    // set cookie
+    res.cookie('Bearer', token, cookieOptions);
+  
+    // return user info
+    return res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+});
+
 // GET api/users/profile
 // Get the users profile
 // Private access
 const getUserProfile = asyncHandler(async (req, res) => {
+    // if there is no user
+    // req.user comes from authMiddleware
     if (!req.user) {
-        res.status(400)
-        throw new Error('User not found')
+        res.status(400);
+        throw new Error('User not found');
       }
       // user is added to req object by authMiddleWare
       res.json({
@@ -59,10 +103,11 @@ const getUserProfile = asyncHandler(async (req, res) => {
         name: req.user.name,
         email: req.user.email,
         isAdmin: req.user.isAdmin,
-      })
+      });
 });
 
 export {
     authUser,
+    registerUser,
     getUserProfile
 };

@@ -1,5 +1,8 @@
 import * as types from '../constants/cartTypes';
 
+const isCurrentlyInCart = (state, payload) =>
+  state.cartItems.find(item => item._id === payload._id);
+
 const initialState = {
     cartItems: [], 
     shippingAddress: {}
@@ -8,30 +11,18 @@ const initialState = {
 const reducer = (state= initialState, action) => {
     switch (action.type) {
         case types.CART_ADD_ITEM:
-            // contains product id, name, image, price inventory and qty
-            const item = action.payload;
-
-            // check if item is in cart
-            const existItem = state.cartItems.find(x =>
-                x.product === item.product
-            );
-
-            if (existItem) {
-                // overwrite product
+            if (isCurrentlyInCart(state, action.payload)) {
                 return {
-                    ...state,
-                    cartItems: state.cartItems.map(x => 
-                        x.product === existItem.product ? item : x
-                    )
-                };
-            }
-            else {
-                // product doesnt exist in cart                
-                return {
-                    ...state,
-                    cartItems: [...state.cartItems, item]
-                };
-            }
+                  ...state,
+                  cartItems: state.cartItems.map((item) =>
+                    item._id === action.payload._id ? action.payload : item
+                  ),
+                }
+              }
+              return {
+                ...state,
+                cartItems: [...state.cartItems, action.payload],
+              }
         case types.CART_REMOVE_ITEM:
             return {
                 ...state,

@@ -32,21 +32,21 @@ const Cart = ({ history }) => {
         <h2>Shopping Cart</h2>
         {cartItems.length === 0 ? (
           <Message>
-            No Items in Cart...
+            No Items in Cart... {'  '}
             <Link to='/'>Go Back</Link>
           </Message>
         ) : (
           <Card className='my-3 rounded shadow'>
             <ListGroup variant='flush'>
               {cartItems.map((item) => (
-                <ListGroup.Item key={item.product}>
+                <ListGroup.Item key={item._id}>
                   <Row>
                     <Col md={2}>
                       <Image src={item.image} alt={item.name} fluid rounded />
                     </Col>
                     <Col md={3} className='mx-1'>
                       <Link
-                        to={`/product/${item.product}`}
+                        to={`/product/${item._id}`}
                         className='text-dark'
                       >
                         {item.name}
@@ -59,7 +59,7 @@ const Cart = ({ history }) => {
                         value={item.qty}
                         onChange={(e) =>
                           dispatch(
-                            addToCart(item.product, Number(e.target.value))
+                            addToCart(item._id, Number(e.target.value))
                           )
                         }
                       >
@@ -73,7 +73,7 @@ const Cart = ({ history }) => {
                     <Col md={1} className='p-0 m-0'>
                       <Button
                         className='float-right btn-md-inline btn-block'
-                        onClick={() => removeItemHandler(item.product)}
+                        onClick={() => removeItemHandler(item._id)}
                         type='button'
                         variant='danger'
                       >
@@ -92,7 +92,7 @@ const Cart = ({ history }) => {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h4 className='text-center'>
-                Subtotal ({cartItems.reduce((acc, item) => acc + +item.qty, 0)})
+                Subtotal ({cartItems.reduce((acc, item) => acc + (+item.qty), 0)})
                 Items
               </h4>
               <hr />
@@ -102,7 +102,7 @@ const Cart = ({ history }) => {
                 <strong>
                   $
                   {cartItems
-                    .reduce((acc, item) => acc + +item.qty * item.price, 0)
+                    .reduce((acc, item) => acc + (+item.qty) * item.price, 0)
                     .toFixed(2)}
                 </strong>
               </p>

@@ -21,4 +21,22 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(...middleware))
 );
 
+// subscription
+let currentState = store.getState();
+
+// keep track of the previous and current state to compare changes
+store.subscribe(() => {
+  let previousState = currentState;
+  currentState = store.getState();
+
+  // if the cartItems change - overwrite localStorage
+  if (previousState.cart.cartItems !== currentState.cart.cartItems) {
+    localStorage.setItem(
+      'cartItems',
+      JSON.stringify(currentState.cart.cartItems)
+    )
+  }
+ 
+});
+
 export default store;

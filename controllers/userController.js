@@ -106,8 +106,26 @@ const getUserProfile = asyncHandler(async (req, res) => {
       });
 });
 
+const logout = (req, res) => {
+  // expire cookie and send back, which will be removed
+  res.cookie("Bearer", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    secure: true,
+    sameSite: "none",
+  })
+  .status(204)
+  .send();
+  
+  // res.clearCookie('Bearer', cookieOptions);
+  //res.status(204).send();
+
+
+}
+
 export {
     authUser,
     registerUser,
-    getUserProfile
+    getUserProfile,
+    logout
 };

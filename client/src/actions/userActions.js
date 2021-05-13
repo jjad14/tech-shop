@@ -21,7 +21,9 @@ export const login = (email, password) => async dispatch => {
     }
 };
 
-export const logout = () => async dispatch => {
+export const logout = (history) => async dispatch => {
     await api.delete('/users/logout')
     dispatch({ type: types.USER_LOGOUT });  
+
+    history.push('/login');
 };

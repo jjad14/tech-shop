@@ -1,6 +1,5 @@
 import * as types from '../constants/userTypes';
 
-
 export const initialUserState = {
     userInfo: null,
     error: null,
@@ -11,11 +10,13 @@ export const initialUserState = {
 const reducer = (state=initialUserState, action) => {
     switch (action.type) {
         case types.USER_LOGIN_START:
+        case types.USER_REGISTER_START:
             return {
                 ...state, 
                 loading: true 
             };
         case types.USER_LOGIN_SUCCESS:
+        case types.USER_REGISTER_SUCCESS:
             return {
                 ...state, 
                 loading: false, 
@@ -23,6 +24,7 @@ const reducer = (state=initialUserState, action) => {
                 error: null 
             };
         case types.USER_LOGIN_FAIL:
+        case types.USER_REGISTER_FAIL:
             return {
                 ...state, 
                 loading: false, 

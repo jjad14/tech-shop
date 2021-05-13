@@ -69,7 +69,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
       name,
       email,
-      password, // hashed in user model
+      password // hashed in user model
     });
   
     // generate token

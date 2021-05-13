@@ -3,14 +3,19 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './reducers';
+import { initialUserState } from './reducers/userReducer';
 
 
-const cartItemsFromStorage = localStorage.getItem('cartItems')
-  ? JSON.parse(localStorage.getItem('cartItems'))
-  : [];
+const { cartItems, userInfo } = localStorage;
 
 const initialState = {
-  cart: { cartItems: cartItemsFromStorage}
+  cart: {
+    cartItems: cartItems ? JSON.parse(cartItems) : []
+  },
+  user: {
+    ...initialUserState,
+    userInfo: userInfo ? JSON.parse(userInfo) : null,
+  }
 };
 
 const middleware = [thunk];
@@ -36,6 +41,12 @@ store.subscribe(() => {
       JSON.stringify(currentState.cart.cartItems)
     )
   }
+
+  // if the userLogin changes then set in localStorage
+  // Not needed since we get userinfo from http only cookie
+  // if (previousState.user.userInfo !== currentState.user.userInfo) {
+  //   localStorage.setItem('userInfo', JSON.stringify(currentState.user.userInfo))
+  // }
  
 });
 

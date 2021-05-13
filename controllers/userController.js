@@ -91,19 +91,53 @@ const registerUser = asyncHandler(async (req, res) => {
 // Get the users profile
 // Private access
 const getUserProfile = asyncHandler(async (req, res) => {
-    // if there is no user
-    // req.user comes from authMiddleware
-    if (!req.user) {
-        res.status(400);
-        throw new Error('User not found');
-      }
-      // user is added to req object by authMiddleWare
-      res.json({
-        _id: req.user._id,
-        name: req.user.name,
-        email: req.user.email,
-        isAdmin: req.user.isAdmin,
-      });
+  // if there is no user
+  // req.user comes from authMiddleware
+  if (!req.user) {
+    res.status(400);
+    throw new Error('User not found');
+  }
+    
+  // user is added to req object by authMiddleWare
+  res.json({
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    isAdmin: req.user.isAdmin,
+  });
+}); 
+
+// GET api/users/profile
+// Update the users profile
+// Private access
+const updateUserProfile = asyncHandler(async (req, res) => {
+  // no user
+  if (!req.user) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+  const { name, email, password } = req.body
+
+  // check if email is in use
+  const emailExists = await User.findOne({ email });
+
+  if (emailExists) {
+    res.status(400);
+    throw new Error('Email already exists');
+  }
+
+  if (name) req.user.name = name
+  if (email) req.user.email = email
+  if (password) req.user.password = password
+
+  await req.user.save()
+
+  res.json({
+    _id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    isAdmin: req.user.isAdmin,
+  })
 });
 
 const logout = (req, res) => {
@@ -119,13 +153,12 @@ const logout = (req, res) => {
   
   // res.clearCookie('Bearer', cookieOptions);
   //res.status(204).send();
-
-
-}
+};
 
 export {
     authUser,
     registerUser,
     getUserProfile,
+    updateUserProfile,
     logout
 };

@@ -20,7 +20,9 @@ const Header = () => {
             <Navbar bg="primary" variant="primary" expand="lg" collapseOnSelect>
                 <Container>
                     <LinkContainer to="/">
-                        <Navbar.Brand className="text-light">TechShop
+                        <Navbar.Brand className="text-light">
+                            <i class="fas fa-desktop"></i>
+                            &nbsp; TechShop
                         </Navbar.Brand>
                     </LinkContainer>
 

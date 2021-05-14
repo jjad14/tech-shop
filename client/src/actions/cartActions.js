@@ -22,3 +22,17 @@ export const removeFromCart = (id) => {
       payload: id,
     };
 };
+
+export const saveShippingAddress = (data) => {
+    return {
+        type: types.CART_SAVE_SHIPPING_ADDRESS,
+        payload: data
+    };
+};
+  
+export const savePaymentMethod = (method) => {
+    return {
+        type: types.CART_SAVE_PAYMENT_METHOD,
+        payload: method
+    };
+};

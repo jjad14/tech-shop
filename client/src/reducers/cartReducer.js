@@ -3,12 +3,17 @@ import * as types from '../constants/cartTypes';
 const isCurrentlyInCart = (state, payload) =>
   state.cartItems.find(item => item._id === payload._id);
 
-const initialState = {
+export const initialCartState = {
     cartItems: [], 
-    shippingAddress: {}
+    shippingAddress: {
+      address: '',
+      city: '',
+      postalCode: '',
+      country: ''
+    }
 };
 
-const reducer = (state= initialState, action) => {
+const reducer = (state=initialCartState, action) => {
     switch (action.type) {
         case types.CART_ADD_ITEM:
             if (isCurrentlyInCart(state, action.payload)) {
@@ -35,6 +40,16 @@ const reducer = (state= initialState, action) => {
                 ...state,
                 cartItems: []
             };
+        case types.CART_SAVE_SHIPPING_ADDRESS:
+          return {
+            ...state,
+            shippingAddress: action.payload,
+          };
+        case types.CART_SAVE_PAYMENT_METHOD:
+          return {
+            ...state,
+            paymentMethod: action.payload,
+          };
         default:
             return state;
     }

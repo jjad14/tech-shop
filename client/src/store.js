@@ -4,13 +4,17 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import rootReducer from './reducers';
 import { initialUserState } from './reducers/userReducer';
+import { initialCartState } from './reducers/cartReducer';
 
 
-const { cartItems, userInfo } = localStorage;
+const { userInfo, cartItems, shippingAddress } = localStorage;
 
 const initialState = {
   cart: {
-    cartItems: cartItems ? JSON.parse(cartItems) : []
+    cartItems: cartItems ? JSON.parse(cartItems) : [],
+    shippingAddress: shippingAddress
+    ? JSON.parse(shippingAddress)
+    : { ...initialCartState.shippingAddress },
   },
   user: {
     ...initialUserState,
@@ -40,6 +44,13 @@ store.subscribe(() => {
       'cartItems',
       JSON.stringify(currentState.cart.cartItems)
     )
+  }
+
+  if (previousState.cart.shippingAddress !== currentState.cart.shippingAddress) {
+    localStorage.setItem(
+      'shippingAddress',
+      JSON.stringify(currentState.cart.shippingAddress)
+    );
   }
 });
 

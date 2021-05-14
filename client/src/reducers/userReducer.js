@@ -44,12 +44,7 @@ const reducer = (state=initialUserState, action) => {
             };
         case types.USER_LOGOUT:
         case types.USER_DETAILS_FAIL:
-            return {
-                userInfo: null,
-                error: null,
-                loading: false,
-                updated: null
-            };
+            return initialUserState;
         default:
             return state;
     }

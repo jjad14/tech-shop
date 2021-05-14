@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import colors from 'colors';
 
 import connectDB from './data/db.js';
@@ -19,6 +20,15 @@ connectDB();
 // Init Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
+// app.use(
+//     cors({
+//       origin: [
+//         "http://localhost:3000",
+//       ],
+//       credentials: true,
+//     })
+// );
 
 // Define Routes
 app.use('/api/products', productRoutes);

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -10,8 +11,15 @@ import Cart from './components/Cart/Cart';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Profile from './components/Profile/Profile';
+import { getUserDetails } from './actions/userActions';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserDetails());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Header />

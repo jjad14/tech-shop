@@ -58,12 +58,13 @@ export const getUserDetails = (idOrEndPoint = 'profile') => async dispatch => {
             type: types.USER_DETAILS_START,
         });
 
-        const { data } = await api.get(`/users/${idOrEndPoint}`);
+        const { data } = await api.get(`/users/${idOrEndPoint}`);  
 
         dispatch({
             type: types.USER_DETAILS_SUCCESS,
-            payload: data,
+            payload: data
         });
+
         } catch (err) {
         dispatch({
             type: types.USER_DETAILS_FAIL,

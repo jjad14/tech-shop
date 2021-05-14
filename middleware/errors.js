@@ -11,7 +11,6 @@ const notFound = (req, res, next) => {
 //this middleware will be fired off only when error object exists in the app
 const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-    
     res.status(statusCode);
     res.json({
         message: err.message,

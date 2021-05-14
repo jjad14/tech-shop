@@ -8,9 +8,6 @@ import Product from '../models/Product.js';
 
 const getProducts = asyncHandler(async (req, res) => {
     const products = await Product.find({});
-
-    // @todo: return error if no products
-
     res.json(products);
 });
 

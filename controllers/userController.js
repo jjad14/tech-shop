@@ -119,12 +119,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body
 
   // check if email is in use
-  const emailExists = await User.findOne({ email });
+  // const emailExists = await User.findOne({ email });
 
-  if (emailExists) {
-    res.status(400);
-    throw new Error('Email already exists');
-  }
+  // if (emailExists) {
+  //   res.status(400);
+  //   throw new Error('Email already exists');
+  // }
 
   if (name) req.user.name = name
   if (email) req.user.email = email

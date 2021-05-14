@@ -41,13 +41,6 @@ store.subscribe(() => {
       JSON.stringify(currentState.cart.cartItems)
     )
   }
-
-  // if the userLogin changes then set in localStorage
-  // Not needed since we get userinfo from http only cookie
-  // if (previousState.user.userInfo !== currentState.user.userInfo) {
-  //   localStorage.setItem('userInfo', JSON.stringify(currentState.user.userInfo))
-  // }
- 
 });
 
 export default store;

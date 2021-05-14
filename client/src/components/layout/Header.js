@@ -21,7 +21,7 @@ const Header = () => {
                 <Container>
                     <LinkContainer to="/">
                         <Navbar.Brand className="text-light">
-                            <i class="fas fa-desktop"></i>
+                            <i className="fas fa-desktop"></i>
                             &nbsp; TechShop
                         </Navbar.Brand>
                     </LinkContainer>

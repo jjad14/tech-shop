@@ -1,6 +1,7 @@
 import api from '../utils/api'
 import * as types from '../constants/userTypes';
 
+// login a user
 export const login = (email, password) => async dispatch => {
     try {
         dispatch({
@@ -21,6 +22,7 @@ export const login = (email, password) => async dispatch => {
     }
 };
 
+// register a user
 export const register = (name, email, password) => async dispatch => {
     try {
         dispatch({
@@ -41,6 +43,7 @@ export const register = (name, email, password) => async dispatch => {
     }
 };
 
+// logout user
 export const logout = (history) => async dispatch => {
     await api.delete('/users/logout')
     dispatch({ type: types.USER_LOGOUT });  
@@ -48,6 +51,7 @@ export const logout = (history) => async dispatch => {
     history.push('/login');
 };
 
+// get users profile
 export const getUserDetails = (idOrEndPoint = 'profile') => async dispatch => {
     try {
         dispatch({
@@ -68,6 +72,7 @@ export const getUserDetails = (idOrEndPoint = 'profile') => async dispatch => {
     }
 };
 
+// update users profile
 export const updateUserProfile = (user) => async dispatch => {
     try {
         dispatch({

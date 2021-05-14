@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,16 +10,19 @@ import { updateUserProfile } from '../../actions/userActions';
 const ProfileScreen = () => {
     const dispatch = useDispatch();
 
+    // redux state for user
     const { userInfo, error, loading, updated } = useSelector(
         state => state.user
     );
 
+    // local state, users profile data
     const [name, setName] = useState(userInfo?.name);
     const [email, setEmail] = useState(userInfo?.email);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState(null);
 
+    // submit updated form data
     const submitHandler = (e) => {
         e.preventDefault()
         if (password !== confirmPassword) {
@@ -31,10 +33,12 @@ const ProfileScreen = () => {
         }
     }
 
+    // redirect if no user ()
     if (!userInfo && !loading) {
         return <Redirect to='/login' />
     }
 
+    // loading component
     if (loading) {
         return <Loading />
     }
@@ -100,10 +104,6 @@ const ProfileScreen = () => {
         </Col>
     </Row>
   );
-};
-
-ProfileScreen.propTypes = {
-  location: PropTypes.object,
 };
 
 export default ProfileScreen;

@@ -5,7 +5,6 @@ import Product from '../models/Product.js';
 // GET api/products
 // Get all products
 // Public access
-
 const getProducts = asyncHandler(async (req, res) => {
     const products = await Product.find({});
     res.json(products);

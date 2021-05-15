@@ -8,6 +8,7 @@ import connectDB from './data/db.js';
 import { notFound, errorHandler } from './middleware/errors.js';
 import productRoutes from './routes/products.js';
 import userRoutes from './routes/users.js';
+import orderRoutes from './routes/order.js';
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use(cors());
 // Define Routes
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

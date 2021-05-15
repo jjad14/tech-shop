@@ -12,6 +12,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Profile from './components/Profile/Profile';
 import Shipping from './components/Checkout/Shipping';
+import Payment from './components/Checkout/Payment';
 import { getUserDetails } from './actions/userActions';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/product/:id" component={Product} />
             <Route path="/cart" component={Cart} />
             <Route path="/shipping" component={Shipping} />
+            <Route path="/payment" component={Payment} />
             <Route path="/" exact component={Home} />
           </Container>
         </main>

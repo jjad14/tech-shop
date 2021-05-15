@@ -10,7 +10,6 @@ const CheckoutSteps = ({ step1, step2, step3 }) => {
         <Nav.Link
           as={Link}
           to='/shipping'
-          className='text-warning'
           disabled={!step1}
         >
           Shipping
@@ -20,7 +19,6 @@ const CheckoutSteps = ({ step1, step2, step3 }) => {
         <Nav.Link
           as={Link}
           to='/payment'
-          className='text-warning'
           disabled={!step2}
         >
           Payment
@@ -30,7 +28,6 @@ const CheckoutSteps = ({ step1, step2, step3 }) => {
         <Nav.Link
           as={Link}
           to='/placeorder'
-          className='text-warning'
           disabled={!step3}
         >
           Place Order

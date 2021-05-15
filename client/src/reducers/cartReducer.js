@@ -10,7 +10,8 @@ export const initialCartState = {
       city: '',
       postalCode: '',
       country: ''
-    }
+    },
+    paymentMethod: null
 };
 
 const reducer = (state=initialCartState, action) => {

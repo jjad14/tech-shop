@@ -7,6 +7,10 @@ main {
   width: 100vw;
 }
 
+#navbar-username {
+  color: white;
+}
+
 h3 {
   padding: 1rem 0;
 }

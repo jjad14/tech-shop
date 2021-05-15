@@ -13,6 +13,7 @@ import Register from './components/Auth/Register';
 import Profile from './components/Profile/Profile';
 import Shipping from './components/Checkout/Shipping';
 import Payment from './components/Checkout/Payment';
+import PlaceOrder from './components/Checkout/PlaceOrder';
 import { getUserDetails } from './actions/userActions';
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/cart" component={Cart} />
             <Route path="/shipping" component={Shipping} />
             <Route path="/payment" component={Payment} />
+            <Route path="/placeorder" component={PlaceOrder} />
             <Route path="/" exact component={Home} />
           </Container>
         </main>

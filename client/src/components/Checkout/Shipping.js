@@ -24,7 +24,7 @@ const Shipping = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login')
+      history.push("/login")
     }
   }, [userInfo, history])
 
@@ -32,7 +32,7 @@ const Shipping = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    history.push('/payment');
+    history.push("/payment");
   };
 
   return (
@@ -40,47 +40,47 @@ const Shipping = ({ history }) => {
       <CheckoutSteps step1 />
       <h2 className="text-center">Shipping</h2>
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='address'>
+        <Form.Group controlId="address">
           <Form.Label>Address</Form.Label>
           <Form.Control
             required
-            type='text'
-            placeholder='Enter Address'
+            type="text"
+            placeholder="Enter Address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='city'>
+        <Form.Group controlId="city">
           <Form.Label>City</Form.Label>
           <Form.Control
             required
-            type='text'
-            placeholder='Enter City'
+            type="text"
+            placeholder="Enter City"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='postalCode'>
+        <Form.Group controlId="postalCode">
           <Form.Label>Postal Code</Form.Label>
           <Form.Control
             required
-            type='text'
-            placeholder='Enter Postal Code'
+            type="text"
+            placeholder="Enter Postal Code"
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
           />
         </Form.Group>
-        <Form.Group controlId='country'>
+        <Form.Group controlId="country">
           <Form.Label>Country</Form.Label>
           <Form.Control
             required
-            type='text'
-            placeholder='Enter Country'
+            type="text"
+            placeholder="Enter Country"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
         </Form.Group>
-        <Button type='submit' variant='primary' title='submit order' block>
+        <Button type="submit" variant="success" title="submit order" block>
           Continue to Checkout
         </Button>
       </Form>

@@ -53,7 +53,7 @@ const Payment = ({ history }) => {
             ></Form.Check>
           </Col>
         </Form.Group>
-        <Button type='submit' variant='primary' title='submit order' block>
+        <Button type="submit" variant="success" title='submit order' block>
           Continue
         </Button>
       </Form>

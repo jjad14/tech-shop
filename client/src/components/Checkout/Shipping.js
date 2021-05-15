@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import FormContainer from '../shared/Forms/FormContainer';
 import { saveShippingAddress } from '../../actions/cartActions';
+import CheckoutSteps from '../Checkout/CheckoutSteps';
 
 const Shipping = ({ history }) => {
   const dispatch = useDispatch();
@@ -12,11 +13,21 @@ const Shipping = ({ history }) => {
   const shippingAddress = useSelector(state => 
     state.cart.shippingAddress
   );
+  const userInfo = useSelector(state => 
+    state.user.userInfo
+  );
 
   const [address, setAddress] = useState(shippingAddress.address);
   const [city, setCity] = useState(shippingAddress.city);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
   const [country, setCountry] = useState(shippingAddress.country);
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push('/login')
+    }
+  }, [userInfo, history])
+
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -26,6 +37,7 @@ const Shipping = ({ history }) => {
 
   return (
     <FormContainer>
+      <CheckoutSteps step1 />
       <h2 className="text-center">Shipping</h2>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='address'>

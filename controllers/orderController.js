@@ -6,6 +6,7 @@ import Order from '../models/Order.js';
 // Create Order
 // Private access
 const addOrder = asyncHandler(async (req, res) => {
+    // @TODO: we only need only ids and quantity and we can calculate prices from here
     const {
       orderItems,
       shippingAddress,
@@ -16,11 +17,13 @@ const addOrder = asyncHandler(async (req, res) => {
       totalPrice,
     } = req.body;
 
+    // TODO: use express validator
     if (orderItems && orderItems.length === 0) {
         res.status(400);
         throw new Error('No order items');
     }
     else {
+        // TODO: re-calculate prices using backend product.price 
         const order = new Order({
             orderItems,
             user: req.user._id,

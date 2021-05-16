@@ -29,10 +29,6 @@ const PlaceOrder = ({ history }) => {
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
   useEffect(() => {
-    if (!userInfo) {
-      history.push('/login')
-    }
-
     if (success) {
       history.push(`/order/${order._id}`)
     }

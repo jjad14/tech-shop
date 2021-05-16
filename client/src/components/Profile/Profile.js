@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -31,11 +30,6 @@ const ProfileScreen = () => {
             setMessage(null)
             dispatch(updateUserProfile({ id: userInfo._id, name, email, password }))
         }
-    }
-
-    // redirect if no user ()
-    if (!userInfo && !loading) {
-        return <Redirect to='/login' />
     }
 
     // loading component

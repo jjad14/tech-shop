@@ -16,6 +16,7 @@ import Rating from './Rating';
 // individual product page
 const Product = ({ history, match }) => {
   const [qty, setQty] = useState(1);
+  const [showMessage, setShowMessage] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -34,9 +35,9 @@ const Product = ({ history, match }) => {
 
   const submitHandler = () => {
     
-    dispatch(addToCart(product._id, qty))
-    
-    history.push('/cart')
+    dispatch(addToCart(product._id, qty));
+
+    setShowMessage(true);
   };
 
   return (
@@ -44,6 +45,7 @@ const Product = ({ history, match }) => {
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
+      { showMessage && <Message>Item has Been Added to Cart</Message>}
       { !product._id || product._id !== match.params.id ? (
         <Loading />
       ) : error ? (
@@ -122,7 +124,7 @@ const Product = ({ history, match }) => {
                 )}
                 <ListGroup.Item>
                   <Button
-                  onClick={submitHandler}
+                    onClick={submitHandler}
                     variant={product.inventory > 0 ? 'success' : 'secondary'}
                     disabled={product.inventory === 0}
                     block

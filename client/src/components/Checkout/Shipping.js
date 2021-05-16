@@ -4,8 +4,8 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import FormContainer from '../shared/Forms/FormContainer';
-import { saveShippingAddress } from '../../actions/cartActions';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
+import { saveShippingAddress } from '../../actions/cartActions';
 
 const Shipping = ({ history }) => {
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ const Shipping = ({ history }) => {
     state.user.userInfo
   );
 
+  const [phoneNumber, setPhoneNumber] = useState(shippingAddress.phoneNumber);
   const [address, setAddress] = useState(shippingAddress.address);
   const [city, setCity] = useState(shippingAddress.city);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
@@ -31,7 +32,7 @@ const Shipping = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    dispatch(saveShippingAddress({ phoneNumber, address, city, postalCode, country }));
     history.push("/payment");
   };
 
@@ -40,6 +41,16 @@ const Shipping = ({ history }) => {
       <CheckoutSteps step1 />
       <h2 className="text-center">Shipping</h2>
       <Form onSubmit={submitHandler}>
+        <Form.Group controlId="address">
+          <Form.Label>Phone Number</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Phone Number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+        </Form.Group>
         <Form.Group controlId="address">
           <Form.Label>Address</Form.Label>
           <Form.Control

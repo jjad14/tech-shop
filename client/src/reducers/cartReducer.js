@@ -1,7 +1,7 @@
 import * as types from '../constants/cartTypes';
 
 const isCurrentlyInCart = (state, payload) =>
-  state.cartItems.find(item => item._id === payload._id);
+  state.cartItems.find(item => item.product === payload.product);
 
 export const initialCartState = {
     cartItems: [], 
@@ -9,7 +9,8 @@ export const initialCartState = {
       address: '',
       city: '',
       postalCode: '',
-      country: ''
+      country: '',
+      phoneNumber: ''
     },
     paymentMethod: null
 };

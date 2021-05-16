@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Button, Col, ListGroup, Image, Card } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../shared/Message';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
+import { createOrder } from '../../actions/orderActions';
 
 const PlaceOrder = ({ history }) => {
+  const dispatch = useDispatch();
+  
   const cart = useSelector((state) => state.cart);
   const userInfo = useSelector(state => 
     state.user.userInfo
+  );
+  const { order, success, error } = useSelector(state => 
+    state.order  
   );
 
   // calculate price
@@ -18,20 +24,27 @@ const PlaceOrder = ({ history }) => {
     0
   );
 
-  const shippingPrice = itemsPrice > 100 ? 0 : 100;
-  const taxPrice = 0.15 * itemsPrice;
+  const taxPrice = 0.13 * itemsPrice;
+  const shippingPrice = itemsPrice >= 100 ? 0 : 19.99;
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
   useEffect(() => {
     if (!userInfo) {
       history.push('/login')
     }
-  }, [userInfo, history])
+
+    if (success) {
+      history.push(`/order/${order._id}`)
+    }
+  }, [userInfo, history, order, success])
 
 
   const placeOrderHandler = (e) => {
-    console.log('order');
-    console.log(cart);
+    dispatch(createOrder({
+      orderItems: cart.cartItems,
+      shippingAddress: cart.shippingAddress,
+      paymentMethod: cart.paymentMethod,
+    }));
   };
 
   return (
@@ -63,7 +76,7 @@ const PlaceOrder = ({ history }) => {
                   Payment Method
                 </Card.Header>
                 <Card.Body>
-                  <Card.Title>Method:</Card.Title>
+                  <Card.Title>Method of Payment:</Card.Title>
                   <Card.Text>{cart.paymentMethod}</Card.Text>
                 </Card.Body>
               </Card>
@@ -141,6 +154,9 @@ const PlaceOrder = ({ history }) => {
                   <Col>Total Price</Col>
                   <Col>${totalPrice.toFixed(2)}</Col>
                 </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {error && <Message variant="danger">{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

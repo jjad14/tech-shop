@@ -45,7 +45,7 @@ const Product = ({ history, match }) => {
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
-      { showMessage && <Message>Item has Been Added to Cart</Message>}
+      { showMessage && <Message variant="success" exit>Item has Been Added to Cart</Message>}
       { !product._id || product._id !== match.params.id ? (
         <Loading />
       ) : error ? (

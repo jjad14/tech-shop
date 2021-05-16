@@ -32,8 +32,11 @@ const Cart = ({ history }) => {
         <h2>Shopping Cart</h2>
         {cartItems.length === 0 ? (
           <Message>
-            No Items in Cart... {'  '}
-            <Link to='/'>Go Back</Link>
+            <span>
+              Your cart is empty. Click {' '}
+              <Link to='/'>Here</Link> {' '}
+              to check out our latest products!
+            </span>
           </Message>
         ) : (
           <Card className='my-3 rounded shadow'>

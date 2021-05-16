@@ -12,6 +12,7 @@ import { login } from '../../actions/userActions';
 const Login = ({ location }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -22,7 +23,14 @@ const Login = ({ location }) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(login(email, password));
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      dispatch(login(email, password));
+    }
+    setValidated(true);
+
   };
 
   if (userInfo && redirect) {
@@ -38,30 +46,49 @@ const Login = ({ location }) => {
       <h1 className="text-center">Sign In</h1>
       {error ? <Message variant='danger'>{error}</Message> : null}
       {loading ? <Loading /> : null}
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId='email'>
+      <Form noValidate validated={validated} onSubmit={submitHandler}>
+      <Form.Row>
+        <Form.Group as={Col} md="12" controlId="validationCustom01">
+          <Form.Label>Email Address</Form.Label>
           <Form.Control
-            type='email'
-            placeholder='Enter email'
+            required
+            type="email"
+            placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+            <Form.Control.Feedback>Valid</Form.Control.Feedback>
+            <Form.Control.Feedback type='invalid'>
+              Please provide a valid email address
+            </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group controlId='password'>
-          <Form.Control
-            type='password'
-            placeholder='Enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
+        </Form.Row>
+        <Form.Row>
+        <Form.Group as={Col} md='12' controlId='validationCustom04'>
+            <Form.Label>Password</Form.Label>
+            <Form.Control 
+              type='password' 
+              placeholder='Password' 
+              required 
+              minLength="6"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              />
+
+            <Form.Control.Feedback>Valid</Form.Control.Feedback>
+            <Form.Control.Feedback type='invalid'>
+              Please provide a valid password. (minimum 6 characters)
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form.Row>
         <Button type='submit' variant='primary' block>
           Sign In
         </Button>
-      </Form>
+    </Form>
+
       <Row className='py-3 text-center'>
         <Col>
-          New Customer?{' '}
+          Don't Have an Account?{'  '}
           <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register Here
           </Link>

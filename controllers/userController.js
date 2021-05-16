@@ -31,7 +31,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     if (!match) {
         res.status(401);
-        throw new Error('Incorrect password');      
+        throw new Error('Invalid User Credentials');      
     }
 
     // gennerate token

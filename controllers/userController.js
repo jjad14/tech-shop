@@ -15,6 +15,7 @@ const cookieOptions = {
 // Authenticate User and get token
 // Public access
 const authUser = asyncHandler(async (req, res) => {
+
     const { email, password } = req.body;
 
     // check if email is in user

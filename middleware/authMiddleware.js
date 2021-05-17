@@ -16,6 +16,12 @@ const protect = asyncHandler(async (req, res, next) => {
 
     req.user = await User.findById(decoded.id).select('-password');
 
+    // if there is no user
+    if (!req.user) {
+      res.status(400);
+      throw new Error('User not found');
+    }
+
     next();
   } catch (err) {
     res.clearCookie('Bearer');

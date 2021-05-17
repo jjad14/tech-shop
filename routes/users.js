@@ -7,13 +7,13 @@ import {
   updateUserProfile,
 } from '../controllers/userController.js';
 import protect from '../middleware/authMiddleware.js';
-import validateUser from '../middleware/validateUser.js';
+import validateLogin from '../middleware/validateLogin.js';
 import validateRegistration from '../middleware/validateRegistration.js';
 
 const router = express.Router();
 
 router.route('/').post(validateRegistration, registerUser);
-router.post('/login', validateUser, authUser );
+router.post('/login', validateLogin, authUser );
 router
   .route('/profile')
   .get(protect, getUserProfile)

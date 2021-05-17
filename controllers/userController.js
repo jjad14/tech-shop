@@ -57,14 +57,6 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
     const { email, password, name } = req.body;
   
-    // check if email is in use
-    const userExists = await User.findOne({ email });
-  
-    if (userExists) {
-      res.status(400);
-      throw new Error('User already exists');
-    }
-  
     // create a user object
     // create is basically syntactic sugar for the save method
     const user = await User.create({
@@ -92,13 +84,6 @@ const registerUser = asyncHandler(async (req, res) => {
 // Get the users profile
 // Private access
 const getUserProfile = asyncHandler(async (req, res) => {
-  // if there is no user
-  // req.user comes from authMiddleware
-  if (!req.user) {
-    res.status(400);
-    throw new Error('User not found');
-  }
-    
   // user is added to req object by authMiddleWare
   res.json({
     _id: req.user._id,
@@ -112,20 +97,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // Update the users profile
 // Private access
 const updateUserProfile = asyncHandler(async (req, res) => {
-  // no user
-  if (!req.user) {
-    res.status(400)
-    throw new Error('User not found')
-  }
   const { name, email, password } = req.body
-
-  // check if email is in use
-  // const emailExists = await User.findOne({ email });
-
-  // if (emailExists) {
-  //   res.status(400);
-  //   throw new Error('Email already exists');
-  // }
 
   if (name) req.user.name = name
   if (email) req.user.email = email
@@ -153,7 +125,7 @@ const logout = (req, res) => {
   .send();
   
   // res.clearCookie('Bearer', cookieOptions);
-  //res.status(204).send();
+  // res.status(204).send();
 };
 
 export {

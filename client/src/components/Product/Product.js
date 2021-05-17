@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
@@ -9,17 +9,13 @@ import { getProduct, clearProductDetails } from '../../actions/productActions';
 import { addToCart } from '../../actions/cartActions';
 import Rating from './Rating';
 
-// @Todo: pass product id and quantity to reducer
-// anytime user adds product to cart from this page, overwrite the existing product in cart if there is one
-
-
 // individual product page
 const Product = ({ history, match }) => {
   const [qty, setQty] = useState(1);
   const [showMessage, setShowMessage] = useState(false);
-
+  
   const dispatch = useDispatch();
-
+  
   const productDetails = useSelector((state) => state.product);
   const { product, error } = productDetails;
 
@@ -31,11 +27,17 @@ const Product = ({ history, match }) => {
       dispatch(clearProductDetails());
     };
   }, [dispatch, match.params.id]);
-
+  
+  // useEffect(() => {
+  //   console.log('yo')
+  //   // dispatch(addToCart(product._id, qty));
+  // }, [qty])
+  
 
   const submitHandler = () => {
     
     dispatch(addToCart(product._id, qty));
+    setQty(prevState => prevState + 1);
 
     setShowMessage(true);
   };
@@ -100,33 +102,11 @@ const Product = ({ history, match }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                { product.inventory > 0 && (
-                  <ListGroup.Item>
-                    <Row>
-                      <Col className="product-page-section">Quantity</Col>
-                      <Col className="product-page-section">
-                        <Form.Control 
-                          as='select' 
-                          value={qty}
-                          className="form-control-select"
-                          onChange={(e) => setQty(e.target.value)}>
-                          {                        
-                          [...Array(product.inventory).keys()].map(x => (
-                              <option key={x + 1} value={x + 1}>
-                                {x + 1}
-                              </option>
-                            ))
-                          }
-                          </Form.Control>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                )}
                 <ListGroup.Item>
                   <Button
                     onClick={submitHandler}
                     variant={product.inventory > 0 ? 'success' : 'secondary'}
-                    disabled={product.inventory === 0}
+                    disabled={product.inventory === 0 || qty > product.inventory}
                     block
                   >
                     Add To Cart

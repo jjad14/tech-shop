@@ -14,37 +14,6 @@ const addOrder = asyncHandler(async (req, res) => {
       paymentMethod,
     } = req.body;
 
-    
-    // orderItems.forEach(async (item) => {
-    //     // get item by cartitem id
-    //     let lookupItem = await Product.findById(item.product);
-    
-    //     // overwrite cartItem price with the one from db
-    //     item.price = lookupItem.price;
-    
-    //     // calculate price with taxation
-    //     taxPrice += (item.price * 0.13) * item.qty;
-    //     totalPrice += (item.price + (item.price * 0.13)) * item.qty;    
-    // });
-
-
-
-    // orderItems.forEach((item) => {
-    //     Product.findById(item.product, (err, prod) => {
-    //         if (err) {
-    //             res.status(500).send(err)
-    //         } else {
-    //             // overwrite cartItem price with the one from db
-    //             item.price = prod.price;
-            
-    //             // calculate price with taxation
-    //             taxPrice += (item.price * 0.13) * item.qty;
-    //             totalPrice += (item.price + (item.price * 0.13)) * item.qty;  
-    //         }
-    //     });
-  
-    // });
-
     let beforeTaxes = 0.0;
     let totalPrice = 0.0;
     let taxPrice = 0.0;
@@ -69,7 +38,7 @@ const addOrder = asyncHandler(async (req, res) => {
         // determine shipping
         shippingPrice = beforeTaxes < 100 ? 19.99 : 0;
 
-        // determin total cost
+        // determine total cost
         totalPrice =  beforeTaxes + taxPrice + shippingPrice;
     }));
 

@@ -17,11 +17,11 @@ const Message = ({ variant = 'info', children, exit = false }) => {
             <div className="d-flex flex-row">
                 <div className="mr-2">
                     <Button onClick={() => setShow(false)} variant={`outline-${variant}`} style={{color: "white"}}>
-                        <i class="fas fa-times fa-sm"></i>
+                        <i className="fas fa-times fa-sm"></i>
                     </Button>
                 </div>
                 <div className="flex-grow-1 pt-1">
-                    <span class="align-middle m-auto">{children}</span>
+                    <span className="align-middle m-auto">{children}</span>
                 </div>
 
             </div>

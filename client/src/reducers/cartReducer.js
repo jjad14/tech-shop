@@ -1,7 +1,5 @@
 import * as types from '../constants/cartTypes';
 
-const isCurrentlyInCart = (state, payload) =>
-  state.cartItems.find(item => item.product === payload.product);
 
 export const initialCartState = {
     cartItems: [], 
@@ -13,16 +11,19 @@ export const initialCartState = {
       phoneNumber: ''
     },
     paymentMethod: null
-};
+  };
+  
+const isCurrentlyInCart = (state, payload) =>
+  state.cartItems.find(item => item.product === payload.product);
 
-const reducer = (state=initialCartState, action) => {
+  const reducer = (state=initialCartState, action) => {
     switch (action.type) {
         case types.CART_ADD_ITEM:
             if (isCurrentlyInCart(state, action.payload)) {
                 return {
                   ...state,
                   cartItems: state.cartItems.map((item) =>
-                    item._id === action.payload._id ? action.payload : item
+                    item.product === action.payload.product ? action.payload : item
                   ),
                 }
               }

@@ -1,9 +1,8 @@
 import api from '../utils/api';
 import * as types from '../constants/cartTypes';
 
-
-// getState allows us to access the state from other reducers
 export const addToCart = (id, qty) => async dispatch => {
+    console.log('i am called')
     // get cart by id
     const { data } = await api.get(`/products/${id}`);
 

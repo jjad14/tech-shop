@@ -29,6 +29,11 @@ const reducer = (state= initialState, action) => {
             return {
                 ...state,
                 error: action.payload,
+            };
+        case types.CLEAR_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: null
             }; 
         case types.CLEAR_PRODUCT_DETAILS:
             return {

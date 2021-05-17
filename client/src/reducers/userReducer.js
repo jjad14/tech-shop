@@ -15,7 +15,8 @@ const reducer = (state=initialUserState, action) => {
         case types.USER_UPDATE_PROFILE_START:
             return {
                 ...state, 
-                loading: true 
+                loading: true,
+                error: null 
             };
         case types.USER_LOGIN_SUCCESS:
         case types.USER_REGISTER_SUCCESS:

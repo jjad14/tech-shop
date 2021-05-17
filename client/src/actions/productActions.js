@@ -3,6 +3,10 @@ import * as types from '../constants/productTypes';
 
 export const getProducts = () => async (dispatch) => {
   try {
+    dispatch({
+      type: types.CLEAR_PRODUCT_ERROR,
+    });
+
     const { data } = await api.get('/products');
 
     dispatch({

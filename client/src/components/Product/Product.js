@@ -35,6 +35,7 @@ const Product = ({ history, match }) => {
 
     setShowMessage(true);
   };
+  // || product._id !== match.params.id
 
   return (
     <>
@@ -42,7 +43,7 @@ const Product = ({ history, match }) => {
         Go Back
       </Link>
       { showMessage && <Message variant="success" exit>Item has Been Added to Cart</Message>}
-      { !product._id || product._id !== match.params.id ? (
+      { !product._id && !error ? (
         <Loading />
       ) : error ? (
         <Message variant='danger'>{error}</Message>

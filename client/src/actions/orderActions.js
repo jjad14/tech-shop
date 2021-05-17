@@ -2,6 +2,7 @@ import api from '../utils/api';
 import * as types from '../constants/orderTypes';
 
 export const createOrder = (order) => async (dispatch) => {
+  console.log(order);
   try {
     dispatch({
         type: types.ORDER_CREATE_START,

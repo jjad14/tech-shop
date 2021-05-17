@@ -50,7 +50,6 @@ const Cart = ({ history }) => {
                 Items
               </h4>
               <hr />
-              {/* TODO: Get total price from backend */}
               <p className='text-center'>
                 Total:&nbsp;
                 <strong>

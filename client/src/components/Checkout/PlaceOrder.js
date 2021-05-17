@@ -45,6 +45,7 @@ const PlaceOrder = ({ history }) => {
 
   return (
     <>
+      {error && <Message variant="danger">{error}</Message>}
       <CheckoutSteps step1 step2 step3 />
       <Row>
         <Col md={8}>
@@ -150,9 +151,6 @@ const PlaceOrder = ({ history }) => {
                   <Col>Total Price</Col>
                   <Col>${totalPrice.toFixed(2)}</Col>
                 </Row>
-              </ListGroup.Item>
-              <ListGroup.Item>
-                {error && <Message variant="danger">{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button

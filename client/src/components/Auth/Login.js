@@ -44,7 +44,7 @@ const Login = ({ location }) => {
   return (
     <FormContainer>
       <h1 className="text-center">Sign In</h1>
-      {error ? <Message variant='danger'>{error}</Message> : null}
+      {error ? <Message variant='danger' exit>{error}</Message> : null}
       {loading ? <Loading /> : null}
       <Form noValidate validated={validated} onSubmit={submitHandler}>
       <Form.Row>
@@ -55,6 +55,7 @@ const Login = ({ location }) => {
             type="email"
             placeholder="Email Address"
             value={email}
+            autoComplete="email"
             onChange={(e) => setEmail(e.target.value)}
           />
             <Form.Control.Feedback>Valid</Form.Control.Feedback>
@@ -72,6 +73,7 @@ const Login = ({ location }) => {
               required 
               minLength="6"
               value={password}
+              autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
               />
 

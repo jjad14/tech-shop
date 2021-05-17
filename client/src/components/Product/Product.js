@@ -28,12 +28,6 @@ const Product = ({ history, match }) => {
     };
   }, [dispatch, match.params.id]);
   
-  // useEffect(() => {
-  //   console.log('yo')
-  //   // dispatch(addToCart(product._id, qty));
-  // }, [qty])
-  
-
   const submitHandler = () => {
     
     dispatch(addToCart(product._id, qty));

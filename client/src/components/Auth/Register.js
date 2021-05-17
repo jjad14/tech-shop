@@ -50,7 +50,7 @@ function RegisterScreen({ location }) {
   return (
     <FormContainer>
       <h1 className='text-center'>Sign Up</h1>
-      {error ? <Message variant='danger'>{error}</Message> : null}
+      {error ? <Message variant='danger' exit>{error}</Message> : null}
       {loading ? <Loading /> : null}
       <Form noValidate validated={validated} onSubmit={submitHandler}>
         <Form.Row>
@@ -77,6 +77,7 @@ function RegisterScreen({ location }) {
               placeholder='Email' 
               required 
               value={email}
+              autoComplete="email"
               onChange={(e) => setEmail(e.target.value)}
               />
 
@@ -95,6 +96,7 @@ function RegisterScreen({ location }) {
               required 
               minLength="6"
               value={password}
+              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
               />
 
@@ -113,6 +115,7 @@ function RegisterScreen({ location }) {
               isInvalid={password !== confirmPassword} 
               required
               value={confirmPassword}
+              autoComplete="new-password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               />
 

@@ -8,13 +8,17 @@ import Loading from '../shared/Loading';
 import { getOrderDetails } from '../../actions/orderActions';
 
 const OrderConfirmation = ({ match }) => {
+  const orderId = match.params.id;
+
   const dispatch = useDispatch();
 
   const { order, loading, error } = useSelector((state) => state.order);
 
   useEffect(() => {
-    dispatch(getOrderDetails(match.params.id));
-  }, [dispatch, match.params.id]);
+    if(!order || order._id !== orderId) {
+        dispatch(getOrderDetails(orderId))
+    }
+}, [dispatch, order, orderId]) 
 
   return loading ? (
     <Loading />

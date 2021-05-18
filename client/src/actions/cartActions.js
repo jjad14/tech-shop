@@ -2,8 +2,6 @@ import api from '../utils/api';
 import * as types from '../constants/cartTypes';
 
 export const addToCart = (id, qty) => async dispatch => {
-    console.log('i am called')
-    // get cart by id
     const { data } = await api.get(`/products/${id}`);
 
     dispatch({

@@ -10,7 +10,7 @@ const router = express.Router();
 // TODO: add validation for order data
 router.route('/').post(protect, validateOrder, addOrder);
 router.route('/:id').get(checkObjectId('id'), protect, getOrderById);
-router.route('/:id/pay').get(checkObjectId('id'), protect, updateOrderToPaid);
+router.route('/:id/pay').put(checkObjectId('id'), protect, updateOrderToPaid);
 
 export default router;
 

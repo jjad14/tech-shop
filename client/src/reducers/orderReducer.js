@@ -3,9 +3,9 @@ import * as types from '../constants/orderTypes';
 const initialState = {
     orders: [],
     order: {},
-    confirmedOrder: {},
     loading: false,
-    success: false,
+    success: false, // place order succeeded
+    paymentSuccess: false, // payment succeeded
     error: null
 };
 
@@ -13,6 +13,7 @@ const reducer = (state= initialState, action) => {
     switch (action.type) {
         case types.ORDER_CREATE_START:
         case types.ORDER_DETAILS_START:
+        case types.ORDER_PAY_START:
             return {
                 ...state,
                 loading: true,
@@ -22,7 +23,6 @@ const reducer = (state= initialState, action) => {
             return {
                 ...state,
                 order: action.payload,
-                confirmedOrder: action.payload,
                 loading: false
             };
         case types.ORDER_CREATE_SUCCESS:
@@ -32,13 +32,26 @@ const reducer = (state= initialState, action) => {
                 order: action.payload,
                 loading: false
             };
+        case types.ORDER_PAY_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                paymentSuccess: true
+            };
         case types.ORDER_CREATE_FAIL:
         case types.ORDER_DETAILS_FAIL:
+        case types.ORDER_PAY_FAIL:
             return {
                 ...state,
                 success: false,
+                paymentSuccess: false,
                 error: action.payload,
                 loading: false
+            };
+        case types.ORDER_PAY_RESET:
+            return {
+                paymentSuccess: false,
+                error: null
             };
         case types.CLEAR_ORDER:
             return {

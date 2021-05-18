@@ -49,6 +49,30 @@ export const getOrderDetails = (id) => async (dispatch) => {
   }
 };
 
+export const payOrder = (id, paymentResult) => async (dispatch) => {
+  try {
+    dispatch({
+        type: types.ORDER_PAY_START,
+    });
+
+    const { data } = await api.put(`/orders/${id}/pay`, paymentResult);
+
+    dispatch({
+      type: types.ORDER_PAY_SUCCESS,
+      payload: data,
+    });
+    
+  } catch (error) {
+    dispatch({
+      type: types.ORDER_PAY_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const clearOrder = () => async (dispatch) => {
   dispatch({type: types.CLEAR_ORDER});
 }

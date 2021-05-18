@@ -11,8 +11,6 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         state => state.user
     );
 
-        // userInfo && !loading
-
     return (
         <Route {...rest} render={props => 
             !userInfo && loading ? (

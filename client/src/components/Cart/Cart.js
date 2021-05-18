@@ -66,7 +66,7 @@ const Cart = ({ history }) => {
                     className="btn-block" 
                     disabled={cartItems.length === 0}
                     onClick={checkoutHandler}>
-                    Proceed To Checkout
+                    Checkout
                 </Button>
             </ListGroup.Item>
           </ListGroup>

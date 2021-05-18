@@ -1,24 +1,58 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
 import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
-import { getOrderDetails } from '../../actions/orderActions';
+import { getOrderDetails, payOrder } from '../../actions/orderActions';
+import { ORDER_PAY_RESET } from '../../constants/orderTypes';
 
 const OrderConfirmation = ({ match }) => {
   const orderId = match.params.id;
 
+  const [sdkReady, setSdkReady] = useState(false);
+
   const dispatch = useDispatch();
 
-  const { order, loading, error } = useSelector((state) => state.order);
+  const { order, loading, error, paymentSuccess } = useSelector((state) => state.order);
 
   useEffect(() => {
-    if(!order || order._id !== orderId) {
-        dispatch(getOrderDetails(orderId))
+    const addPaypalScript = async () => {
+      // getting clientId
+      const { data : clientId} = await axios.get('/api/config/paypal');
+
+      // dynamically adding that PayPal's script.
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=CAD`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      }
+      document.body.appendChild(script);
     }
-}, [dispatch, order, orderId]) 
+
+    if (!order || paymentSuccess || order._id !== orderId) {
+      dispatch({type: ORDER_PAY_RESET});
+      dispatch(getOrderDetails(orderId));
+    } 
+    else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPaypalScript();
+      } else {
+        setSdkReady(true);
+      }
+    }
+
+  }, [dispatch, order, orderId, paymentSuccess]) 
+
+  const successPaymentHandler = (paymentResult) => {
+    console.log(paymentResult)
+    dispatch(payOrder(orderId, paymentResult));
+  };
 
   return loading ? (
     <Loading />
@@ -79,7 +113,7 @@ const OrderConfirmation = ({ match }) => {
                     {order.isPaid ? (
                       <span className="text-success">Was Paid on {order.paidAt}</span>
                       ) : (
-                      <span className="text-danger">Has Not Been Paid</span>
+                      <span className="text-danger"><strong>Has Not Been Paid</strong></span>
                     )}
                   </Card.Text>
                 </Card.Body>
@@ -141,7 +175,14 @@ const OrderConfirmation = ({ match }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping:</Col>
-                  <Col>${order.shippingPrice.toFixed(2)}</Col>
+                  <Col
+                    className={
+                      order.shippingPrice.toFixed(2) === '0.00'
+                        ? 'text-success'
+                        : 'text-primary'
+                    }>
+                        {order.shippingPrice.toFixed(2) === '0.00' ? (<span>Free Shipping</span>) : (<span>${order.shippingPrice.toFixed(2)} </span>)}
+                  </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -163,11 +204,30 @@ const OrderConfirmation = ({ match }) => {
                         {order.isDelivered ? (
                         <p className="text-success">Delivered on {order.deliveredAt}</p>
                         ) : (
-                        <p className="text-danger">Not Delivered</p>
+                        <p className="text-danger"><strong>Not Delivered
+                          </strong></p>
                         )}
                     </Col>
                   </Row>
               </ListGroup.Item>
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {loading && <Loading />}
+                  {!sdkReady ? <Loading /> : (
+                    <PayPalButton 
+                      amount={order.totalPrice.toFixed(2)}
+                      onSuccess={successPaymentHandler}
+                      currency="CAD" 
+                      style={{
+                        color:  'blue',
+                        shape:  'pill',
+                        label:  'pay',
+                        height: 40
+                      }}
+                    />
+                  )}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

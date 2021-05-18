@@ -12,7 +12,9 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserDetails());
+
+      dispatch(getUserDetails());
+
   }, [dispatch]);
 
   return (

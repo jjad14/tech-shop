@@ -49,3 +49,6 @@ export const getOrderDetails = (id) => async (dispatch) => {
   }
 };
 
+export const clearOrder = () => async (dispatch) => {
+  dispatch({type: types.CLEAR_ORDER});
+}

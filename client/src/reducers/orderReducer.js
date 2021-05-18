@@ -3,6 +3,7 @@ import * as types from '../constants/orderTypes';
 const initialState = {
     orders: [],
     order: {},
+    confirmedOrder: {},
     loading: false,
     success: false,
     error: null
@@ -14,9 +15,16 @@ const reducer = (state= initialState, action) => {
         case types.ORDER_DETAILS_START:
             return {
                 ...state,
-                loading: false
+                loading: true,
+                error: null
             };
         case types.ORDER_DETAILS_SUCCESS:
+            return {
+                ...state,
+                order: action.payload,
+                confirmedOrder: action.payload,
+                loading: false
+            };
         case types.ORDER_CREATE_SUCCESS:
             return {
                 ...state,
@@ -32,8 +40,15 @@ const reducer = (state= initialState, action) => {
                 error: action.payload,
                 loading: false
             };
-        
-
+        case types.CLEAR_ORDER:
+            return {
+                ...state,
+                order: {},
+                confirmedOrder: {},
+                loading: false,
+                success: false,
+                error: null
+            };        
         default:
             return state;
     }

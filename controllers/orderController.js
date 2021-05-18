@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import asyncHandler from 'express-async-handler';
 
+import User from '../models/User.js';
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 
@@ -14,7 +15,7 @@ const addOrder = asyncHandler(async (req, res) => {
     paymentMethod,
   } = req.body;
 
-  let beforeTaxes = 0.0;
+  let itemsPrice = 0.0;
   let totalPrice = 0.0;
   let taxPrice = 0.0;
   let shippingPrice = 0.0;
@@ -33,13 +34,13 @@ const addOrder = asyncHandler(async (req, res) => {
       taxPrice += (item.price * 0.13) * item.qty;
 
       // calculate total before tax
-      beforeTaxes += item.price * item.qty;  
+      itemsPrice += item.price * item.qty;  
 
       // determine shipping
-      shippingPrice = beforeTaxes < 100 ? 19.99 : 0;
+      shippingPrice = itemsPrice < 100 ? 19.99 : 0;
 
       // determine total cost
-      totalPrice =  beforeTaxes + taxPrice + shippingPrice;
+      totalPrice =  itemsPrice + taxPrice + shippingPrice;
   }));
 
   // create order
@@ -50,6 +51,7 @@ const addOrder = asyncHandler(async (req, res) => {
       paymentMethod,
       taxPrice,
       shippingPrice,
+      itemsPrice,
       totalPrice
   });
 
@@ -76,5 +78,6 @@ const getOrderById = asyncHandler(async (req, res) => {
 });
 
 export {
-    addOrder
+    addOrder,
+    getOrderById
 };

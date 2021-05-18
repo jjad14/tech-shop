@@ -11,6 +11,7 @@ import Profile from '../Profile/Profile';
 import Shipping from '../Checkout/Shipping';
 import Payment from '../Checkout/Payment';
 import PlaceOrder from '../Checkout/PlaceOrder';
+import OrderConfirmation from '../Checkout/OrderConfirmation';
 
 const Routes = () => {
     return (
@@ -18,12 +19,13 @@ const Routes = () => {
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/product/:id" component={Product} />
                 <Route path="/cart" component={Cart} />
                 <PrivateRoute path="/profile" component={Profile} />
+                <Route path="/product/:id" component={Product} />
                 <PrivateRoute path="/shipping" component={Shipping} />
                 <PrivateRoute path="/payment" component={Payment} />
                 <PrivateRoute path="/placeorder" component={PlaceOrder} />
+                <PrivateRoute path="/order/:id" component={OrderConfirmation} />
                 <Route path="/" exact component={Home} />
             </Switch>
       </section>

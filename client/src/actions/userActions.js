@@ -10,7 +10,13 @@ export const login = (email, password) => async dispatch => {
             type: types.USER_LOGIN_START,
         });
 
-        const { data } = await api.post('/users/login', { email, password });
+        const config = {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+        };
+      
+        const { data } = await api.post('/users/login', { email, password }, config);
 
         dispatch({
             type: types.USER_LOGIN_SUCCESS,
@@ -31,7 +37,13 @@ export const register = (name, email, password) => async dispatch => {
             type: types.USER_REGISTER_START,
         });
 
-        const { data } = await api.post('/users', {name, email, password});
+        const config = {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+        };
+
+        const { data } = await api.post('/users', {name, email, password}, config);
 
         dispatch({
             type: types.USER_REGISTER_SUCCESS,
@@ -47,7 +59,12 @@ export const register = (name, email, password) => async dispatch => {
 
 // logout user
 export const logout = (history) => async dispatch => {
-    await api.delete('/users/logout')
+    await api.delete('/users/logout');
+
+    localStorage.removeItem('cartItems');
+    localStorage.removeItem('shippingAddress');
+    localStorage.removeItem('paymentMethod');
+
     dispatch({ type: ORDER_MY_LIST_RESET });  
     dispatch({ type: CLEAR_SHIPPING_PAYMENT }); 
     dispatch({ type: ORDER_RESET}); 
@@ -85,7 +102,13 @@ export const updateUserProfile = (user) => async dispatch => {
             type: types.USER_UPDATE_PROFILE_START,
         });
 
-        const { data } = await api.put('/users/profile', user);
+        const config = {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+        };
+
+        const { data } = await api.put('/users/profile', user, config);
 
         dispatch({
             type: types.USER_UPDATE_PROFILE_SUCCESS,

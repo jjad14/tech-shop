@@ -25,7 +25,6 @@ const PlaceOrder = ({ history }) => {
     state.user.userInfo
   );
 
-
   const { createdOrder, success, error } = useSelector(state => 
     state.order  
   );

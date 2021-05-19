@@ -8,7 +8,13 @@ export const createOrder = (order) => async (dispatch) => {
         type: types.ORDER_CREATE_START,
     });
 
-    const { data } = await api.post('/orders', order);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
+
+    const { data } = await api.post('/orders', order, config);
 
     dispatch({
       type: types.ORDER_CREATE_SUCCESS,
@@ -58,7 +64,13 @@ export const payOrder = (id, paymentResult) => async (dispatch) => {
         type: types.ORDER_PAY_START,
     });
 
-    const { data } = await api.put(`/orders/${id}/pay`, paymentResult);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
+
+    const { data } = await api.put(`/orders/${id}/pay`, paymentResult, config);
 
     dispatch({
       type: types.ORDER_PAY_SUCCESS,

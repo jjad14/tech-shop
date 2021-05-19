@@ -7,6 +7,7 @@ import Message from '../shared/Message';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
 
 import { createOrder } from '../../actions/orderActions';
+import { ORDER_CREATE_RESET } from '../../constants/orderTypes';
 
 const PlaceOrder = ({ history }) => {
   const dispatch = useDispatch();
@@ -42,8 +43,10 @@ const PlaceOrder = ({ history }) => {
     // if order is successfully created redirect to confirmation page
     if (success) {
       history.push(`/order/${createdOrder._id}`)
+
+      dispatch({ type: ORDER_CREATE_RESET })
     }
-  }, [userInfo, history, createdOrder, success])
+  }, [dispatch, userInfo, history, createdOrder, success])
 
 
   const placeOrderHandler = (e) => {

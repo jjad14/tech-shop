@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 
-import { getOrderDetails, payOrder, resetOrderInfo } from '../../actions/orderActions';
+import { getOrderDetails, payOrder } from '../../actions/orderActions';
 import { emptyCartItems } from '../../actions/cartActions';
 import { ORDER_PAY_RESET } from '../../constants/orderTypes';
 
@@ -107,13 +107,12 @@ const OrderConfirmation = ({ match }) => {
             </ListGroup.Item>
             <ListGroup.Item>
               <Card className='my-2 p-3 rounded shadow'>
-                <Card.Header> Payment Method</Card.Header>
+                <Card.Header>Payment</Card.Header>
                 <Card.Body>
-                  <Card.Title>Method of Payment:</Card.Title>
                   <Card.Text>
-                    {orderDetails.paymentMethod}
+                    <strong>Method of Payment: </strong>{orderDetails.paymentMethod}
                     <br />
-
+                    <strong>Payment Status: </strong>
                     {orderDetails.isPaid ? (
                       <span className='text-success'>
                         Was Paid on {orderDetails.paidAt}
@@ -217,11 +216,11 @@ const OrderConfirmation = ({ match }) => {
                   </Col>
                   <Col>
                     {orderDetails.isDelivered ? (
-                      <p className='text-success'>
+                      <p className='text-success mb-0'>
                         Delivered on {orderDetails.deliveredAt}
                       </p>
                     ) : (
-                      <p className='text-danger'>
+                      <p className='text-danger mb-0'>
                         <strong>Not Delivered</strong>
                       </p>
                     )}

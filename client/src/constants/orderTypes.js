@@ -2,6 +2,7 @@
 export const ORDER_CREATE_START = 'ORDER_CREATE_START';
 export const ORDER_CREATE_SUCCESS = 'ORDER_CREATE_SUCCESS';
 export const ORDER_CREATE_FAIL = 'ORDER_CREATE_FAIL';
+export const ORDER_CREATE_RESET  = 'ORDER_CREATE_RESET ';
 
 // retrive info for an order
 export const ORDER_DETAILS_START = 'ORDER_DETAILS_START';

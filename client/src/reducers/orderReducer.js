@@ -60,6 +60,13 @@ const reducer = (state=initialState, action) => {
                 error: action.payload,
                 loading: false
             };
+        case types.ORDER_CREATE_RESET:
+            return {
+                ...state,
+                createdOrder: {},
+                success: false,
+            };
+        // on logout
         case types.ORDER_RESET:
             return {
                 ...state,

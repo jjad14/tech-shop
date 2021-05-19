@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
-import { getOrderDetails, payOrder } from '../../actions/orderActions';
+
+import { getOrderDetails, payOrder, resetOrderInfo } from '../../actions/orderActions';
+import { emptyCartItems } from '../../actions/cartActions';
 import { ORDER_PAY_RESET } from '../../constants/orderTypes';
 
 const OrderConfirmation = ({ match }) => {
@@ -17,12 +19,14 @@ const OrderConfirmation = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const { order, loading, error, paymentSuccess } = useSelector((state) => state.order);
+  const { orderDetails, loading, error, paymentSuccess } = useSelector(
+    (state) => state.order
+  );
 
   useEffect(() => {
     const addPaypalScript = async () => {
       // getting clientId
-      const { data : clientId} = await axios.get('/api/config/paypal');
+      const { data: clientId } = await axios.get('/api/config/paypal');
 
       // dynamically adding that PayPal's script.
       const script = document.createElement('script');
@@ -31,30 +35,30 @@ const OrderConfirmation = ({ match }) => {
       script.async = true;
       script.onload = () => {
         setSdkReady(true);
-      }
+      };
       document.body.appendChild(script);
-    }
+    };
 
-    if (!order || paymentSuccess || order._id !== orderId) {
-      dispatch({type: ORDER_PAY_RESET});
+    if (!orderDetails || paymentSuccess || orderDetails._id !== orderId) {
       dispatch(getOrderDetails(orderId));
-    } 
-    else if (!order.isPaid) {
+      dispatch({type: ORDER_PAY_RESET});
+      dispatch(emptyCartItems());
+    } else if (!orderDetails.isPaid) {
       if (!window.paypal) {
         addPaypalScript();
       } else {
         setSdkReady(true);
       }
     }
-
-  }, [dispatch, order, orderId, paymentSuccess]) 
+  }, [dispatch, orderDetails, orderId, paymentSuccess]);
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult));
   };
 
-  return loading ? (
+  // orderDetails.user takes longer to fetch, check if the overall orderDetails is fetched
+  // as well as the user object inside
+  return !orderDetails || !orderDetails.user ? (
     <Loading />
   ) : error ? (
     <Message variant='danger' exit>
@@ -65,7 +69,7 @@ const OrderConfirmation = ({ match }) => {
       <Row>
         <Col md={8}>
           <h4 className='text-center text-md-left ml-md-4'>
-            Order: #{order._id}
+            Order: #{orderDetails._id}
           </h4>
           <ListGroup variant='flush'>
             <ListGroup.Item>
@@ -75,27 +79,27 @@ const OrderConfirmation = ({ match }) => {
                   <Card.Title>Address:</Card.Title>
                   <Card.Text>
                     <strong>Name: </strong>
-                    {order.user.name}
+                    {orderDetails.user.name}
                     <br />
                     <strong>Email: </strong>
-                    <a href={`malito:${order.user.email}`}>
-                      {order.user.email}
+                    <a href={`malito:${orderDetails.user.email}`}>
+                      {orderDetails.user.email}
                     </a>
                     <br />
                     <strong>Phone Number: </strong>
-                    {order.shippingAddress.phoneNumber}
+                    {orderDetails.shippingAddress.phoneNumber}
                     <br />
                     <strong>Street: </strong>
-                    {order.shippingAddress.address}
+                    {orderDetails.shippingAddress.address}
                     <br />
                     <strong>City: </strong>
-                    {order.shippingAddress.city}
+                    {orderDetails.shippingAddress.city}
                     <br />
                     <strong>Postal Code: </strong>
-                    {order.shippingAddress.postalCode}
+                    {orderDetails.shippingAddress.postalCode}
                     <br />
                     <strong>Country: </strong>
-                    {order.shippingAddress.country}
+                    {orderDetails.shippingAddress.country}
                     <br />
                   </Card.Text>
                 </Card.Body>
@@ -107,13 +111,17 @@ const OrderConfirmation = ({ match }) => {
                 <Card.Body>
                   <Card.Title>Method of Payment:</Card.Title>
                   <Card.Text>
-                    {order.paymentMethod}
+                    {orderDetails.paymentMethod}
                     <br />
 
-                    {order.isPaid ? (
-                      <span className="text-success">Was Paid on {order.paidAt}</span>
-                      ) : (
-                      <span className="text-danger"><strong>Has Not Been Paid</strong></span>
+                    {orderDetails.isPaid ? (
+                      <span className='text-success'>
+                        Was Paid on {orderDetails.paidAt}
+                      </span>
+                    ) : (
+                      <span className='text-danger'>
+                        <strong>Has Not Been Paid</strong>
+                      </span>
                     )}
                   </Card.Text>
                 </Card.Body>
@@ -123,11 +131,11 @@ const OrderConfirmation = ({ match }) => {
               <Card className='my-2 p-3 rounded shadow'>
                 <Card.Header> Order Items</Card.Header>
                 <Card.Body>
-                  {order.orderItems.length === 0 ? (
+                  {orderDetails.orderItems.length === 0 ? (
                     <Message>Your cart is empty</Message>
                   ) : (
                     <ListGroup variant='flush'>
-                      {order.orderItems.map((item, index) => (
+                      {orderDetails.orderItems.map((item, index) => (
                         <ListGroup.Item key={`${item._id}-${index}`}>
                           <Row>
                             <Col md={2}>
@@ -169,7 +177,7 @@ const OrderConfirmation = ({ match }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items:</Col>
-                  <Col>${order.itemsPrice.toFixed(2)}</Col>
+                  <Col>${orderDetails.itemsPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
@@ -177,52 +185,64 @@ const OrderConfirmation = ({ match }) => {
                   <Col>Shipping:</Col>
                   <Col
                     className={
-                      order.shippingPrice.toFixed(2) === '0.00'
+                      orderDetails.shippingPrice.toFixed(2) === '0.00'
                         ? 'text-success'
                         : 'text-primary'
-                    }>
-                        {order.shippingPrice.toFixed(2) === '0.00' ? (<span>Free Shipping</span>) : (<span>${order.shippingPrice.toFixed(2)} </span>)}
+                    }
+                  >
+                    {orderDetails.shippingPrice.toFixed(2) === '0.00' ? (
+                      <span>Free Shipping</span>
+                    ) : (
+                      <span>${orderDetails.shippingPrice.toFixed(2)} </span>
+                    )}
                   </Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Tax:</Col>
-                  <Col>${order.taxPrice.toFixed(2)}</Col>
+                  <Col>${orderDetails.taxPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total Price:</Col>
-                  <Col>${order.totalPrice.toFixed(2)}</Col>
+                  <Col>${orderDetails.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
-                  <Row>
-                    <Col><strong>Status:</strong></Col>                
-                    <Col>                    
-                        {order.isDelivered ? (
-                        <p className="text-success">Delivered on {order.deliveredAt}</p>
-                        ) : (
-                        <p className="text-danger"><strong>Not Delivered
-                          </strong></p>
-                        )}
-                    </Col>
-                  </Row>
+                <Row>
+                  <Col>
+                    <strong>Status:</strong>
+                  </Col>
+                  <Col>
+                    {orderDetails.isDelivered ? (
+                      <p className='text-success'>
+                        Delivered on {orderDetails.deliveredAt}
+                      </p>
+                    ) : (
+                      <p className='text-danger'>
+                        <strong>Not Delivered</strong>
+                      </p>
+                    )}
+                  </Col>
+                </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              {!orderDetails.isPaid && (
                 <ListGroup.Item>
                   {loading && <Loading />}
-                  {!sdkReady ? <Loading /> : (
-                    <PayPalButton 
-                      amount={order.totalPrice.toFixed(2)}
+                  {!sdkReady ? (
+                    <Loading />
+                  ) : (
+                    <PayPalButton
+                      amount={orderDetails.totalPrice.toFixed(2)}
                       onSuccess={successPaymentHandler}
-                      currency="CAD" 
+                      currency='CAD'
                       style={{
-                        color:  'blue',
-                        shape:  'pill',
-                        label:  'pay',
-                        height: 40
+                        color: 'blue',
+                        shape: 'pill',
+                        label: 'pay',
+                        height: 40,
                       }}
                     />
                   )}

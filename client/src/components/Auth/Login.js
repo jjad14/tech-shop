@@ -10,14 +10,17 @@ import FormContainer from '../shared/Forms/FormContainer';
 import { login } from '../../actions/userActions';
 
 const Login = ({ location }) => {
+  // local state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();
 
+  // redux state
   const { loading, error, userInfo } = useSelector((state) => state.user);
 
+  // redirect 
   const redirect = location.search ? location.search.split('=')[1] : null;
 
   const submitHandler = (e) => {
@@ -33,10 +36,12 @@ const Login = ({ location }) => {
 
   };
 
+  // redirect if user is logged in and has a redirection
   if (userInfo && redirect) {
     return <Redirect to={redirect} />;
   }
 
+  // redirect if already logged in
   if (userInfo) {
     return <Redirect to='/' />;
   }

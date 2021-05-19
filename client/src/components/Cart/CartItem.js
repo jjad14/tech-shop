@@ -11,6 +11,7 @@ import {
 
 import { addToCart, removeFromCart } from '../../actions/cartActions';
 
+// single cart item, child component for Cart.js
 const CartItem = ({ item: {product, image, name, price, qty, inventory}}) => {  
     const [quantity, setQty] = useState(qty);
 

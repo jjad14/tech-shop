@@ -7,6 +7,7 @@ import FormContainer from '../shared/Forms/FormContainer';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
 import { saveShippingAddress } from '../../actions/cartActions';
 
+// Shipping Address Form
 const Shipping = ({ history }) => {
   const dispatch = useDispatch();
 

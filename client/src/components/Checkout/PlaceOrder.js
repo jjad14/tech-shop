@@ -5,34 +5,45 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../shared/Message';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
+
 import { createOrder } from '../../actions/orderActions';
 
 const PlaceOrder = ({ history }) => {
   const dispatch = useDispatch();
   
   const cart = useSelector((state) => state.cart);
+
+  // redirect if user has no shipping address or payment method
+  if (!cart.shippingAddress.address) {
+    history.push('/shipping')
+  } else if (!cart.paymentMethod) {
+    history.push('/payment')
+  }
+
   const userInfo = useSelector(state => 
     state.user.userInfo
   );
-  const { order, success, error } = useSelector(state => 
+
+
+  const { createdOrder, success, error } = useSelector(state => 
     state.order  
   );
 
-  // calculate price
+  // calculate prices
   const itemsPrice = cart.cartItems.reduce(
     (acc, item) => acc + item.price * item.qty,
     0
   );
-
   const taxPrice = 0.13 * itemsPrice;
   const shippingPrice = itemsPrice >= 100 ? 0 : 19.99;
   const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
   useEffect(() => {
+    // if order is successfully created redirect to confirmation page
     if (success) {
-      history.push(`/order/${order._id}`)
+      history.push(`/order/${createdOrder._id}`)
     }
-  }, [userInfo, history, order, success])
+  }, [userInfo, history, createdOrder, success])
 
 
   const placeOrderHandler = (e) => {

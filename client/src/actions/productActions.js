@@ -1,6 +1,7 @@
 import api from '../utils/api';
 import * as types from '../constants/productTypes';
 
+// get products
 export const getProducts = () => async (dispatch) => {
   try {
     dispatch({
@@ -24,6 +25,7 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
+// get a product by id
 export const getProduct = (id) => async (dispatch) => {
   try {
     const { data } = await api.get(`/products/${id}`);
@@ -43,6 +45,7 @@ export const getProduct = (id) => async (dispatch) => {
   }
 };
 
+// clear products details (single product)
 export const clearProductDetails = () => async (dispatch) => {
   dispatch({ type: types.CLEAR_PRODUCT_DETAILS, payload: {} });
 };

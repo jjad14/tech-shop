@@ -6,17 +6,14 @@ import Loading from '../shared/Loading';
 import Message from '../shared/Message';
 import ProductItem from '../Product/ProductItem';
 import { getProducts } from '../../actions/productActions';
-import { clearOrder } from '../../actions/orderActions';
 
 const Home = () => {
   const dispatch = useDispatch();
 
-  const productList = useSelector((state) => state.product);
-  const { products, error } = productList;
+  const { products, error } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getProducts());
-    dispatch(clearOrder());
   }, [dispatch]);
 
   return (

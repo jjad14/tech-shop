@@ -4,6 +4,7 @@ import { useSelector  } from 'react-redux';
 
 import Loading from '../shared/Loading';
 
+// Private Route, for routes that require an authenticated user, redirects otherwise
 const PrivateRoute = ({component: Component, ...rest}) => {
 
     // retrieve state from redux store

@@ -1,5 +1,7 @@
 import api from '../utils/api'
 import * as types from '../constants/userTypes';
+import { ORDER_MY_LIST_RESET, ORDER_RESET } from '../constants/orderTypes';
+import { CLEAR_SHIPPING_PAYMENT } from '../constants/cartTypes';
 
 // login a user
 export const login = (email, password) => async dispatch => {
@@ -46,6 +48,9 @@ export const register = (name, email, password) => async dispatch => {
 // logout user
 export const logout = (history) => async dispatch => {
     await api.delete('/users/logout')
+    dispatch({ type: ORDER_MY_LIST_RESET });  
+    dispatch({ type: CLEAR_SHIPPING_PAYMENT }); 
+    dispatch({ type: ORDER_RESET}); 
     dispatch({ type: types.USER_LOGOUT });  
 
     history.push('/login');

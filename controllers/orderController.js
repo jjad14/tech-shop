@@ -80,7 +80,7 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-// GET api/orders/:id/pay
+// PUT api/orders/:id/pay
 // Update Order to paid
 // Private access
 const updateOrderToPaid = asyncHandler(async (req, res) => {
@@ -106,8 +106,24 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
+// GET api/orders/myorders
+// Gets Currently logged in users Orders
+// Private access
+const getMyOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id});
+
+  if (!orders) {
+    res.status(404);
+    throw new Error('No Orders Found');
+  }
+
+  res.json(orders);
+  
+});
+
 export {
     addOrder,
     getOrderById,
-    updateOrderToPaid
+    updateOrderToPaid,
+    getMyOrders
 };

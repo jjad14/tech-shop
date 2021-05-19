@@ -13,6 +13,7 @@ import Message from '../shared/Message';
 import CartItem from './CartItem';
 
 const Cart = ({ history }) => {
+  // cart items from redux state
   const cartItems = useSelector((state) => state.cart.cartItems);
 
   const checkoutHandler = () => {

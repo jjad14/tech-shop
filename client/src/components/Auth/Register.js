@@ -9,7 +9,7 @@ import Loading from '../shared/Loading';
 import { register } from '../../actions/userActions';
 import FormContainer from '../shared/Forms/FormContainer';
 
-function RegisterScreen({ location }) {
+const RegisterScreen = ({ location }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -34,15 +34,9 @@ function RegisterScreen({ location }) {
       dispatch(register(name, email, password));
     }
     setValidated(true);
-
-
-    // if (password !== confirmPassword) {
-    //   setMessage('Passwords do not match');
-    // } else {
-    //   setMessage(null);
-    // }
   };
 
+  // redirect if user is already authenticated
   if (userInfo) {
     return <Redirect to='/' />;
   }

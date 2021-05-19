@@ -1,6 +1,7 @@
 import api from '../utils/api';
 import * as types from '../constants/orderTypes';
 
+// create an order
 export const createOrder = (order) => async (dispatch) => {
   try {
     dispatch({
@@ -25,10 +26,11 @@ export const createOrder = (order) => async (dispatch) => {
   }
 };
 
+// get the order details 
 export const getOrderDetails = (id) => async (dispatch) => {
   try {
     dispatch({
-        type: types.ORDER_DETAILS_START,
+        type: types.ORDER_DETAILS_START
     });
 
     const { data } = await api.get(`/orders/${id}`);
@@ -49,6 +51,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
   }
 };
 
+// pay for the order
 export const payOrder = (id, paymentResult) => async (dispatch) => {
   try {
     dispatch({
@@ -73,6 +76,27 @@ export const payOrder = (id, paymentResult) => async (dispatch) => {
   }
 };
 
-export const clearOrder = () => async (dispatch) => {
-  dispatch({type: types.CLEAR_ORDER});
-}
+// get a users orders
+export const getMyOrders = () => async (dispatch) => {
+  try {
+    dispatch({
+        type: types.ORDER_MY_LIST_START,
+    });
+
+    const { data } = await api.get(`/orders/myorders`);
+
+    dispatch({
+      type: types.ORDER_MY_LIST_SUCCESS,
+      payload: data,
+    });
+    
+  } catch (error) {
+    dispatch({
+      type: types.ORDER_MY_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

@@ -4,6 +4,7 @@ import { Alert, Button } from 'react-bootstrap';
 const Message = ({ variant = 'info', children, exit = false }) => {
     const [show, setShow] = useState(true);
 
+    // message cannot be closed (default)
     if (!exit) {
         return (
             <Alert variant={variant}>
@@ -12,6 +13,7 @@ const Message = ({ variant = 'info', children, exit = false }) => {
         );
     }
 
+    // message can be closed via button click
     return (
         <Alert show={show} variant={variant}>
             <div className="d-flex flex-row">

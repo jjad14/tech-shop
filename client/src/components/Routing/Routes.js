@@ -20,8 +20,8 @@ const Routes = () => {
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/cart" component={Cart} />
-                <PrivateRoute path="/profile" component={Profile} />
                 <Route path="/product/:id" component={Product} />
+                <PrivateRoute path="/profile" component={Profile} />
                 <PrivateRoute path="/shipping" component={Shipping} />
                 <PrivateRoute path="/payment" component={Payment} />
                 <PrivateRoute path="/placeorder" component={PlaceOrder} />

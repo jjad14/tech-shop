@@ -8,14 +8,14 @@ import { savePaymentMethod } from '../../actions/cartActions';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
 
 const Payment = ({ history }) => {
-  const shippingAddress = useSelector((state) => state.cart.shippingAddress);
   const dispatch = useDispatch();
+  const shippingAddress = useSelector((state) => state.cart.shippingAddress);
+  const [paymentMethod, setPaymentMethod] = useState('PayPal');
 
+  // check if they have a shipping address or redirect back
   if (!shippingAddress) {
     history.push('/shipping');
   }
-
-  const [paymentMethod, setPaymentMethod] = useState('PayPal');
 
   const submitHandler = (e) => {
     e.preventDefault();

@@ -19,7 +19,9 @@ const isCurrentlyInCart = (state, payload) =>
   const reducer = (state=initialCartState, action) => {
     switch (action.type) {
         case types.CART_ADD_ITEM:
+          // check if item is currently in cart
             if (isCurrentlyInCart(state, action.payload)) {
+              // update item in cart
                 return {
                   ...state,
                   cartItems: state.cartItems.map((item) =>
@@ -27,6 +29,7 @@ const isCurrentlyInCart = (state, payload) =>
                   ),
                 }
               }
+              // add item to cart
               return {
                 ...state,
                 cartItems: [...state.cartItems, action.payload],
@@ -38,11 +41,6 @@ const isCurrentlyInCart = (state, payload) =>
                     x.product !== action.payload
                 )
             };
-        case types.CLEAR_CART:
-            return {
-                ...state,
-                cartItems: []
-            };
         case types.CART_SAVE_SHIPPING_ADDRESS:
           return {
             ...state,
@@ -53,6 +51,25 @@ const isCurrentlyInCart = (state, payload) =>
             ...state,
             paymentMethod: action.payload,
           };
+        case types.CLEAR_SHIPPING_PAYMENT:
+          // clear shipping and payment info (on logout)
+          return {
+            ...state,
+            shippingAddress: {
+              address: '',
+              city: '',
+              postalCode: '',
+              country: '',
+              phoneNumber: ''
+            },
+            paymentMethod: null
+          };
+        case types.CART_ITEMS_RESET: 
+          // clear cart after order is created
+          return {
+           ...state, 
+           cartItems: []
+          }
         default:
             return state;
     }

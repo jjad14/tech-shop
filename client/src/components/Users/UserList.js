@@ -11,7 +11,8 @@ import { listUsers } from '../../actions/userActions';
 const UserList = () => {
   const dispatch = useDispatch();
 
-  const { userInfo, users, error } = useSelector((state) => state.user);
+  const { userInfo, users } = useSelector((state) => state.user);
+  const { errorUser } = useSelector(state => state.error);
 
   useEffect(() => {
       if (userInfo.isAdmin) {
@@ -31,8 +32,8 @@ const UserList = () => {
       <h2>Users</h2>
       {!users ? (
         <Loading />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
+      ) : errorUser ? (
+        <Message variant='danger'>{errorUser}</Message>
       ) : (
         <Table striped bordered hover responsive size='sm'>
           <thead>

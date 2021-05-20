@@ -8,7 +8,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
   if (!token) {
     res.status(401);
-    throw new Error('Not Authorized, No Token Found');
+    throw new Error('You Are Not Authorized');
   }
 
   try {
@@ -26,7 +26,7 @@ const protect = asyncHandler(async (req, res, next) => {
   } catch (err) {
     res.clearCookie('Bearer');
     res.status(401);
-    throw new Error('Not Authorized, Failed To Get Token');
+    throw new Error('Not Authorization');
   }
 });
 

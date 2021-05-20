@@ -18,7 +18,7 @@ const RegisterScreen = ({ location }) => {
 
   const dispatch = useDispatch();
 
-  const { loading, error, userInfo } = useSelector((state) => state.user);
+  const { loading, authError, userInfo } = useSelector((state) => state.user);
 
   const redirect = location.search ? location.search.split('=')[1] : null;
 
@@ -43,7 +43,7 @@ const RegisterScreen = ({ location }) => {
   return (
     <FormContainer>
       <h1 className='text-center'>Sign Up</h1>
-      {error ? <Message variant='danger' exit>{error}</Message> : null}
+      {authError ? <Message variant='danger' exit>{authError}</Message> : null}
       {loading ? <Loading /> : null}
       <Form noValidate validated={validated} onSubmit={submitHandler}>
         <Form.Row>

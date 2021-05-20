@@ -5,7 +5,8 @@ export const initialUserState = {
     users: [],
     error: null,
     loading: false,
-    updated: null
+    updated: null,
+    authError: null
 };
 
 const reducer = (state=initialUserState, action) => {
@@ -45,6 +46,11 @@ const reducer = (state=initialUserState, action) => {
             };
         case types.USER_LOGIN_FAIL:
         case types.USER_REGISTER_FAIL:
+            return {
+                ...state,
+                authError: action.payload,
+                loading: false,
+            };
         case types.USER_UPDATE_PROFILE_FAIL:
         case types.USER_LIST_FAIL:
         case types.USER_DETAILS_FAIL:

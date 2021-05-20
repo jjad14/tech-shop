@@ -4,6 +4,13 @@ import { Alert, Button } from 'react-bootstrap';
 const Message = ({ variant = 'info', children, exit = false }) => {
     const [show, setShow] = useState(true);
 
+
+    const clearMessage = () => {
+        setShow(false);
+
+        // @TODO: dispatch action to erase message from state
+    };
+
     // message cannot be closed (default)
     if (!exit) {
         return (
@@ -18,7 +25,7 @@ const Message = ({ variant = 'info', children, exit = false }) => {
         <Alert show={show} variant={variant}>
             <div className="d-flex flex-row">
                 <div className="mr-2">
-                    <Button onClick={() => setShow(false)} variant={`outline-${variant}`} style={{color: "white"}}>
+                    <Button onClick={clearMessage} variant={`outline-${variant}`} style={{color: "white"}}>
                         <i className="fas fa-times fa-sm"></i>
                     </Button>
                 </div>

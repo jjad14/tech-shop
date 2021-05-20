@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
@@ -18,7 +18,7 @@ const Login = ({ location }) => {
   const dispatch = useDispatch();
 
   // redux state
-  const { loading, error, userInfo } = useSelector((state) => state.user);
+  const { loading, authError, userInfo } = useSelector((state) => state.user);
 
   // redirect 
   const redirect = location.search ? location.search.split('=')[1] : null;
@@ -49,7 +49,7 @@ const Login = ({ location }) => {
   return (
     <FormContainer>
       <h1 className="text-center">Sign In</h1>
-      {error ? <Message variant='danger' exit>{error}</Message> : null}
+      {authError ? <Message variant='danger' exit>{authError}</Message> : null}
       {loading ? <Loading /> : null}
       <Form noValidate validated={validated} onSubmit={submitHandler}>
       <Form.Row>

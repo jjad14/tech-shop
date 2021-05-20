@@ -8,7 +8,10 @@ Product Error
     errorProduct: null
 
 Authentication Error
-    errorAuth: null
+    errorAuthentication: null
+
+Authorization Error
+    errorAuthorization: null
 
 Validation Error
     errorValidation: null
@@ -22,10 +25,12 @@ Cart Error:
 Payment Error:
     errorPayment: null,
 */
+
 const initialState = {
     errorUser: null,
     errorProduct: null,
-    errorAuth: null,
+    errorAuthentication: null,
+    errorAuthorization: null,
     errorValidation: null,
     errorOrder: null,
     errorCart: null,

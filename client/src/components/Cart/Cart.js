@@ -15,6 +15,7 @@ import CartItem from './CartItem';
 const Cart = ({ history }) => {
   // cart items from redux state
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const { errorCart } = useSelector((state) => state.error);
 
   const checkoutHandler = () => {
     history.push('/login?redirect=shipping');
@@ -24,7 +25,8 @@ const Cart = ({ history }) => {
     <Row>
       <Col md={8}>
         <h2 className="text-center text-md-left">Shopping Cart</h2>
-        {cartItems.length === 0 ? (
+        { errorCart && <Message variant="success" exit>{errorCart}</Message>}
+        { cartItems.length === 0 ? (
           <Message>
             <span>
               Your cart is empty. Click {' '}

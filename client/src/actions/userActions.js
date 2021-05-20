@@ -2,6 +2,7 @@ import api from '../utils/api'
 import * as types from '../constants/userTypes';
 import { ORDER_MY_LIST_RESET, ORDER_RESET } from '../constants/orderTypes';
 import { CLEAR_SHIPPING_PAYMENT } from '../constants/cartTypes';
+import { setError } from '../actions/errorActions';
 
 // login a user
 export const login = (email, password) => async dispatch => {
@@ -22,11 +23,10 @@ export const login = (email, password) => async dispatch => {
             type: types.USER_LOGIN_SUCCESS,
             payload: data,
         });
+
     } catch (err) {
-        dispatch({
-            type: types.USER_LOGIN_FAIL,
-            payload: err.response?.data?.message || err.message,
-        });
+        dispatch({type: types.USER_LOGIN_FAIL});
+        dispatch(setError('errorAuthentication', err.response?.data?.message || err.message));
     }
 };
 
@@ -49,11 +49,10 @@ export const register = (name, email, password) => async dispatch => {
             type: types.USER_REGISTER_SUCCESS,
             payload: data,
         });
+
     } catch (err) {
-        dispatch({
-            type: types.USER_REGISTER_FAIL,
-            payload: err.response?.data?.message || err.message,
-        });
+        dispatch({type: types.USER_REGISTER_FAIL});
+        dispatch(setError('errorAuthentication', err.response?.data?.message || err.message));
     }
 };
 
@@ -88,10 +87,8 @@ export const getUserDetails = (idOrEndPoint = 'profile') => async dispatch => {
         });
 
         } catch (err) {
-        dispatch({
-            type: types.USER_DETAILS_FAIL,
-            payload: err.response?.data?.message || err.message,
-        });
+        dispatch({type: types.USER_DETAILS_FAIL});
+        dispatch(setError('errorUser', err.response?.data?.message || err.message));
     }
 };
 
@@ -116,10 +113,8 @@ export const updateUserProfile = (user) => async dispatch => {
         });
 
     } catch (err) {
-        dispatch({
-            type: types.USER_UPDATE_PROFILE_FAIL,
-            payload: err.response?.data?.message || err.message,
-        });
+        dispatch({type: types.USER_UPDATE_PROFILE_FAIL});
+        dispatch(setError('errorUser', err.response?.data?.message || err.message));
     }
 };
 
@@ -138,9 +133,7 @@ export const listUsers = () => async dispatch => {
         });
 
     } catch (err) {
-        dispatch({
-            type: types.USER_LIST_FAIL,
-            payload: err.response?.data?.message || err.message
-        });
+        dispatch({type: types.USER_LIST_FAIL});
+        dispatch(setError('errorUser', err.response?.data?.message || err.message));
     }
 };

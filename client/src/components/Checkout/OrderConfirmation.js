@@ -19,9 +19,11 @@ const OrderConfirmation = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const { orderDetails, loading, error, paymentSuccess } = useSelector(
+  const { orderDetails, loading, paymentSuccess } = useSelector(
     (state) => state.order
   );
+
+  const { errorOrder, errorPayment } = useSelector((state) => state.error);
 
   useEffect(() => {
     const addPaypalScript = async () => {
@@ -56,14 +58,24 @@ const OrderConfirmation = ({ match }) => {
     dispatch(payOrder(orderId, paymentResult));
   };
 
+  // return !orderDetails || !orderDetails.user ? (
+  //   <Loading />
+  // ) : errorOrder ? (
+  //   <Message variant='danger' exit>
+  //     {errorOrder}
+  //   </Message>
+  // ) :
+
+
+
   // orderDetails.user takes longer to fetch, check if the overall orderDetails is fetched
   // as well as the user object inside
-  return !orderDetails || !orderDetails.user ? (
-    <Loading />
-  ) : error ? (
-    <Message variant='danger' exit>
-      {error}
+  return errorOrder ? (
+    <Message variant='danger'>
+    {errorOrder}
     </Message>
+  ) : !orderDetails || !orderDetails.user ? (
+    <Loading />
   ) : (
     <>
       <Row>
@@ -71,6 +83,7 @@ const OrderConfirmation = ({ match }) => {
           <h4 className='text-center text-md-left ml-md-4'>
             Order: #{orderDetails._id}
           </h4>
+          {errorPayment && <Message variant="danger">{errorPayment}</Message>}
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <Card className='mt-1 mb-2 p-3 rounded shadow'>

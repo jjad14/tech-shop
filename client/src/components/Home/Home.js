@@ -10,7 +10,8 @@ import { getProducts } from '../../actions/productActions';
 const Home = () => {
   const dispatch = useDispatch();
 
-  const { products, error } = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.product);
+  const { errorProduct } = useSelector((state) => state.error);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -21,8 +22,8 @@ const Home = () => {
       <h2 className="text-center text-md-left">Latest Products</h2>
       {products.length === 0 ? (
         <Loading />
-      ) : error ? (
-        <Message variant="danger">{error}</Message>
+      ) : errorProduct ? (
+        <Message variant="danger">{errorProduct}</Message>
       ) : (
         <Row>
         {products.map((product) => (

@@ -5,7 +5,7 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
-import { getProduct, clearProductDetails } from '../../actions/productActions';
+import { getProduct } from '../../actions/productActions';
 import { addToCart } from '../../actions/cartActions';
 import Rating from './Rating';
 
@@ -16,16 +16,11 @@ const Product = ({ history, match }) => {
   
   const dispatch = useDispatch();
   
-  const productDetails = useSelector((state) => state.product);
-  const { product, error } = productDetails;
+  const { product } = useSelector((state) => state.product);
+  const { errorProduct, errorCart } = useSelector((state) => state.error);
 
   useEffect(() => {
     dispatch(getProduct(match.params.id));
-
-    // equivalent to implementing componentWillUnmount
-    return () => {
-      dispatch(clearProductDetails());
-    };
   }, [dispatch, match.params.id]);
   
   const submitHandler = () => {
@@ -33,7 +28,9 @@ const Product = ({ history, match }) => {
     dispatch(addToCart(product._id, qty));
     setQty(prevState => prevState + 1);
 
-    setShowMessage(true);
+    if (!errorCart) {
+      setShowMessage(true);
+    }
   };
   // || product._id !== match.params.id
 
@@ -43,10 +40,12 @@ const Product = ({ history, match }) => {
         Go Back
       </Link>
       { showMessage && <Message variant="success" exit>Item has Been Added to Cart</Message>}
-      { !product._id && !error ? (
+      {/* Error Adding Item to Cart */}
+      { errorCart && <Message variant="success" exit>{errorCart}</Message>}
+      { !product._id && !errorProduct ? (
         <Loading />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
+      ) : errorProduct ? (
+        <Message variant='danger'>{errorProduct}</Message>
       ) : (
         <Row>
           <Col md={6} className="product-page-section">

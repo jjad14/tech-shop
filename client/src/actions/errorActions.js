@@ -1,8 +1,9 @@
-import api from '../utils/api';
 import * as types from '../constants/errorTypes';
 
-// get products
-export const setError = (errorType, message) => async (dispatch) => {
+// set the error
+export const setError = (errorType, message, timeout = 8000) => async (dispatch) => {
+    //@TODO: this might be too much, could check if there is an error already to clear
+    // dispatch({type: types.CLEAR_ERROR, payload: errorType});
 
     dispatch({
         type: types.SET_ERROR, 
@@ -12,13 +13,16 @@ export const setError = (errorType, message) => async (dispatch) => {
         }
     });
 
-    setTimeout(() => {
-        dispatch({type: types.CLEAR_ERROR, payload: id});
-    }, timeout);
+    // some errors do not need a timeout
+    if (errorType !== 'errorProduct' && errorType !== 'errorOrder' && errorType !== 'errorPayment') {
+        setTimeout(() => {
+            dispatch({type: types.CLEAR_ERROR, payload: errorType});
+        }, timeout);
+    }
 
 };
 
-// get a product by id
+// clear the error
 export const clearError = (errorType) => async (dispatch) => {
     dispatch({
         type: types.CLEAR_ERROR, 

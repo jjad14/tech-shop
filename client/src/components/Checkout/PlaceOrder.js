@@ -25,9 +25,10 @@ const PlaceOrder = ({ history }) => {
     state.user.userInfo
   );
 
-  const { createdOrder, success, error } = useSelector(state => 
+  const { createdOrder, success } = useSelector(state => 
     state.order  
   );
+  const { errorOrder } = useSelector((state) => state.error);
 
   // calculate prices
   const itemsPrice = cart.cartItems.reduce(
@@ -58,7 +59,7 @@ const PlaceOrder = ({ history }) => {
 
   return (
     <>
-      {error && <Message variant="danger">{error}</Message>}
+      {errorOrder && <Message variant="danger">{errorOrder}</Message>}
       <CheckoutSteps step1 step2 step3 />
       <Row>
         <Col md={8}>

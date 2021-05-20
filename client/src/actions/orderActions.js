@@ -1,5 +1,6 @@
 import api from '../utils/api';
 import * as types from '../constants/orderTypes';
+import { setError } from '../actions/errorActions';
 
 // create an order
 export const createOrder = (order) => async (dispatch) => {
@@ -21,14 +22,9 @@ export const createOrder = (order) => async (dispatch) => {
       payload: data,
     });
     
-  } catch (error) {
-    dispatch({
-      type: types.ORDER_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
+  } catch (err) {
+    dispatch({type: types.ORDER_CREATE_FAIL});
+    dispatch(setError('errorOrder', err.response?.data?.message || err.message));
   }
 };
 
@@ -46,14 +42,9 @@ export const getOrderDetails = (id) => async (dispatch) => {
       payload: data,
     });
     
-  } catch (error) {
-    dispatch({
-      type: types.ORDER_DETAILS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
+  } catch (err) {
+    dispatch({type: types.ORDER_DETAILS_FAIL});
+    dispatch(setError('errorOrder', err.response?.data?.message || err.message));
   }
 };
 
@@ -77,14 +68,9 @@ export const payOrder = (id, paymentResult) => async (dispatch) => {
       payload: data,
     });
     
-  } catch (error) {
-    dispatch({
-      type: types.ORDER_PAY_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
+  } catch (err) {
+    dispatch({type: types.ORDER_PAY_FAIL});
+    dispatch(setError('errorPayment', err.response?.data?.message || err.message));
   }
 };
 
@@ -102,13 +88,8 @@ export const getMyOrders = () => async (dispatch) => {
       payload: data,
     });
     
-  } catch (error) {
-    dispatch({
-      type: types.ORDER_MY_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
+  } catch (err) {
+    dispatch({type: types.ORDER_MY_LIST_FAIL});
+    dispatch(setError('errorOrder', err.response?.data?.message || err.message));
   }
 };

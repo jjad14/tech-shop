@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import PrivateRoute from './PrivateRoute';
+import AdminRoute from './AdminRoute';
+
 import Home from '../Home/Home';
 import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
@@ -12,6 +14,7 @@ import Shipping from '../Checkout/Shipping';
 import Payment from '../Checkout/Payment';
 import PlaceOrder from '../Checkout/PlaceOrder';
 import OrderConfirmation from '../Checkout/OrderConfirmation';
+import UserList from '../Users/UserList';
 
 const Routes = () => {
     return (
@@ -25,6 +28,7 @@ const Routes = () => {
                 <PrivateRoute path="/shipping" component={Shipping} />
                 <PrivateRoute path="/payment" component={Payment} />
                 <PrivateRoute path="/placeorder" component={PlaceOrder} />
+                <AdminRoute path="/admin/users" component={UserList} />
                 <PrivateRoute path="/order/:id" component={OrderConfirmation} />
                 <Route path="/" exact component={Home} />
             </Switch>

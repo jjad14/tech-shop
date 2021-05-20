@@ -122,3 +122,25 @@ export const updateUserProfile = (user) => async dispatch => {
         });
     }
 };
+
+// update users profile
+export const listUsers = () => async dispatch => {
+    try {
+        dispatch({
+            type: types.USER_LIST_START,
+        });
+
+        const { data } = await api.get('/users');
+
+        dispatch({
+            type: types.USER_LIST_SUCCESS,
+            payload: data,
+        });
+
+    } catch (err) {
+        dispatch({
+            type: types.USER_LIST_FAIL,
+            payload: err.response?.data?.message || err.message
+        });
+    }
+};

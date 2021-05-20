@@ -14,7 +14,6 @@ const RegisterScreen = ({ location }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
-  // const [message, setMessage] = useState(null);
   const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch();

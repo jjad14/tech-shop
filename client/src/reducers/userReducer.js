@@ -2,6 +2,7 @@ import * as types from '../constants/userTypes';
 
 export const initialUserState = {
     userInfo: null,
+    users: [],
     error: null,
     loading: false,
     updated: null
@@ -13,6 +14,7 @@ const reducer = (state=initialUserState, action) => {
         case types.USER_REGISTER_START:
         case types.USER_DETAILS_START:
         case types.USER_UPDATE_PROFILE_START:
+        case types.USER_LIST_START:
             return {
                 ...state, 
                 loading: true,
@@ -35,16 +37,23 @@ const reducer = (state=initialUserState, action) => {
                 error: null,
                 loading:false
             };
+        case types.USER_LIST_SUCCESS:
+            return {
+                ...state,
+                users: action.payload,
+                loading: false,
+            };
         case types.USER_LOGIN_FAIL:
         case types.USER_REGISTER_FAIL:
         case types.USER_UPDATE_PROFILE_FAIL:
+        case types.USER_LIST_FAIL:
+        case types.USER_DETAILS_FAIL:
             return {
                 ...state, 
                 loading: false, 
                 error: action.payload 
             };
         case types.USER_LOGOUT:
-        case types.USER_DETAILS_FAIL:
             return initialUserState;
         default:
             return state;

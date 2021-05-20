@@ -124,14 +124,22 @@ const logout = (req, res) => {
   .status(204)
   .send();
   
-  // res.clearCookie('Bearer', cookieOptions);
-  // res.status(204).send();
 };
+
+// GET api/users
+// Get all users
+// Private access (Admin)
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+
+  res.json(users)
+}); 
 
 export {
     authUser,
     registerUser,
     getUserProfile,
     updateUserProfile,
-    logout
+    logout,
+    getUsers
 };

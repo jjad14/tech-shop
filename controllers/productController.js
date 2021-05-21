@@ -7,6 +7,12 @@ import Product from '../models/Product.js';
 // Public access
 const getProducts = asyncHandler(async (req, res) => {
     const products = await Product.find({});
+
+    if (!products) {
+      res.status(404);
+      throw new Error('No Products Found');
+    }
+
     res.json(products);
 });
 
@@ -17,6 +23,7 @@ const getProductById = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
 
     if (!product) {
+        res.status(404);
       throw new Error('No Product Found');
     }
 

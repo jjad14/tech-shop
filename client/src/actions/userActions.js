@@ -137,3 +137,20 @@ export const listUsers = () => async dispatch => {
         dispatch(setError('errorUser', err.response?.data?.message || err.message));
     }
 };
+
+// Delete User
+export const deleteUser = (id) => async dispatch => {
+    try {
+        dispatch({
+            type: types.USER_DELETE_START,
+        });
+
+        await api.delete(`/users/${id}`);
+
+        dispatch({ type: types.USER_DELETE_SUCCESS });
+
+    } catch (err) {
+        dispatch({type: types.USER_DELETE_FAIL});
+        dispatch(setError('errorUser', err.response?.data?.message || err.message));
+    }
+};

@@ -31,12 +31,14 @@ const RegisterScreen = ({ location }) => {
       e.stopPropagation();
     }
     else {
-      dispatch(register(name, email, password));
+      if (password === confirmPassword) {
+        dispatch(register(name, email, password));
+      }
     }
-    setName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
+    // setName('');
+    // setEmail('');
+    // setPassword('');
+    // setConfirmPassword('');
     setValidated(true);
   };
 

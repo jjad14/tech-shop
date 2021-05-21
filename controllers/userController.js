@@ -135,7 +135,49 @@ const getUsers = asyncHandler(async (req, res) => {
   res.json(users)
 }); 
 
-// DELETE api/users
+// GET api/users/:id
+// Get User By Id
+// Private access (Admin)
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select('-password');
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User Not Found');
+  }
+
+  res.json(user);
+}); 
+
+// Put api/users/:id
+// Update a users profile
+// Private access (Admin)
+const updateUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body
+
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User Not Found');
+  }
+
+  user.name = req.body.name || user.name;
+  user.email = req.body.email || user.email;
+  user.isAdmin = Boolean(req.body.isAdmin);
+  // user.isAdmin = req.body.isAdmin === undefined ? user.isAdmin : req.body.isAdmin
+
+  const updatedUser = await req.user.save()
+
+  res.json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    isAdmin: updatedUser.isAdmin,
+  })
+});
+
+// DELETE api/users/:id
 // Delete User By Id
 // Private access (Admin)
 const deleteUser = asyncHandler(async (req, res) => {
@@ -158,5 +200,7 @@ export {
     updateUserProfile,
     logout,
     getUsers,
+    getUserById,
+    updateUser,
     deleteUser
 };

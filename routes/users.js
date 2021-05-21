@@ -6,6 +6,8 @@ import {
   logout,
   updateUserProfile,
   getUsers,
+  getUserById,
+  updateUser,
   deleteUser,
 } from '../controllers/userController.js';
 
@@ -22,15 +24,21 @@ router
   .route('/')
   .post(validateRegistration, registerUser)
   .get(protect, isAdmin, getUsers);
+
 router.post('/login', validateLogin, authUser);
-router
-  .route('/profile')
-  .get(protect, getUserProfile)
-  .put(protect, updateUserProfile);
+
 router.delete('/logout', logout);
 
 router
+  .route('/profile')
+  .get(protect, getUserProfile)
+  .put(protect, updateUserProfile); //@TODO: Needs body validation
+
+
+router
   .route('/:id')
-  .delete(protect, isAdmin, deleteUser);
+  .delete(protect, isAdmin, checkObjectId('id'), deleteUser)
+  .get(protect, isAdmin, checkObjectId('id'), getUserById)
+  .put(protect, isAdmin, checkObjectId('id'), updateUser); //@TODO: Needs body validation
 
 export default router;

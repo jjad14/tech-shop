@@ -3,9 +3,11 @@ import * as types from '../constants/userTypes';
 export const initialUserState = {
     userInfo: null,
     users: [],
-    loading: false,
+    selectedUser: null,
     userDeleted: false,
-    updated: null
+    userUpdated: false,
+    updatedProfile: null,
+    loading: false,
 };
 
 const reducer = (state=initialUserState, action) => {
@@ -18,6 +20,12 @@ const reducer = (state=initialUserState, action) => {
             return {
                 ...state, 
                 loading: true,
+            };
+        case types.USER_UPDATE_START:
+            return {
+                ...state,
+                loading: true,
+                userUpdated: false,
             };
         case types.USER_DELETE_START:
             return {
@@ -33,11 +41,17 @@ const reducer = (state=initialUserState, action) => {
                 loading: false, 
                 userInfo: action.payload, 
             };
+        case types.USER_SINGLE_DETAILS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                selectedUser: action.payload
+            };
         case types.USER_UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
                 userInfo: action.payload,
-                updated: true,
+                updatedProfile: true,
                 loading:false
             };
         case types.USER_LIST_SUCCESS:
@@ -52,12 +66,25 @@ const reducer = (state=initialUserState, action) => {
                 userDeleted: true,
                 loading: false
             };
+        case types.USER_UPDATE_SUCCESS:
+            return {
+                ...state,
+                userUpdated: true,
+                selectedUser: action.payload,
+                loading: false
+            };
+        case types.USER_UPDATE_RESET:
+            return {
+                ...state,
+                selectedUser: {}
+            };
         case types.USER_LOGIN_FAIL:
         case types.USER_REGISTER_FAIL:
         case types.USER_UPDATE_PROFILE_FAIL:
         case types.USER_LIST_FAIL:
         case types.USER_DETAILS_FAIL:
         case types.USER_DELETE_FAIL:
+        case types.USER_UPDATE_FAIL:
             return {
                 ...state, 
                 loading: false, 

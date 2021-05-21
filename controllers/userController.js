@@ -153,8 +153,6 @@ const getUserById = asyncHandler(async (req, res) => {
 // Update a users profile
 // Private access (Admin)
 const updateUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body
-
   const user = await User.findById(req.params.id);
 
   if (!user) {
@@ -167,7 +165,9 @@ const updateUser = asyncHandler(async (req, res) => {
   user.isAdmin = Boolean(req.body.isAdmin);
   // user.isAdmin = req.body.isAdmin === undefined ? user.isAdmin : req.body.isAdmin
 
-  const updatedUser = await req.user.save()
+  console.log(user);
+
+  const updatedUser = await user.save();
 
   res.json({
     _id: updatedUser._id,

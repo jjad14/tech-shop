@@ -72,14 +72,14 @@ export const logout = (history) => async dispatch => {
     history.push('/login');
 };
 
-// get users profile
-export const getUserDetails = (idOrEndPoint = 'profile') => async dispatch => {
+// Get currently logged in users details
+export const getUserDetails = () => async dispatch => {
     try {
         dispatch({
             type: types.USER_DETAILS_START,
         });
 
-        const { data } = await api.get(`/users/${idOrEndPoint}`);  
+        const { data } = await api.get(`/users/profile`);  
 
         dispatch({
             type: types.USER_DETAILS_SUCCESS,
@@ -92,7 +92,7 @@ export const getUserDetails = (idOrEndPoint = 'profile') => async dispatch => {
     }
 };
 
-// update users profile
+// update current users profile
 export const updateUserProfile = (user) => async dispatch => {
     try {
         dispatch({
@@ -118,7 +118,56 @@ export const updateUserProfile = (user) => async dispatch => {
     }
 };
 
-// update users profile
+// get a user by id (Admin)
+export const getUserById = (id) => async dispatch => {
+    try {
+        dispatch({
+            type: types.USER_DETAILS_START,
+        });
+
+        const { data } = await api.get(`/users/${id}`);  
+
+        dispatch({
+            type: types.USER_SINGLE_DETAILS_SUCCESS,
+            payload: data
+        });
+
+        } catch (err) {
+        dispatch({type: types.USER_DETAILS_FAIL});
+        dispatch(setError('errorUser', err.response?.data?.message || err.message));
+    }
+};
+
+// Update a users details (Admin)
+export const updateUser = (user) => async dispatch => {
+    try {
+        dispatch({
+            type: types.USER_UPDATE_START,
+        });
+
+        console.log(user);
+
+        const config = {
+            headers: {
+              'Content-Type': 'application/json',
+            }
+        };
+
+        const { data } = await api.put(`/users/${user._id}`, user, config);  
+
+        dispatch({
+            type: types.USER_UPDATE_SUCCESS,
+            payload: data
+        });
+
+        } catch (err) {
+        dispatch({type: types.USER_UPDATE_FAIL});
+        dispatch(setError('errorUser', err.response?.data?.message || err.message));
+    }
+};
+
+
+// Get list of users (Admin)
 export const listUsers = () => async dispatch => {
     try {
         dispatch({
@@ -138,7 +187,7 @@ export const listUsers = () => async dispatch => {
     }
 };
 
-// Delete User
+// Delete User (Admin)
 export const deleteUser = (id) => async dispatch => {
     try {
         dispatch({

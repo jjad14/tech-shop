@@ -12,7 +12,7 @@ const Profile = () => {
     const dispatch = useDispatch();
 
     // redux state for user
-    const { userInfo, error, loading, updated } = useSelector(
+    const { userInfo, error, loading, updatedProfile } = useSelector(
         state => state.user
     );
 
@@ -55,7 +55,7 @@ const Profile = () => {
             <h3 className='text-center'>User Profile</h3>
             {error ? <Message variant='danger'>{error}</Message> : null}
             {message ? <Message variant='danger'>{message}</Message> : null}
-            {updated ? (
+            {updatedProfile ? (
               <Message variant='success'>Profile updated!</Message>
             ) : null}
             <Form onSubmit={submitHandler}>

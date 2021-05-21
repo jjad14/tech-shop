@@ -15,6 +15,7 @@ import Payment from '../Checkout/Payment';
 import PlaceOrder from '../Checkout/PlaceOrder';
 import OrderConfirmation from '../Checkout/OrderConfirmation';
 import UserList from '../Users/UserList';
+import UserEdit from '../Users/UserEdit';
 
 const Routes = () => {
     return (
@@ -29,6 +30,7 @@ const Routes = () => {
                 <PrivateRoute path="/payment" component={Payment} />
                 <PrivateRoute path="/placeorder" component={PlaceOrder} />
                 <AdminRoute path="/admin/users" component={UserList} />
+                <AdminRoute path="/admin/user/:id/edit" component={UserEdit} />
                 <PrivateRoute path="/order/:id" component={OrderConfirmation} />
                 <Route path="/" exact component={Home} />
             </Switch>

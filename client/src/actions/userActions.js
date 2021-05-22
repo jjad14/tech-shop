@@ -31,8 +31,9 @@ export const login = (email, password) => async dispatch => {
 };
 
 // register a user
-export const register = (name, email, password) => async dispatch => {
+export const register = (name, email, password, confirmPassword) => async dispatch => {
     try {
+        console.log({name, email, password, confirmPassword})
         dispatch({
             type: types.USER_REGISTER_START,
         });
@@ -43,7 +44,7 @@ export const register = (name, email, password) => async dispatch => {
             }
         };
 
-        const { data } = await api.post('/users', {name, email, password}, config);
+        const { data } = await api.post('/users', {name, email, password, confirmPassword}, config);
 
         dispatch({
             type: types.USER_REGISTER_SUCCESS,
@@ -144,8 +145,6 @@ export const updateUser = (user) => async dispatch => {
         dispatch({
             type: types.USER_UPDATE_START,
         });
-
-        console.log(user);
 
         const config = {
             headers: {

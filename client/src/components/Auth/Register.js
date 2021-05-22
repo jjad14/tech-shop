@@ -31,15 +31,11 @@ const RegisterScreen = ({ location }) => {
       e.stopPropagation();
     }
     else {
+      setValidated(true);
       if (password === confirmPassword) {
-        dispatch(register(name, email, password));
+        dispatch(register(name, email, password, confirmPassword));
       }
     }
-    // setName('');
-    // setEmail('');
-    // setPassword('');
-    // setConfirmPassword('');
-    setValidated(true);
   };
 
   // redirect if user is already authenticated
@@ -49,7 +45,7 @@ const RegisterScreen = ({ location }) => {
 
   return (
     <FormContainer>
-      <h1 className='text-center'>Sign Up</h1>
+      <h2 className='text-center'>Sign Up</h2>
       {errorAuthentication ? <Message variant='danger' exit>{errorAuthentication}</Message> : null}
       {loading ? <Loading /> : null}
       <Form noValidate validated={validated} onSubmit={submitHandler}>
@@ -124,7 +120,7 @@ const RegisterScreen = ({ location }) => {
               </Form.Control.Feedback>
           </Form.Group>
         </Form.Row>
-        <Button type='submit'  block>
+        <Button type='submit' block>
           Register
         </Button>
       </Form>

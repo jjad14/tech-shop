@@ -26,7 +26,7 @@ const UserEdit = ({ match, history }) => {
   useEffect(() => {
     if (userUpdated) {
       history.push('/admin/users');
-      // dispatch({ type: USER_UPDATE_RESET })
+      dispatch({ type: USER_UPDATE_RESET })
     } else {
       if (!selectedUser || selectedUser._id !== userId) {
           dispatch(getUserById(userId));
@@ -50,7 +50,7 @@ const UserEdit = ({ match, history }) => {
         Go Back
       </Link>
       <FormContainer>
-        <h1 className="text-center">Edit User</h1>
+        <h2 className="text-center">Edit User</h2>
         {/* {errorUser && <Message variant='danger'>{errorUser}</Message>} */}
         {loading ? (
           <Loading />

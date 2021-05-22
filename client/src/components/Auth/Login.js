@@ -34,8 +34,8 @@ const Login = ({ location }) => {
       dispatch(login(email, password));
     }
 
-    setEmail('');
-    setPassword('');
+    // setEmail('');
+    // setPassword('');
     setValidated(true);
 
   };
@@ -52,7 +52,7 @@ const Login = ({ location }) => {
 
   return (
     <FormContainer>
-      <h1 className="text-center">Sign In</h1>
+      <h2 className="text-center">Sign In</h2>
       {errorAuthentication ? <Message variant='danger' exit>{errorAuthentication}</Message> : null}
       {loading ? <Loading /> : null}
       <Form noValidate validated={validated} onSubmit={submitHandler}>

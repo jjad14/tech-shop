@@ -60,7 +60,7 @@ const Header = () => {
                                     )}
                                     {userInfo.isAdmin && (
                                         <LinkContainer to="/admin/products">
-                                            <NavDropdown.Item>Products</NavDropdown.Item>
+                                            <NavDropdown.Item>Inventory</NavDropdown.Item>
                                         </LinkContainer>
                                     )}
                                     {userInfo.isAdmin && (

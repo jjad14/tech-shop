@@ -16,26 +16,30 @@ import PlaceOrder from '../Checkout/PlaceOrder';
 import OrderConfirmation from '../Checkout/OrderConfirmation';
 import UserList from '../Users/UserList';
 import UserEdit from '../Users/UserEdit';
+import ProductList from '../Product/ProductList';
+import ProductEdit from '../Product/ProductEdit';
 
 const Routes = () => {
-    return (
-        <section className="container">
-            <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-                <Route path="/cart" component={Cart} />
-                <Route path="/product/:id" component={Product} />
-                <PrivateRoute path="/profile" component={Profile} />
-                <PrivateRoute path="/shipping" component={Shipping} />
-                <PrivateRoute path="/payment" component={Payment} />
-                <PrivateRoute path="/placeorder" component={PlaceOrder} />
-                <AdminRoute path="/admin/users" component={UserList} />
-                <AdminRoute path="/admin/user/:id/edit" component={UserEdit} />
-                <PrivateRoute path="/order/:id" component={OrderConfirmation} />
-                <Route path="/" exact component={Home} />
-            </Switch>
-      </section>
-    );
+  return (
+    <section className='container'>
+      <Switch>
+        <Route path='/login' component={Login} />
+        <Route path='/register' component={Register} />
+        <Route path='/cart' component={Cart} />
+        <Route path='/product/:id' component={Product} />
+        <PrivateRoute path='/profile' component={Profile} />
+        <PrivateRoute path='/shipping' component={Shipping} />
+        <PrivateRoute path='/payment' component={Payment} />
+        <PrivateRoute path='/placeorder' component={PlaceOrder} />
+        <AdminRoute path='/admin/users' component={UserList} />
+        <AdminRoute path='/admin/user/:id/edit' component={UserEdit} />
+        <AdminRoute path='/admin/products' component={ProductList} />
+        <AdminRoute path='/admin/product/:id/edit' component={ProductEdit} />
+        <PrivateRoute path='/order/:id' component={OrderConfirmation} />
+        <Route path='/' exact component={Home} />
+      </Switch>
+    </section>
+  );
 };
 
 export default Routes;

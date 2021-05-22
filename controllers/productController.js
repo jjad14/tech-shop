@@ -31,7 +31,26 @@ const getProductById = asyncHandler(async (req, res) => {
 
 });
 
+// DELETE api/products/:id
+// Delete a product
+// Private access (Admin)
+const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  // @TODO (Optioanl): Only admin that created the product can delete or update it
+
+  if (!product) {
+    res.status(404);
+    throw new Error('No Product Found');
+  }
+
+  await product.remove();
+
+  res.status(204).send();
+});
+
 export {
     getProducts,
-    getProductById
+    getProductById,
+    deleteProduct
 };

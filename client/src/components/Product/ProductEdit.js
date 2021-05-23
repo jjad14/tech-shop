@@ -27,6 +27,7 @@ const ProductEdit = ({ match, history }) => {
   const [category, setCategory] = useState('');
   const [inventory, setInventory] = useState(0);
   const [description, setDescription] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (productUpdated) {
@@ -48,7 +49,27 @@ const ProductEdit = ({ match, history }) => {
   }, [dispatch, history, productId, product, productUpdated]);
 
   const uploadImageHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
 
+    formData.append('image', file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+
+      const { data } = await axios.post('/api/upload', formData, config);
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
   };
 
   const submitHandler = (e) => {

@@ -6,16 +6,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 
-import { getProducts, deleteProduct } from '../../actions/productActions';
+import { getProducts, deleteProduct, createProduct } from '../../actions/productActions';
+import { PRODUCT_CREATE_RESET } from '../../constants/productTypes';
 
 const ProductList = ({ history, match }) => {
   const dispatch = useDispatch();
 
-  const { products, productDeleted } = useSelector(
+  const { product, products, productDeleted, productCreated } = useSelector(
       (state) => state.product
       );
   const { userInfo } = useSelector((state) => state.user);
   const { errorUser, errorProduct } = useSelector((state) => state.error);
+
+
+  useEffect(() => {
+    if (productCreated) {
+      history.push(`/admin/product/${product._id}/edit`);
+      dispatch({ type: PRODUCT_CREATE_RESET });
+    }
+  });
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -37,8 +46,9 @@ const ProductList = ({ history, match }) => {
     }
   };
 
-  const createProductHandler = (product) => {
+  const createProductHandler = () => {
     // create product
+    dispatch(createProduct());
   };
 
   return (
@@ -98,7 +108,7 @@ const ProductList = ({ history, match }) => {
                       variant='danger'
                       size='sm'
                       onClick={() => deleteHandler(product._id)}
-                      className='ml-md-1 mt-1 mt-md-0'
+                      className='ml-lg-1 mt-2 mt-lg-0'
                     >
                       <i className='fas fa-trash fa-sm'></i>
                     </Button>

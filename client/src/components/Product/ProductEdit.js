@@ -27,7 +27,6 @@ const ProductEdit = ({ match, history }) => {
   const [category, setCategory] = useState('');
   const [inventory, setInventory] = useState(0);
   const [description, setDescription] = useState('');
-  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (productUpdated) {
@@ -48,28 +47,8 @@ const ProductEdit = ({ match, history }) => {
     }
   }, [dispatch, history, productId, product, productUpdated]);
 
-  const uploadFileHandler = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
+  const uploadImageHandler = async (e) => {
 
-    formData.append('image', file);
-    setUploading(true);
-
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      };
-
-      const { data } = await axios.post('/api/upload', formData, config);
-
-      setImage(data);
-      setUploading(false);
-    } catch (error) {
-      console.error(error);
-      setUploading(false);
-    }
   };
 
   const submitHandler = (e) => {
@@ -127,16 +106,7 @@ const ProductEdit = ({ match, history }) => {
                 ></Form.Control>
               </InputGroup>
             </Form.Group>
-            {/* <Form.Group controlId='price'>
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type='number'
-                placeholder='Enter price'
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              ></Form.Control>
-            </Form.Group> */}
-
+            
             <Form.Group controlId='image'>
               <Form.Label>Image</Form.Label>
               <Form.Control
@@ -149,7 +119,7 @@ const ProductEdit = ({ match, history }) => {
                 id='image-file'
                 label='Choose File'
                 custom
-                onChange={uploadFileHandler}
+                onChange={uploadImageHandler}
               ></Form.File>
               {uploading && <Loading />}
             </Form.Group>
@@ -165,10 +135,10 @@ const ProductEdit = ({ match, history }) => {
             </Form.Group>
 
             <Form.Group controlId='inventory'>
-              <Form.Label>Count In Stock</Form.Label>
+              <Form.Label>Inventory</Form.Label>
               <Form.Control
                 type='number'
-                placeholder='Enter stock'
+                placeholder='Enter Inventory'
                 value={inventory}
                 onChange={(e) => setInventory(e.target.value)}
               ></Form.Control>

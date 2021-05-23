@@ -51,8 +51,29 @@ export const getProduct = (id) => async (dispatch) => {
 };
 
 // Create a Product
-export const createProduct = (id) => async dispatch => {
+export const createProduct = () => async dispatch => {
+  try {
+    dispatch({
+        type: types.PRODUCT_CREATE_START,
+    });
 
+    // const config = {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     }
+    // };
+
+    const { data } = await api.post(`/products/`);  
+
+    dispatch({
+        type: types.PRODUCT_CREATE_SUCCESS,
+        payload: data
+    });
+
+    } catch (err) {
+    dispatch({type: types.PRODUCT_CREATE_FAIL});
+    dispatch(setError('errorProduct', err.response?.data?.message || err.message));
+  }
 };
 
 // Update a Product
@@ -68,7 +89,7 @@ export const updateProduct = (product) => async dispatch => {
         }
     };
 
-    const { data } = await api.put(`/product/${product._id}`, product, config);  
+    const { data } = await api.put(`/products/${product._id}`, product, config);  
 
     dispatch({
         type: types.PRODUCT_UPDATE_SUCCESS,
@@ -78,7 +99,7 @@ export const updateProduct = (product) => async dispatch => {
     } catch (err) {
     dispatch({type: types.PRODUCT_UPDATE_FAIL});
     dispatch(setError('errorProduct', err.response?.data?.message || err.message));
-}
+  }
 };
 
 // Delete a Product

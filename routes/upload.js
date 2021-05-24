@@ -53,9 +53,9 @@ router.post(
   upload.single('image'),
   asyncHandler(async (req, res) => {
     const uploadPhoto = await cloudinary.v2.uploader.upload(`${req.file.path}`);
-    // This will give you all the information back from the uploaded photo result
+    // Check all the information back from the uploaded photo result
     console.log(uploadPhoto);
-    // This is what we want to send back now in the  res.send
+    // This is what we want to send back now in the res.send
     console.log(uploadPhoto.url);
 
     res.send(uploadPhoto.url);

@@ -26,7 +26,7 @@ connectDB();
 // Init Middleware
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors());
+app.use(cors());
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,

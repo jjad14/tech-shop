@@ -49,7 +49,7 @@ const Product = ({ history, match }) => {
       ) : (
         <Row>
           <Col md={6} className="product-page-section">
-            <Image src={product.image} alt={product.name} fluid />
+            <Image src={product.image} alt={product.name} fluid thumbnail />
           </Col>
           <Col md={3} className="product-page-section">
             <Card className='p-3 rounded shadow'>

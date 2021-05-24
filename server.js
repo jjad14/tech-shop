@@ -26,7 +26,7 @@ connectDB();
 // Init Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+// app.use(cors());
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -49,10 +49,10 @@ app.use(notFound);
 app.use(errorHandler);
 
 // access __dirname with es6 modules
-const __dirname = path.resolve();
+const folder = path.resolve();
 
 // make uploads folder static
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use('/uploads', express.static(path.join(folder, '/uploads')));
 
 const PORT = process.env.PORT || 5000;
 

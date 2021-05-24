@@ -18,6 +18,7 @@ import UserList from '../Users/UserList';
 import UserEdit from '../Users/UserEdit';
 import ProductList from '../Product/ProductList';
 import ProductEdit from '../Product/ProductEdit';
+import OrderList from '../Order/OrderList';
 
 const Routes = () => {
   return (
@@ -35,6 +36,7 @@ const Routes = () => {
         <AdminRoute path='/admin/user/:id/edit' component={UserEdit} />
         <AdminRoute path='/admin/products' component={ProductList} />
         <AdminRoute path='/admin/product/:id/edit' component={ProductEdit} />
+        <AdminRoute path='/admin/orders' component={OrderList} />
         <PrivateRoute path='/order/:id' component={OrderConfirmation} />
         <Route path='/' exact component={Home} />
       </Switch>

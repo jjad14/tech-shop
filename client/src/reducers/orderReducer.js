@@ -15,6 +15,7 @@ const reducer = (state=initialState, action) => {
         case types.ORDER_DETAILS_START:
         case types.ORDER_PAY_START:
         case types.ORDER_MY_LIST_START:
+        case types.ORDER_LIST_START:
             return {
                 ...state,
                 loading: true,
@@ -38,6 +39,7 @@ const reducer = (state=initialState, action) => {
                 loading: false
             };
         case types.ORDER_MY_LIST_SUCCESS:
+        case types.ORDER_LIST_SUCCESS:
             return {
                 ...state,
                 orders: action.payload,
@@ -53,6 +55,7 @@ const reducer = (state=initialState, action) => {
         case types.ORDER_DETAILS_FAIL:
         case types.ORDER_PAY_FAIL:
         case types.ORDER_MY_LIST_FAIL:
+        case types.ORDER_LIST_FAIL:
             return {
                 ...state,
                 loading: false

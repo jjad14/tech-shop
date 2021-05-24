@@ -45,7 +45,7 @@ const UserEdit = ({ match, history }) => {
         }
       }
     }
-  }, [dispatch, history, userId, selectedUser, userUpdated]);
+  }, [dispatch, history, userId, selectedUser, userUpdated, userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();

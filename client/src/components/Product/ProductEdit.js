@@ -59,7 +59,7 @@ const ProductEdit = ({ match, history }) => {
         }
       }
     }
-  }, [dispatch, history, productId, product, productUpdated]);
+  }, [dispatch, history, productId, product, productUpdated, userInfo]);
 
   const uploadImageHandler = async (e) => {
     const file = e.target.files[0];

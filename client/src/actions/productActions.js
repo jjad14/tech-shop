@@ -57,12 +57,6 @@ export const createProduct = () => async dispatch => {
         type: types.PRODUCT_CREATE_START,
     });
 
-    // const config = {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     }
-    // };
-
     const { data } = await api.post(`/products/`);  
 
     dispatch({

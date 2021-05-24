@@ -9,7 +9,7 @@ import Loading from '../shared/Loading';
 import { getProducts, deleteProduct, createProduct } from '../../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../../constants/productTypes';
 
-const ProductList = ({ history, match }) => {
+const ProductList = ({ history }) => {
   const dispatch = useDispatch();
 
   const { product, products, productDeleted, productCreated } = useSelector(

@@ -93,3 +93,23 @@ export const getMyOrders = () => async (dispatch) => {
     dispatch(setError('errorOrder', err.response?.data?.message || err.message));
   }
 };
+
+// List all Orders (Admin)
+export const listAllOrders = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.ORDER_LIST_START,
+    });
+
+    const { data } = await api.get(`/orders`);
+
+    dispatch({
+      type: types.ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+
+  } catch (err) {
+    dispatch({type: types.ORDER_LIST_FAIL});
+    dispatch(setError('errorOrder', err.response?.data?.message || err.message));
+  }
+};

@@ -11,6 +11,11 @@ node_modules*
 # production
 /build
 
+#ignore images
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png
+
 # misc
 .DS_Store
 .env

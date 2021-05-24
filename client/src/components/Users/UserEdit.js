@@ -24,17 +24,25 @@ const UserEdit = ({ match, history }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    if (userUpdated) {
-      history.push('/admin/users');
-      dispatch({ type: USER_UPDATE_RESET })
-    } else {
-      if (!selectedUser || selectedUser._id !== userId) {
-          dispatch(getUserById(userId));
-      } 
-      else {
-          setName(selectedUser.name);
-          setEmail(selectedUser.email);
-          setIsAdmin(selectedUser.isAdmin);
+    if (!userInfo){
+      history.push('/login');
+    }
+    else if (userInfo && !userInfo.isAdmin){
+      history.push('/');
+    }
+    else {
+      if (userUpdated) {
+        history.push('/admin/users');
+        dispatch({ type: USER_UPDATE_RESET })
+      } else {
+        if (!selectedUser || selectedUser._id !== userId) {
+            dispatch(getUserById(userId));
+        } 
+        else {
+            setName(selectedUser.name);
+            setEmail(selectedUser.email);
+            setIsAdmin(selectedUser.isAdmin);
+        }
       }
     }
   }, [dispatch, history, userId, selectedUser, userUpdated]);

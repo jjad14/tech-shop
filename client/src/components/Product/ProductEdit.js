@@ -15,6 +15,7 @@ const ProductEdit = ({ match, history }) => {
 
   const dispatch = useDispatch();
 
+  const { userInfo } = useSelector((state) => state.user);
   const { loading, product, productUpdated } = useSelector(
     (state) => state.product
   );
@@ -29,21 +30,33 @@ const ProductEdit = ({ match, history }) => {
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
 
+
+    // not admin but logged in
+    // not admin and not logged in
+
   useEffect(() => {
-    if (productUpdated) {
-      history.push('/admin/products');
-      dispatch({ type: PRODUCT_UPDATE_RESET });
-    } else {
-      if (!product || product._id !== productId) {
-        dispatch(getProduct(productId));
+    if (!userInfo){
+      history.push('/login');
+    }
+    else if (userInfo && !userInfo.isAdmin){
+      history.push('/');
+    }
+    else {
+      if (productUpdated) {
+        history.push('/admin/products');
+        dispatch({ type: PRODUCT_UPDATE_RESET });
       } else {
-        setName(product.name);
-        setPrice(product.price);
-        setImage(product.image);
-        setBrand(product.brand);
-        setCategory(product.category);
-        setInventory(product.inventory);
-        setDescription(product.description);
+        if (!product || product._id !== productId) {
+          dispatch(getProduct(productId));
+        } else {
+          setName(product.name);
+          setPrice(product.price);
+          setImage(product.image);
+          setBrand(product.brand);
+          setCategory(product.category);
+          setInventory(product.inventory);
+          setDescription(product.description);
+        }
       }
     }
   }, [dispatch, history, productId, product, productUpdated]);

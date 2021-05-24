@@ -1,6 +1,13 @@
 import express from 'express';
 
-import { addOrder, getOrderById, updateOrderToPaid, getMyOrders, getAllOrders } from '../controllers/orderController.js';
+import {
+  addOrder,
+  getOrderById,
+  updateOrderToPaid,
+  updateOrderToDelivered,
+  getMyOrders,
+  getAllOrders,
+} from '../controllers/orderController.js';
 
 import protect from '../middleware/authMiddleware.js';
 import isAdmin from '../middleware/adminMiddleware.js';
@@ -22,5 +29,7 @@ router.route('/:id')
 router.route('/:id/pay')
     .put(protect, checkObjectId('id'), updateOrderToPaid);
 
-export default router;
+router.route('/:id/deliver')
+    .put(protect, isAdmin, checkObjectId('id'), updateOrderToDelivered);
 
+export default router;

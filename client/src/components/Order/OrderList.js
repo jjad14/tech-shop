@@ -7,7 +7,6 @@ import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 
 import { listAllOrders} from '../../actions/orderActions';
-import { ORDER_MY_LIST_RESET } from '../../constants/orderTypes';
 
 const OrderList = ({ history }) => {
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ const OrderList = ({ history }) => {
         history.push('/');
     }
     else {
-        // might need to reset before calling dispatch
         dispatch(listAllOrders());
     }
   }, [dispatch, userInfo, history ]);

@@ -7,6 +7,7 @@ const initialState = {
     loading: false,
     success: false, // place order succeeded
     paymentSuccess: false, // payment succeeded
+    orderDelivered: false
 };
 
 const reducer = (state=initialState, action) => {
@@ -16,6 +17,7 @@ const reducer = (state=initialState, action) => {
         case types.ORDER_PAY_START:
         case types.ORDER_MY_LIST_START:
         case types.ORDER_LIST_START:
+        case types.ORDER_DELIVER_START:
             return {
                 ...state,
                 loading: true,
@@ -51,11 +53,18 @@ const reducer = (state=initialState, action) => {
                 loading: false,
                 paymentSuccess: true
             };
+        case types.ORDER_DELIVER_SUCCESS:
+            return {
+                ...state,
+                orderDelivered: true,
+                loading: false
+            };
         case types.ORDER_CREATE_FAIL:
         case types.ORDER_DETAILS_FAIL:
         case types.ORDER_PAY_FAIL:
         case types.ORDER_MY_LIST_FAIL:
         case types.ORDER_LIST_FAIL:
+        case types.ORDER_DELIVER_FAIL:
             return {
                 ...state,
                 loading: false
@@ -65,17 +74,6 @@ const reducer = (state=initialState, action) => {
                 ...state,
                 createdOrder: {},
                 success: false,
-            };
-        // on logout
-        case types.ORDER_RESET:
-            return {
-                ...state,
-                orders: [],
-                createdOrder: {},
-                orderDetails: {},
-                loading: false,
-                success: false,
-                paymentSuccess: false, 
             };
         case types.ORDER_PAY_RESET:
             return {
@@ -87,7 +85,23 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 orders: []
-            };       
+            };
+        case types.ORDER_DELIVER_RESET:
+            return {
+                ...state,
+                orderDelivered: false
+            };   
+        // on logout
+        case types.ORDER_RESET:
+            return {
+                ...state,
+                orders: [],
+                createdOrder: {},
+                orderDetails: {},
+                loading: false,
+                success: false,
+                paymentSuccess: false, 
+            };    
         default:
             return state;
     }

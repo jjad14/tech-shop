@@ -74,6 +74,25 @@ export const payOrder = (id, paymentResult) => async (dispatch) => {
   }
 };
 
+// deliver/ship the order (Admin)
+export const deliverOrder = (order) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: types.ORDER_DELIVER_START,
+    });
+
+    const { data } = await api.put(`/orders/${order._id}/deliver`, {});
+
+    dispatch({
+      type: types.ORDER_DELIVER_SUCCESS,
+      payload: data,
+    })
+  } catch (err) {
+    dispatch({type: types.ORDER_DELIVER_FAIL});
+    dispatch(setError('errorPayment', err.response?.data?.message || err.message));
+  }
+};
+
 // get a users orders
 export const getMyOrders = () => async (dispatch) => {
   try {

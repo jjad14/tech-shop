@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import colors from 'colors';
+import morgan from 'morgan';
 
 import connectDB from './data/db.js';
 import { notFound, errorHandler } from './middleware/errors.js';
@@ -24,6 +25,9 @@ const app = express();
 connectDB();
 
 // Init Middleware
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());

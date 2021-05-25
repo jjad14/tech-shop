@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 
 import Product from '../models/Product.js';
+import Order from '../models/Order.js';
 
 // GET api/products
 // Get all products
@@ -105,10 +106,76 @@ const updateProduct = asyncHandler(async (req, res) => {
 
 });
 
+// POST api/products/:id/reviews
+// Create a review
+// Private access 
+const createReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const product = await Product.findById(req.params.id);
+  const orders = await Order.find({ user: req.user._id })
+
+  if (!product) {
+    res.status(404);
+    throw new Error('Product not found');
+  }
+  
+  // Array of product ids that the user has ordered
+  const ordersItems = [].concat.apply(
+    [],
+    orders.map(order => order.orderItems.map(item => item.product.toString()))
+  );
+
+  // check if user has bought the product
+  const hasBought = ordersItems.includes(product._id.toString());
+
+  // only users that have bought the product can review it
+  if (!hasBought) {
+    res.status(400);
+    throw new Error('You can only review products you have bought');
+  }
+
+  // check if user already reviewed the product
+  const alreadyReviewed = product.reviews.find(r => 
+    r.user.toString() === req.user._id.toString()
+  );
+
+  // users who bought the product can only review it once
+  if (alreadyReviewed) {
+    res.status(400);
+    throw new Error('You can only review each product once');
+  }
+
+  // create review instance
+  const review = {
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+    user: req.user._id
+  };
+
+  // push the review to the products.reviews array
+  product.reviews.push(review);
+
+  // updated product.numReviews count
+  product.numReviews = product.reviews.length;
+
+  // recalculate product rating
+  product.rating = product.reviews.reduce(
+    (acc, item) => item.rating + acc, 0
+  ) / product.reviews.length;
+
+  // save product
+  await product.save();
+
+  res.status(204).send();
+});
+
 export {
     getProducts,
     getProductById,
     deleteProduct,
     createProduct,
-    updateProduct
+    updateProduct,
+    createReview
 };

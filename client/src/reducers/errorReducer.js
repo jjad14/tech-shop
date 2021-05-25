@@ -24,6 +24,9 @@ Cart Error:
 
 Payment Error:
     errorPayment: null,
+
+Review Error:
+    errorReview: null,
 */
 
 const initialState = {
@@ -35,6 +38,7 @@ const initialState = {
     errorOrder: null,
     errorCart: null,
     errorPayment: null,
+    errorReview: null,
 };
 
 const reducer = (state= initialState, action) => {

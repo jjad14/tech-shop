@@ -2,6 +2,7 @@ import api from '../utils/api'
 import * as types from '../constants/userTypes';
 import { ORDER_MY_LIST_RESET, ORDER_RESET } from '../constants/orderTypes';
 import { CLEAR_SHIPPING_PAYMENT } from '../constants/cartTypes';
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productTypes';
 import { setError } from '../actions/errorActions';
 
 // login a user
@@ -68,6 +69,7 @@ export const logout = (history) => async dispatch => {
     dispatch({ type: ORDER_MY_LIST_RESET });  
     dispatch({ type: CLEAR_SHIPPING_PAYMENT }); 
     dispatch({ type: ORDER_RESET}); 
+    dispatch({ type: PRODUCT_CREATE_REVIEW_RESET}); 
     dispatch({ type: types.USER_LOGOUT });  
 
     history.push('/login');

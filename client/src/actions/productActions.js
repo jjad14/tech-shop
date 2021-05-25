@@ -107,8 +107,31 @@ export const deleteProduct = (id) => async dispatch => {
 
     dispatch({ type: types.PRODUCT_DELETE_SUCCESS });
 
-} catch (err) {
-    dispatch({type: types.PRODUCT_DELETE_FAIL});
-    dispatch(setError('errorProduct', err.response?.data?.message || err.message));
-}
+  } catch (err) {
+      dispatch({type: types.PRODUCT_DELETE_FAIL});
+      dispatch(setError('errorProduct', err.response?.data?.message || err.message));
+  }
+};
+
+// Create a review
+export const createReview = (id, review) => async dispatch => {
+  try {
+    dispatch({
+        type: types.PRODUCT_CREATE_REVIEW_START,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
+
+    await api.post(`/products/${id}/reviews`, review, config);
+
+    dispatch({ type: types.PRODUCT_CREATE_REVIEW_SUCCESS });
+
+  } catch (err) {
+      dispatch({type: types.PRODUCT_CREATE_REVIEW_FAIL});
+      dispatch(setError('errorProduct', err.response?.data?.message || err.message));
+  }
 };

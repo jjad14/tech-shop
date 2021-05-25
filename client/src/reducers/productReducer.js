@@ -6,13 +6,15 @@ const initialState = {
     loading: false,
     productCreated: false,
     productUpdated: false,
-    productDeleted: false
+    productDeleted: false,
+    reviewCreated: false
 };
 
 const reducer = (state= initialState, action) => {
     switch (action.type) {
         case types.GET_PRODUCTS_START:
         case types.GET_PRODUCT_DETAILS_START:
+        case types.PRODUCT_CREATE_REVIEW_START:
             return {
                 ...state,
                 loading: false
@@ -64,6 +66,12 @@ const reducer = (state= initialState, action) => {
                 productDeleted: true,
                 loading: false
             };
+        case types.PRODUCT_CREATE_REVIEW_SUCCESS:
+            return {
+                ...state,
+                reviewCreated: true,
+                loading: false
+            };
         case types.PRODUCT_CREATE_RESET:
             return {
                 ...state,
@@ -75,11 +83,17 @@ const reducer = (state= initialState, action) => {
                 product: { reviews: []},
                 productUpdated: false
             };
+        case types.PRODUCT_CREATE_REVIEW_RESET:
+            return {
+                ...state,
+                reviewCreated: false
+            };
         case types.GET_PRODUCTS_FAIL:
         case types.GET_PRODUCT_DETAILS_FAIL:
         case types.PRODUCT_UPDATE_FAIL:
         case types.PRODUCT_DELETE_FAIL:
         case types.PRODUCT_CREATE_FAIL:
+        case types.PRODUCT_CREATE_REVIEW_FAIL:
             return {
                 ...state,
                 loading: false

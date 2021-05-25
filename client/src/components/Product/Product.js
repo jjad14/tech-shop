@@ -151,18 +151,20 @@ const Product = ({ history, match }) => {
             <Col lg={6} md={12}>
               <h3 className='text-center text-md-left'>Reviews</h3>
               {product.reviews.length === 0 && (
-                <Message variant='danger'>This product has no reviews</Message>
+                <Message variant='light'>This product has no reviews</Message>
               )}
 
               <ListGroup variant='flush'>
                 {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
+                    <Card className='p-3 rounded shadow'>
                     <strong class='text-capitalize'>{review.name}</strong>
                     <Rating rating={review.rating} color='red' />
                     <p class='font-weight-light'>
                       {review.createdAt.substring(0, 10)}
                     </p>
                     <p>{review.comment}</p>
+                    </Card>
                   </ListGroup.Item>
                 ))}
                 <ListGroup.Item>

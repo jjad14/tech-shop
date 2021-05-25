@@ -132,6 +132,6 @@ export const createReview = (id, review) => async dispatch => {
 
   } catch (err) {
       dispatch({type: types.PRODUCT_CREATE_REVIEW_FAIL});
-      dispatch(setError('errorProduct', err.response?.data?.message || err.message));
+      dispatch(setError('errorReview', err.response?.data?.message || err.message));
   }
 };

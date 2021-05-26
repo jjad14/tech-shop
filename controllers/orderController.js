@@ -152,15 +152,23 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // Gets All Orders
 // Private access
 const getAllOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
+  // Pagination Config
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+
+  // @TODO: might need to switch to estimatedDocumentCount
+  const count = await Order.countDocuments();
+
+  const orders = await Order.find({}).populate('user', 'id name')
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
 
   if (!orders) {
     res.status(404);
     throw new Error('No Orders Found');
   }
 
-  res.json(orders);
-  
+  res.json({orders, page, pages: Math.ceil(count / pageSize)});
 });
 
 export {

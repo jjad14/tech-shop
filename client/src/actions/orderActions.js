@@ -115,13 +115,14 @@ export const getMyOrders = (pageNumber = '') => async (dispatch) => {
 };
 
 // List all Orders (Admin)
-export const listAllOrders = () => async (dispatch, getState) => {
+export const listAllOrders = (pageNumber = '') => async (dispatch, getState) => {
   try {
     dispatch({
       type: types.ORDER_LIST_START,
     });
 
-    const { data } = await api.get(`/orders`);
+    const { data } = await api.get(
+      `/orders?pageNumber=${pageNumber}`);
 
     dispatch({
       type: types.ORDER_LIST_SUCCESS,

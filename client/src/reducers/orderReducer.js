@@ -45,7 +45,9 @@ const reducer = (state=initialState, action) => {
         case types.ORDER_LIST_SUCCESS:
             return {
                 ...state,
-                orders: action.payload,
+                orders: action.payload.orders,
+                pages: action.payload.pages,
+                page: action.payload.page,
                 loading: false,
             };
         case types.ORDER_MY_LIST_SUCCESS:

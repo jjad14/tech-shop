@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
+import Paginate from '../shared/Paginate';
 
 import { listAllOrders} from '../../actions/orderActions';
 
-const OrderList = ({ history }) => {
+const OrderList = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1;
+
   const dispatch = useDispatch();
 
-  const { orders } = useSelector(state => state.order);
+  const { orders, pages, page } = useSelector(state => state.order);
   const { userInfo } = useSelector((state) => state.user);
   const { errorUser, errorOrder } = useSelector((state) => state.error);
 
@@ -23,9 +26,9 @@ const OrderList = ({ history }) => {
         history.push('/');
     }
     else {
-        dispatch(listAllOrders());
+        dispatch(listAllOrders(pageNumber));
     }
-  }, [dispatch, userInfo, history ]);
+  }, [dispatch, userInfo, history, pageNumber ]);
 
   return (
     <>
@@ -37,6 +40,7 @@ const OrderList = ({ history }) => {
             {errorUser && <Message variant='danger'>{errorUser}</Message>}
         </>
     ) : (
+      <>
         <Card className="my-3 p-1 rounded shadow">
           {errorOrder && <Message variant='danger' exit>{errorOrder}</Message>}
           <Table striped bordered hover responsive size='sm'>
@@ -84,6 +88,8 @@ const OrderList = ({ history }) => {
             </tbody>
           </Table>
         </Card>
+        <Paginate total={pages} page={page} />
+      </>
       )}
     </>
   );

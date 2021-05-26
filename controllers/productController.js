@@ -7,7 +7,27 @@ import Order from '../models/Order.js';
 // Get all products
 // Public access
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({});
+  // Keyword searches by Name and Brand
+  const keyword = req.query.keyword
+  ? {
+      $or: [
+        {
+          name: {
+            $regex: req.query.keyword,
+            $options: "i", // case insensitive
+          },
+        },
+        {
+          brand: {
+            $regex: req.query.keyword,
+            $options: "i", // case insensitive
+          },
+        },
+      ],
+    }
+  : {};
+
+    const products = await Product.find({...keyword});
 
     if (!products) {
       res.status(404);

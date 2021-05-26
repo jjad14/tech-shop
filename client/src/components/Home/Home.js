@@ -7,15 +7,17 @@ import Message from '../shared/Message';
 import ProductItem from '../Product/ProductItem';
 import { getProducts } from '../../actions/productActions';
 
-const Home = () => {
+const Home = ({ match }) => {
   const dispatch = useDispatch();
+
+  const keyword = match.params.keyword;
 
   const { products } = useSelector((state) => state.product);
   const { errorProduct } = useSelector((state) => state.error);
 
   useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
+    dispatch(getProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>

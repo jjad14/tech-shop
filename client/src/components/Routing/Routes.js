@@ -28,6 +28,7 @@ const Routes = () => {
         <Route path='/register' component={Register} />
         <Route path='/cart' component={Cart} />
         <Route path='/product/:id' component={Product} />
+        <Route path='/search/:keyword' component={Home} />
         <PrivateRoute path='/profile' component={Profile} />
         <PrivateRoute path='/shipping' component={Shipping} />
         <PrivateRoute path='/payment' component={Payment} />

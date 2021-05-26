@@ -67,16 +67,6 @@ const OrderConfirmation = ({ history, match }) => {
     dispatch(payOrder(orderId, paymentResult));
   };
 
-  // return !orderDetails || !orderDetails.user ? (
-  //   <Loading />
-  // ) : errorOrder ? (
-  //   <Message variant='danger' exit>
-  //     {errorOrder}
-  //   </Message>
-  // ) :
-
-
-
   // orderDetails.user takes longer to fetch, check if the overall orderDetails is fetched
   // as well as the user object inside
   return errorOrder ? (

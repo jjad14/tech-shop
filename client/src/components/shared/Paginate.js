@@ -10,10 +10,13 @@ const Paginate = ({ total, page }) => {
  
   if (total <= 1) return null;
   return (
-    <Pagination className='justify-content-center my-3'>
+    <Pagination className='pagination justify-content-center my-3'>
       {[...Array(total).keys()].map((p) => (
-        <LinkContainer key={p} to={`${baseURL}/page/${p + 1}`}>
-          <Pagination.Item active={p + 1 === page}>{p + 1}</Pagination.Item>
+        <LinkContainer key={p} to={`${baseURL}/page/${p + 1}`} >
+          <Pagination.Item 
+            active={p + 1 === page}>
+              {p + 1}
+          </Pagination.Item>
         </LinkContainer>
       ))}
     </Pagination>

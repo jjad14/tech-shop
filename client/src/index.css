@@ -23,6 +23,18 @@ h3 {
   max-width: 100px;
 }
 
+.pagination a {
+  background-color: #2c3e50;
+}
+
+.pagination a > li > a:focus,
+.pagination a > li > a:hover,
+.pagination a > li > span:focus,
+.pagination a > li > span:active,
+.pagination a > li > span:hover {
+  background-color: purple !important;
+}
+
 /* Less than 768px */
 @media only screen and (max-width: 768) {
   .cart-quantity {
@@ -47,8 +59,4 @@ h3 {
   .trash-button {
     margin-left: 2rem;
   }
-}
-
-/* Greater than 768px */
-@media only screen and (min-width: 768px) {
 }

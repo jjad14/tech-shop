@@ -8,7 +8,7 @@ import Order from '../models/Order.js';
 // Public access
 const getProducts = asyncHandler(async (req, res) => {
   // Pagination Config
-  const pageSize = 10;
+  const pageSize = 2;
   const page = Number(req.query.pageNumber) || 1;
 
   // Keyword searches by Name and Brand

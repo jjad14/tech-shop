@@ -94,13 +94,14 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 };
 
 // get a users orders
-export const getMyOrders = () => async (dispatch) => {
+export const getMyOrders = (pageNumber = '') => async (dispatch) => {
   try {
     dispatch({
         type: types.ORDER_MY_LIST_START,
     });
 
-    const { data } = await api.get(`/orders/myorders`);
+    const { data } = await api.get(
+      `/orders/myorders?pageNumber=${pageNumber}`);
 
     dispatch({
       type: types.ORDER_MY_LIST_SUCCESS,

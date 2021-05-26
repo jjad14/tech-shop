@@ -7,7 +7,9 @@ const initialState = {
     loading: false,
     success: false, // place order succeeded
     paymentSuccess: false, // payment succeeded
-    orderDelivered: false
+    orderDelivered: false,
+    pages: null,
+    page: null
 };
 
 const reducer = (state=initialState, action) => {
@@ -40,11 +42,18 @@ const reducer = (state=initialState, action) => {
                 createdOrder: action.payload,
                 loading: false
             };
-        case types.ORDER_MY_LIST_SUCCESS:
         case types.ORDER_LIST_SUCCESS:
             return {
                 ...state,
                 orders: action.payload,
+                loading: false,
+            };
+        case types.ORDER_MY_LIST_SUCCESS:
+            return {
+                ...state,
+                orders: action.payload.orders,
+                pages: action.payload.pages,
+                page: action.payload.page,
                 loading: false
             };
         case types.ORDER_PAY_SUCCESS:
@@ -84,7 +93,9 @@ const reducer = (state=initialState, action) => {
         case types.ORDER_MY_LIST_RESET:
             return {
                 ...state,
-                orders: []
+                orders: [],
+                pages: null,
+                page: null,
             };
         case types.ORDER_DELIVER_RESET:
             return {

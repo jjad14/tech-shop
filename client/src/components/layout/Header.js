@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { LinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';

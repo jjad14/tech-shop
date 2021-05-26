@@ -130,14 +130,22 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 // Gets Currently logged in users Orders
 // Private access
 const getMyOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id});
+  // Pagination Config
+  const pageSize = 5;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Order.countDocuments({ user: req.user._id });
+
+  const orders = await Order.find({ user: req.user._id})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
 
   if (!orders) {
     res.status(404);
     throw new Error('No Orders Found');
   }
 
-  res.json(orders);
+  res.json({orders, page, pages: Math.ceil(count / pageSize)});
 });
 
 // GET api/orders/myorders

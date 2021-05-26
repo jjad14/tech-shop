@@ -7,7 +7,9 @@ const initialState = {
     productCreated: false,
     productUpdated: false,
     productDeleted: false,
-    reviewCreated: false
+    reviewCreated: false,
+    pages: null,
+    page: null
 };
 
 const reducer = (state= initialState, action) => {
@@ -40,7 +42,9 @@ const reducer = (state= initialState, action) => {
         case types.GET_PRODUCTS_SUCCESS:
             return {
                 ...state,
-                products: action.payload, 
+                products: action.payload.products,
+                pages: action.payload.pages,
+                page: action.payload.page 
             };
         case types.GET_PRODUCT_DETAILS_SUCCESS:
             return {

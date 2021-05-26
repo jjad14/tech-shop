@@ -5,19 +5,30 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
+import Paginate from '../shared/Paginate';
 
-import { getProducts, deleteProduct, createProduct } from '../../actions/productActions';
+import {
+  getProducts,
+  deleteProduct,
+  createProduct,
+} from '../../actions/productActions';
 import { PRODUCT_CREATE_RESET } from '../../constants/productTypes';
 
-const ProductList = ({ history }) => {
+const ProductList = ({ history, match }) => {
+  const pageNumber = match.params.pageNumber || 1;
+
   const dispatch = useDispatch();
 
-  const { product, products, productDeleted, productCreated } = useSelector(
-      (state) => state.product
-      );
+  const {
+    product,
+    products,
+    productDeleted,
+    productCreated,
+    pages,
+    page,
+  } = useSelector((state) => state.product);
   const { userInfo } = useSelector((state) => state.user);
   const { errorUser, errorProduct } = useSelector((state) => state.error);
-
 
   useEffect(() => {
     if (productCreated) {
@@ -28,13 +39,20 @@ const ProductList = ({ history }) => {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(getProducts());
+      dispatch(getProducts('', pageNumber));
     } else if (!userInfo.isAdmin) {
       history.push('/');
     } else {
       history.push('/login');
     }
-  }, [dispatch, userInfo, userInfo.isAdmin, productDeleted, history]);
+  }, [
+    dispatch,
+    userInfo,
+    userInfo.isAdmin,
+    productDeleted,
+    history,
+    pageNumber,
+  ]);
 
   const deleteHandler = (id) => {
     if (
@@ -53,71 +71,74 @@ const ProductList = ({ history }) => {
 
   return (
     <>
-    <Row className='align-items-center'>
+      <Row className='align-items-center'>
         <Col>
-            <h2>Inventory</h2>
+          <h2>Inventory</h2>
         </Col>
         <Col className='text-right'>
-            <Button className='my-3' onClick={createProductHandler}>
-                <i className="fas fa-plus fa-sm"></i>{' '}
-                <span className="d-md-inline d-none">Create</span>
-            </Button>
+          <Button className='my-3' onClick={createProductHandler}>
+            <i className='fas fa-plus fa-sm'></i>{' '}
+            <span className='d-md-inline d-none'>Create</span>
+          </Button>
         </Col>
-    </Row>
+      </Row>
       {errorProduct && <Message variant='danger'>{errorProduct}</Message>}
       {!products ? (
         <Loading />
       ) : errorUser || errorProduct ? (
-          <>
+        <>
           {errorUser && <Message variant='danger'>{errorUser}</Message>}
           {errorProduct && <Message variant='danger'>{errorProduct}</Message>}
-          </>
+        </>
       ) : (
-        <Card className='my-3 p-1 rounded shadow'>
-          {productDeleted && (
-            <Message variant='info' exit>
-              Product has been deleted
-            </Message>
-          )}
-          <Table striped bordered hover responsive size='sm'>
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Brand</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='info' size='sm'>
-                        <i className='fas fa-edit fa-sm'></i>
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      size='sm'
-                      onClick={() => deleteHandler(product._id)}
-                      className='ml-lg-1 mt-2 mt-lg-0'
-                    >
-                      <i className='fas fa-trash fa-sm'></i>
-                    </Button>
-                  </td>
+        <>
+          <Card className='my-3 p-1 rounded shadow'>
+            {productDeleted && (
+              <Message variant='info' exit>
+                Product has been deleted
+              </Message>
+            )}
+            <Table striped bordered hover responsive size='sm'>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Category</th>
+                  <th>Brand</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Card>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product._id}>
+                    <td>{product._id}</td>
+                    <td>{product.name}</td>
+                    <td>${product.price}</td>
+                    <td>{product.category}</td>
+                    <td>{product.brand}</td>
+                    <td>
+                      <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                        <Button variant='info' size='sm'>
+                          <i className='fas fa-edit fa-sm'></i>
+                        </Button>
+                      </LinkContainer>
+                      <Button
+                        variant='danger'
+                        size='sm'
+                        onClick={() => deleteHandler(product._id)}
+                        className='ml-lg-1 mt-2 mt-lg-0'
+                      >
+                        <i className='fas fa-trash fa-sm'></i>
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card>
+          <Paginate total={pages} page={page} />
+        </>
       )}
     </>
   );

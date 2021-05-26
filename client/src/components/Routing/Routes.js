@@ -28,17 +28,20 @@ const Routes = () => {
         <Route path='/register' component={Register} />
         <Route path='/cart' component={Cart} />
         <Route path='/product/:id' component={Product} />
-        <Route path='/search/:keyword' component={Home} />
         <PrivateRoute path='/profile' component={Profile} />
         <PrivateRoute path='/shipping' component={Shipping} />
         <PrivateRoute path='/payment' component={Payment} />
         <PrivateRoute path='/placeorder' component={PlaceOrder} />
         <AdminRoute path='/admin/users' component={UserList} />
         <AdminRoute path='/admin/user/:id/edit' component={UserEdit} />
-        <AdminRoute path='/admin/products' component={ProductList} />
+        <AdminRoute path='/admin/products' exact component={ProductList} />
+        <AdminRoute path='/admin/products/page/:pageNumber' exact component={ProductList} />
         <AdminRoute path='/admin/product/:id/edit' component={ProductEdit} />
         <AdminRoute path='/admin/orders' component={OrderList} />
         <PrivateRoute path='/order/:id' component={OrderConfirmation} />
+        <Route path='/page/:pageNumber' component={Home} />
+        <Route path='/search/:keyword' exact component={Home} />
+        <Route path='/search/:keyword/page/:pageNumber' component={Home} />
         <Route path='/' exact component={Home} />
       </Switch>
     </section>

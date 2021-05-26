@@ -3,13 +3,14 @@ import * as types from '../constants/productTypes';
 import { setError, clearError } from '../actions/errorActions';
 
 // get products
-export const getProducts = (keyword = '') => async (dispatch) => {
+export const getProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
   try {
     dispatch({
       type: types.GET_PRODUCTS_START
     });
 
-    const { data } = await api.get(`/products?keyword=${keyword}`);
+    const { data } = await api.get(
+      `/products?keyword=${keyword}&pageNumber=${pageNumber}`);
 
     dispatch({
       type: types.GET_PRODUCTS_SUCCESS,

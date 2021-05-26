@@ -5,19 +5,21 @@ import { Row, Col } from 'react-bootstrap';
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
 import ProductItem from '../Product/ProductItem';
+import Paginate from '../shared/Paginate';
 import { getProducts } from '../../actions/productActions';
 
 const Home = ({ match }) => {
+  const keyword = match.params.keyword;
+  const pageNumber = match.params.pageNumber || 1;
+  
   const dispatch = useDispatch();
 
-  const keyword = match.params.keyword;
-
-  const { products } = useSelector((state) => state.product);
+  const { products, pages, page } = useSelector((state) => state.product);
   const { errorProduct } = useSelector((state) => state.error);
 
   useEffect(() => {
-    dispatch(getProducts(keyword));
-  }, [dispatch, keyword]);
+    dispatch(getProducts(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
@@ -27,13 +29,20 @@ const Home = ({ match }) => {
       ) : errorProduct ? (
         <Message variant="danger">{errorProduct}</Message>
       ) : (
-        <Row>
-        {products.map((product) => (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                <ProductItem product={product} />
-            </Col>
-        ))}
-        </Row>
+        <>
+          <Row>
+          {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                  <ProductItem product={product} />
+              </Col>
+          ))}
+          </Row>
+          <Paginate 
+            total={pages} 
+            page={page} 
+            // keyword={keyword ? keyword : ''}
+            />
+        </>
       )}
     </>
   );

@@ -34,7 +34,8 @@ const Routes = () => {
         <PrivateRoute path='/payment' component={Payment} />
         <PrivateRoute path='/placeorder' component={PlaceOrder} />
         <PrivateRoute path='/order/:id' component={OrderConfirmation} />
-        <AdminRoute path='/admin/users' component={UserList} />
+        <AdminRoute path='/admin/users' exact component={UserList} />
+        <AdminRoute path='/admin/users/page/:pageNumber' component={UserList} />
         <AdminRoute path='/admin/user/:id/edit' component={UserEdit} />
         <AdminRoute path='/admin/products' exact component={ProductList} />
         <AdminRoute path='/admin/products/page/:pageNumber' exact component={ProductList} />

@@ -130,9 +130,18 @@ const logout = (req, res) => {
 // Get all users
 // Private access (Admin)
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+  // Pagination Config
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+  
+  // @TODO: might need to switch to estimatedDocumentCount
+  const count = await User.countDocuments();
 
-  res.json(users)
+  const users = await User.find({})
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
+  res.json({users, page, pages: Math.ceil(count / pageSize)});
 }); 
 
 // GET api/users/:id

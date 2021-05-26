@@ -8,6 +8,8 @@ export const initialUserState = {
     userUpdated: false,
     updatedProfile: null,
     loading: false,
+    pages: null,
+    page: null
 };
 
 const reducer = (state=initialUserState, action) => {
@@ -57,7 +59,9 @@ const reducer = (state=initialUserState, action) => {
         case types.USER_LIST_SUCCESS:
             return {
                 ...state,
-                users: action.payload,
+                users: action.payload.users,
+                pages: action.payload.pages,
+                page: action.payload.page,
                 loading: false,
             };
         case types.USER_DELETE_SUCCESS:

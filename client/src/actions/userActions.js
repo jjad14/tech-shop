@@ -169,13 +169,14 @@ export const updateUser = (user) => async dispatch => {
 
 
 // Get list of users (Admin)
-export const listUsers = () => async dispatch => {
+export const listUsers = (pageNumber = '') => async dispatch => {
     try {
         dispatch({
             type: types.USER_LIST_START,
         });
 
-        const { data } = await api.get('/users');
+        const { data } = await api.get(
+            `/users?pageNumber=${pageNumber}`);
 
         dispatch({
             type: types.USER_LIST_SUCCESS,

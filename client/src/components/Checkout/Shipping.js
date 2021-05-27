@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import FormContainer from '../shared/Forms/FormContainer';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
 import { saveShippingAddress } from '../../actions/cartActions';
@@ -28,6 +29,8 @@ const Shipping = ({ history }) => {
   };
 
   return (
+    <>
+    <Meta title="TechShop | Shipping"/>
     <FormContainer>
       <CheckoutSteps step1 />
       <h2 className="text-center">Shipping</h2>
@@ -87,6 +90,7 @@ const Shipping = ({ history }) => {
         </Button>
       </Form>
     </FormContainer>
+    </>
   );
 };
 

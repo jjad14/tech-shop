@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Row, Button, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
 
@@ -59,6 +60,7 @@ const PlaceOrder = ({ history }) => {
 
   return (
     <>
+      <Meta title="TechShop | Place Order"/>
       {errorOrder && <Message variant="danger">{errorOrder}</Message>}
       <CheckoutSteps step1 step2 step3 />
       <Row>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import FormContainer from '../shared/Forms/FormContainer';
 import { savePaymentMethod } from '../../actions/cartActions';
 import CheckoutSteps from '../Checkout/CheckoutSteps';
@@ -25,6 +26,8 @@ const Payment = ({ history }) => {
   };
 
   return (
+    <>
+    <Meta title="TechShop | Payment"/>
     <FormContainer>
       <CheckoutSteps step1 step2 />
       <h3 className='text-center'>Payment Method</h3>
@@ -58,6 +61,7 @@ const Payment = ({ history }) => {
         </Button>
       </Form>
     </FormContainer>
+    </>
   );
 };
 

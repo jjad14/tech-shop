@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Meta from '../shared/Meta';
 import {
   Row,
   Col,
@@ -82,6 +83,7 @@ const Product = ({ history, match }) => {
         <Message variant='danger'>{errorProduct}</Message>
       ) : (
         <>
+        <Meta title={product.name}/>
           <Row>
             <Col lg={6} md={12} sm={12} className='product-page-section'>
               <Image src={product.image} alt={product.name} fluid thumbnail />

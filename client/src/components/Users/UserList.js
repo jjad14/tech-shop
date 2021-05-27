@@ -3,6 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 import Paginate from '../shared/Paginate';
@@ -36,6 +37,7 @@ const UserList = ({ history, match }) => {
 
   return (
     <>
+      <Meta title="TechShop Admin | User List"/>
       <h2 className="text-center text-md-left">User Accounts</h2>
       {!users ? (
         <Loading />

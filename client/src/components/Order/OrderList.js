@@ -3,6 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 import Paginate from '../shared/Paginate';
@@ -32,6 +33,7 @@ const OrderList = ({ history, match }) => {
 
   return (
     <>
+      <Meta title="TechShop Admin | Order List"/>
       <h2 className="text-center text-md-left">Confirmed Orders</h2>
       {!orders ? (
         <Loading />

@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
 import Paginate from '../shared/Paginate';
+import Meta from '../shared/Meta';
 
 import ProductCarousel from '../Product/ProductCarousel';
 import ProductItem from '../Product/ProductItem';
@@ -13,7 +15,7 @@ import { getProducts } from '../../actions/productActions';
 const Home = ({ match }) => {
   const keyword = match.params.keyword;
   const pageNumber = match.params.pageNumber || 1;
-  
+
   const dispatch = useDispatch();
 
   const { products, pages, page } = useSelector((state) => state.product);
@@ -25,26 +27,27 @@ const Home = ({ match }) => {
 
   return (
     <>
-      {!keyword && <ProductCarousel />}
-      <h2 className="text-center text-md-left">Latest Products</h2>
+      <Meta />
+      {!keyword ? <ProductCarousel /> : <Link to="/" className="btn btn-outline-dark">Go Back</Link>}
+      <h2 className='text-center text-md-left'>Latest Products</h2>
       {products.length === 0 ? (
         <Loading />
       ) : errorProduct ? (
-        <Message variant="danger">{errorProduct}</Message>
+        <Message variant='danger'>{errorProduct}</Message>
       ) : (
         <>
           <Row>
-          {products.map((product) => (
+            {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                  <ProductItem product={product} />
+                <ProductItem product={product} />
               </Col>
-          ))}
+            ))}
           </Row>
-          <Paginate 
-            total={pages} 
-            page={page} 
+          <Paginate
+            total={pages}
+            page={page}
             // keyword={keyword ? keyword : ''}
-            />
+          />
         </>
       )}
     </>

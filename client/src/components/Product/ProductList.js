@@ -3,6 +3,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button, Card, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 import Paginate from '../shared/Paginate';
@@ -71,6 +72,7 @@ const ProductList = ({ history, match }) => {
 
   return (
     <>
+      <Meta title="TechShop Admin | Product List"/>
       <Row className='align-items-center'>
         <Col>
           <h2>Inventory</h2>

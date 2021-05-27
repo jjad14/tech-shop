@@ -3,6 +3,7 @@ import { Form, Button, Row, Col, Card, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 import Paginate from '../shared/Paginate';
@@ -56,6 +57,7 @@ const Profile = ({ match }) => {
     return (
       <Row>
         <Col md={4}>
+          <Meta title="TechShop | Your Profile"/>
           <Card className='my-3 p-3 rounded shadow'>
             <h3 className='text-center'>User Profile</h3>
             {error ? <Message variant='danger'>{error}</Message> : null}

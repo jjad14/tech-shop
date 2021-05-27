@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 import FormContainer from '../shared/Forms/FormContainer';
@@ -54,6 +55,7 @@ const UserEdit = ({ match, history }) => {
 
   return (
     <>
+      <Meta title="TechShop Admin | User Edit"/>
       <Link to='/admin/users' className='btn btn-light my-3'>
         Go Back
       </Link>

@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 import FormContainer from '../shared/Forms/FormContainer';
@@ -51,61 +52,64 @@ const Login = ({ location }) => {
   }
 
   return (
-    <FormContainer>
-      <h2 className="text-center">Sign In</h2>
-      {errorAuthentication ? <Message variant='danger' exit>{errorAuthentication}</Message> : null}
-      {loading ? <Loading /> : null}
-      <Form noValidate validated={validated} onSubmit={submitHandler}>
-      <Form.Row>
-        <Form.Group as={Col} md="12" controlId="validationCustom01">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            required
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            autoComplete="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-            <Form.Control.Feedback>Valid</Form.Control.Feedback>
-            <Form.Control.Feedback type='invalid'>
-              Please provide a valid email address
-            </Form.Control.Feedback>
-        </Form.Group>
-        </Form.Row>
+    <>
+      <Meta title="Welcome to TechShop | Login" />
+      <FormContainer>
+        <h2 className="text-center">Sign In</h2>
+        {errorAuthentication ? <Message variant='danger' exit>{errorAuthentication}</Message> : null}
+        {loading ? <Loading /> : null}
+        <Form noValidate validated={validated} onSubmit={submitHandler}>
         <Form.Row>
-        <Form.Group as={Col} md='12' controlId='validationCustom04'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control 
-              type='password' 
-              placeholder='Password' 
-              required 
-              minLength="6"
-              value={password}
-              autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
-              />
-
-            <Form.Control.Feedback>Valid</Form.Control.Feedback>
-            <Form.Control.Feedback type='invalid'>
-              Please provide a valid password. (minimum 6 characters)
-            </Form.Control.Feedback>
+          <Form.Group as={Col} md="12" controlId="validationCustom01">
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              required
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              autoComplete="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+              <Form.Control.Feedback>Valid</Form.Control.Feedback>
+              <Form.Control.Feedback type='invalid'>
+                Please provide a valid email address
+              </Form.Control.Feedback>
           </Form.Group>
-        </Form.Row>
-        <Button type='submit' variant='primary' block>
-          Sign In
-        </Button>
-    </Form>
+          </Form.Row>
+          <Form.Row>
+          <Form.Group as={Col} md='12' controlId='validationCustom04'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control 
+                type='password' 
+                placeholder='Password' 
+                required 
+                minLength="6"
+                value={password}
+                autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+                />
 
-      <Row className='py-3 text-center'>
-        <Col>
-          Don't Have an Account?{'  '}
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-            Register Here
-          </Link>
-        </Col>
-      </Row>
-    </FormContainer>
+              <Form.Control.Feedback>Valid</Form.Control.Feedback>
+              <Form.Control.Feedback type='invalid'>
+                Please provide a valid password. (minimum 6 characters)
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Form.Row>
+          <Button type='submit' variant='primary' block>
+            Sign In
+          </Button>
+      </Form>
+
+        <Row className='py-3 text-center'>
+          <Col>
+            Don't Have an Account?{'  '}
+            <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+              Register Here
+            </Link>
+          </Col>
+        </Row>
+      </FormContainer>
+    </>
   );
 };
 

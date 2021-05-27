@@ -64,6 +64,7 @@ h3 {
 
 .carousel a {
   margin: 0 auto;
+  text-decoration: none;
 }
 
 @media (max-width: 900px) {

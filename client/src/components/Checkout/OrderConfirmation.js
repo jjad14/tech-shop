@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 
@@ -77,6 +78,7 @@ const OrderConfirmation = ({ history, match }) => {
     <Loading />
   ) : (
     <>
+      <Meta title="TechShop | Confirm Order"/>
       <Row>
         <Col md={8}>
           <h4 className='text-center text-md-left ml-md-4'>

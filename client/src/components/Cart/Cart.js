@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
+import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import CartItem from './CartItem';
 
@@ -24,6 +25,7 @@ const Cart = ({ history }) => {
   return (
     <Row>
       <Col md={8}>
+        <Meta title="Welcome to TechShop | Cart"/>
         <h2 className="text-center text-md-left">Shopping Cart</h2>
         { errorCart && <Message variant="success" exit>{errorCart}</Message>}
         { cartItems.length === 0 ? (

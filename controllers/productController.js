@@ -8,7 +8,7 @@ import Order from '../models/Order.js';
 // Public access
 const getProducts = asyncHandler(async (req, res) => {
   // Pagination Config
-  const pageSize = 2;
+  const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
 
   // Keyword searches by Name and Brand
@@ -42,7 +42,7 @@ const getProducts = asyncHandler(async (req, res) => {
     throw new Error('No Products Found');
   }
 
-  res.json({products, page, pages: Math.ceil(count / pageSize)});
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // GET api/products/:id
@@ -199,6 +199,20 @@ const createReview = asyncHandler(async (req, res) => {
   res.status(204).send();
 });
 
+// GET api/products/top
+// Get Top rated Products
+// Public
+const getTopRated = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+  if (!products) {
+    res.status(404);
+    throw new Error('Products not found');
+  }
+
+  res.json(products);
+});
+
 export {
   getProducts,
   getProductById,
@@ -206,4 +220,5 @@ export {
   createProduct,
   updateProduct,
   createReview,
+  getTopRated,
 };

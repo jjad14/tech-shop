@@ -136,3 +136,23 @@ export const createReview = (id, review) => async dispatch => {
       dispatch(setError('errorReview', err.response?.data?.message || err.message));
   }
 };
+
+// get top rated products
+export const getTopRatedProducts = () => async dispatch => {
+  try {
+    dispatch({
+        type: types.PRODUCT_TOP_START,
+    });
+
+    const { data } = await api.get(`/products/top`);
+
+    dispatch({ 
+      type: types.PRODUCT_TOP_SUCCESS,
+      payload: data
+    });
+
+  } catch (err) {
+      dispatch({type: types.PRODUCT_TOP_FAIL});
+      dispatch(setError('errorProduct', err.response?.data?.message || err.message));
+  }
+};

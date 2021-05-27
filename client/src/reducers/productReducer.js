@@ -2,8 +2,10 @@ import * as types from '../constants/productTypes';
 
 const initialState = {
     products: [],
+    topProducts: [],
     product: { reviews: []},
     loading: false,
+    loadingTop: false,
     productCreated: false,
     productUpdated: false,
     productDeleted: false,
@@ -19,7 +21,13 @@ const reducer = (state= initialState, action) => {
         case types.PRODUCT_CREATE_REVIEW_START:
             return {
                 ...state,
-                loading: false
+                loading: true
+            };
+        case types.PRODUCT_TOP_START:
+            return {
+                ...state,
+                topProducts: [],
+                loadingTop: true 
             };
         case types.PRODUCT_UPDATE_START:
             return {
@@ -76,6 +84,12 @@ const reducer = (state= initialState, action) => {
                 reviewCreated: true,
                 loading: false
             };
+        case types.PRODUCT_TOP_SUCCESS:
+            return {
+                ...state,
+                topProducts: action.payload,
+                loadingTop: false
+            };
         case types.PRODUCT_CREATE_RESET:
             return {
                 ...state,
@@ -101,6 +115,11 @@ const reducer = (state= initialState, action) => {
             return {
                 ...state,
                 loading: false
+            }; 
+        case types.PRODUCT_TOP_FAIL:
+            return {
+                ...state,
+                loadingTop: false
             }; 
         case types.CLEAR_PRODUCT_DETAILS:
             return {

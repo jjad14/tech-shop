@@ -4,8 +4,10 @@ import { Row, Col } from 'react-bootstrap';
 
 import Loading from '../shared/Loading';
 import Message from '../shared/Message';
-import ProductItem from '../Product/ProductItem';
 import Paginate from '../shared/Paginate';
+
+import ProductCarousel from '../Product/ProductCarousel';
+import ProductItem from '../Product/ProductItem';
 import { getProducts } from '../../actions/productActions';
 
 const Home = ({ match }) => {
@@ -23,6 +25,7 @@ const Home = ({ match }) => {
 
   return (
     <>
+      {!keyword && <ProductCarousel />}
       <h2 className="text-center text-md-left">Latest Products</h2>
       {products.length === 0 ? (
         <Loading />

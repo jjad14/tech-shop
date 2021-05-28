@@ -15,31 +15,10 @@ const validateOrder = [
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      //return res.status(422).json({message: errors.array()});
       return res.status(422).json({message: 'Error: Make sure all fields are filled in and try again'});
     }
     next();
   }
 ];
-
-/*
-orderItems: Array of objects
-
-object.name: String
-object.image: String
-object.inventory: Number
-object.price: number
-object.product: string
-object.qty: number (greater than 1)
-
-paymentMethod: String
-
-shippingAddress: Object
-shippingAddress.address: String
-shippingAddress.city: String
-shippingAddress.country: String
-shippingAddress.phoneNumber: String
-shippingAddress.postalCode: String
-*/
 
 export default validateOrder;

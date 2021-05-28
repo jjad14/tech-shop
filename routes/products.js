@@ -12,6 +12,8 @@ import {
 import protect from '../middleware/authMiddleware.js';
 import isAdmin from '../middleware/adminMiddleware.js';
 import checkObjectId from '../middleware/checkObjectId.js';
+import validateReview from '../middleware/validateReview.js';
+import validateProduct from '../middleware/validateProduct.js';
 
 const router = express.Router();
 
@@ -23,12 +25,12 @@ router.route('/top')
     .get(getTopRated);
 
 router.route('/:id/reviews')
-  .post(protect, checkObjectId('id'), createReview);
+  .post(protect, checkObjectId('id'), validateReview, createReview); 
 
 router
   .route('/:id')
   .get(checkObjectId('id'), getProductById)
-  .put(protect, isAdmin, checkObjectId('id'), updateProduct)
+  .put(protect, isAdmin, checkObjectId('id'), validateProduct, updateProduct)
   .delete(protect, isAdmin, checkObjectId('id'), deleteProduct);
 
 export default router;

@@ -1,16 +1,17 @@
 import { body, validationResult } from 'express-validator';
 
-const validateLogin = [
-  body('email', 'A valid email is required').isEmail(),
-  body('password', 'A valid password with a min of 6 characters is required').isLength({min: 6}),
-  (req, res, next) => {
+const validateReview = [
+  body('rating', 'A Name is required').isNumeric(),
+  body('comment', 'A valid email is required').not().isEmpty(),
+  async (req, res, next) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({message: errors.array().reduce((str, err) => `${str} ${err.msg},`, ' ')});
     }
+
     next();
   }
 ];
 
-export default validateLogin;
+export default validateReview;

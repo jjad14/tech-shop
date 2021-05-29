@@ -30,7 +30,7 @@ const SearchBox = () => {
             </Form.Control>
             <Button 
                 type="submit" 
-                variant="outline-success"
+                variant="outline-light"
                 className="p-2">
                     Search
             </Button>

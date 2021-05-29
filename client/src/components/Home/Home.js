@@ -44,7 +44,6 @@ const Home = ({ match }) => {
         <Message variant='danger'>{errorProduct}</Message>
       ) : (
         <>
-        {!products && <Message>No Products Found...</Message>}
           <Row>
             <Col md={3}>
               <Filter brandParam={brand} categoryParam={category}/>
@@ -56,8 +55,8 @@ const Home = ({ match }) => {
                     <ProductItem product={product} />
                   </Col>
                 ))}
-
               </Row>
+                {products.length === 0 && <Message>No Products Found...</Message>}
             </Col>
           </Row>
           <Paginate

@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 const Footer = () => {
     return (
-        <footer className="bg-primary text-light" style={{minHeight: "70px"}}>
+        <footer className="bg-primary text-light" style={{minHeight: "100px"}}>
             <Container>
                 <Row>
                     <Col className="text-center pt-3">

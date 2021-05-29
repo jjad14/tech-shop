@@ -109,7 +109,7 @@ const Filter = ({ brandParam, categoryParam }) => {
                     checked={brandSelected === i}
                     onChange={(e) => selectBrand(e, i)}/>
                 ))}
-                <Button type='submit' variant='outline-info' className='p-2 my-2 float-right' size="sm">
+                <Button type='submit' variant='outline-info' className='p-2 my-3 float-right' size="sm">
                 <i className="fas fa-filter"></i>
                 </Button>
             </Form>

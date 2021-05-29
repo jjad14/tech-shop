@@ -45,6 +45,12 @@ const Routes = () => {
         <Route path='/page/:pageNumber' component={Home} />
         <Route path='/search/:keyword' exact component={Home} />
         <Route path='/search/:keyword/page/:pageNumber' component={Home} />
+
+        <Route path='/brand/:brand' exact component={Home} />
+        <Route path='/category/:category' exact component={Home} />
+        <Route path='/brand/:brand/category/:category' component={Home} />
+      
+
         <Route path='/' exact component={Home} />
       </Switch>
     </section>

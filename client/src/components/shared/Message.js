@@ -7,8 +7,6 @@ const Message = ({ variant = 'info', children, exit = false }) => {
 
     const clearMessage = () => {
         setShow(false);
-
-        // @TODO: dispatch action to erase message from state
     };
 
     // message cannot be closed (default)

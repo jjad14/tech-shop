@@ -10,43 +10,59 @@ import Meta from '../shared/Meta';
 
 import ProductCarousel from '../Product/ProductCarousel';
 import ProductItem from '../Product/ProductItem';
+import Filter from '../shared/Filter';
 import { getProducts } from '../../actions/productActions';
 
 const Home = ({ match }) => {
   const keyword = match.params.keyword;
+  const brand = match.params.brand;
+  const category = match.params.category;
   const pageNumber = match.params.pageNumber || 1;
 
   const dispatch = useDispatch();
 
-  const { products, pages, page } = useSelector((state) => state.product);
+  const { products, pages, page, loading } = useSelector((state) => state.product);
   const { errorProduct } = useSelector((state) => state.error);
 
   useEffect(() => {
-    dispatch(getProducts(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber]);
+    dispatch(getProducts(keyword, pageNumber, brand, category));
+  }, [dispatch, keyword, pageNumber, brand, category]);
 
   return (
     <>
       <Meta />
-      {!keyword ? <ProductCarousel /> : <Link to="/" className="btn btn-outline-dark">Go Back</Link>}
-      <h2 className='text-center text-md-left'>Latest Products</h2>
-      {products.length === 0 ? (
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to='/' className='btn btn-outline-dark'>
+          Go Back
+        </Link>
+      )}
+      { loading ? (
         <Loading />
       ) : errorProduct ? (
         <Message variant='danger'>{errorProduct}</Message>
       ) : (
         <>
+        {!products && <Message>No Products Found...</Message>}
           <Row>
-            {products.map((product) => (
-              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                <ProductItem product={product} />
-              </Col>
-            ))}
+            <Col md={3}>
+              <Filter brandParam={brand} categoryParam={category}/>
+            </Col>
+            <Col md={9}>
+              <Row>
+                {products.map((product) => (
+                  <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                    <ProductItem product={product} />
+                  </Col>
+                ))}
+
+              </Row>
+            </Col>
           </Row>
           <Paginate
             total={pages}
             page={page}
-            // keyword={keyword ? keyword : ''}
           />
         </>
       )}

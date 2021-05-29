@@ -11,6 +11,41 @@ const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
 
+  // Filter search, check all cases for brands and category
+  const filter =
+    req.query.brand && req.query.category
+      ? {
+          $and: [
+            {
+              brand: {
+                $regex: req.query.brand,
+                $options: 'i', // case insensitive
+              },
+            },
+            {
+              category: {
+                $regex: req.query.category,
+                $options: 'i', // case insensitive
+              },
+            },
+          ],
+        }
+      : req.query.brand && !req.query.category
+      ? {
+        brand: {
+          $regex: req.query.brand,
+          $options: 'i',
+        },
+      }
+      : !req.query.brand && req.query.category
+      ? {
+        category: {
+          $regex: req.query.category,
+          $options: 'i',
+        },
+      }
+      : {};
+
   // Keyword searches by Name and Brand
   const keyword = req.query.keyword
     ? {
@@ -31,9 +66,9 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const count = await Product.countDocuments({ ...keyword });
+  const count = await Product.countDocuments({ ...keyword, ...filter });
 
-  const products = await Product.find({ ...keyword })
+  const products = await Product.find({ ...keyword, ...filter })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
 
@@ -59,13 +94,43 @@ const getProductById = asyncHandler(async (req, res) => {
   res.json(product);
 });
 
+const getBrands = asyncHandler(async (req, res) => {
+  const products = await Product.find();
+
+  const brands = [].concat.apply(
+    [],
+    products.map((product) => product.brand.toString())
+  );
+
+  const filteredArray = brands.filter(function (item, pos) {
+    return brands.indexOf(item) == pos;
+  });
+
+  res.json(filteredArray);
+});
+
+const getCategories = asyncHandler(async (req, res) => {
+  const products = await Product.find();
+
+  const categories = [].concat.apply(
+    [],
+    products.map((product) => product.category.toString())
+  );
+
+  const filteredArray = categories.filter(function (item, pos) {
+    return categories.indexOf(item) == pos;
+  });
+
+  res.json(filteredArray);
+});
+
 // DELETE api/products/:id
 // Delete a product
 // Private access (Admin)
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
-  // @TODO (Optioanl): Only admin that created the product can delete or update it
+  // @TODO (Optional): Only admin that created the product can delete or update it
 
   if (!product) {
     res.status(404);
@@ -221,4 +286,6 @@ export {
   updateProduct,
   createReview,
   getTopRated,
+  getBrands,
+  getCategories,
 };

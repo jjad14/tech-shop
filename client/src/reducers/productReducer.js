@@ -4,14 +4,17 @@ const initialState = {
     products: [],
     topProducts: [],
     product: { reviews: []},
+    brands: [],
+    categories: [],
     loading: false,
     loadingTop: false,
+    loadingFilter: false,
     productCreated: false,
     productUpdated: false,
     productDeleted: false,
     reviewCreated: false,
     pages: null,
-    page: null
+    page: null,
 };
 
 const reducer = (state= initialState, action) => {
@@ -22,6 +25,12 @@ const reducer = (state= initialState, action) => {
             return {
                 ...state,
                 loading: true
+            };
+        case types.GET_PRODUCTS_BRANDS_START:
+        case types.GET_PRODUCTS_CATEGORY_START:
+            return {
+                ...state,
+                loadingFilter: true
             };
         case types.PRODUCT_TOP_START:
             return {
@@ -52,12 +61,14 @@ const reducer = (state= initialState, action) => {
                 ...state,
                 products: action.payload.products,
                 pages: action.payload.pages,
-                page: action.payload.page 
+                page: action.payload.page,
+                loading: false
             };
         case types.GET_PRODUCT_DETAILS_SUCCESS:
             return {
                 ...state,
                 product: action.payload, 
+                loading: false
             };
         case types.PRODUCT_CREATE_SUCCESS:
             return {
@@ -90,6 +101,18 @@ const reducer = (state= initialState, action) => {
                 topProducts: action.payload,
                 loadingTop: false
             };
+        case types.GET_PRODUCTS_BRANDS_SUCCESS:
+            return {
+                ...state,
+                brands: action.payload,
+                loadingFilter: false
+            };
+        case types.GET_PRODUCTS_CATEGORY_SUCCESS:
+            return {
+                ...state,
+                categories: action.payload,
+                loadingFilter: false
+            };
         case types.PRODUCT_CREATE_RESET:
             return {
                 ...state,
@@ -116,6 +139,12 @@ const reducer = (state= initialState, action) => {
                 ...state,
                 loading: false
             }; 
+        case types.GET_PRODUCTS_CATEGORY_FAIL:
+        case types.GET_PRODUCTS_BRANDS_FAIL:
+            return {
+                ...state,
+                loadingFilter: false
+            };
         case types.PRODUCT_TOP_FAIL:
             return {
                 ...state,

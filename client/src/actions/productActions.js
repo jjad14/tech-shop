@@ -3,14 +3,14 @@ import * as types from '../constants/productTypes';
 import { setError, clearError } from '../actions/errorActions';
 
 // get products
-export const getProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
+export const getProducts = (keyword='', pageNumber='', brand='', category='') => async (dispatch) => {
   try {
     dispatch({
       type: types.GET_PRODUCTS_START
     });
 
     const { data } = await api.get(
-      `/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+      `/products?keyword=${keyword}&pageNumber=${pageNumber}&brand=${brand}&category=${category}`);
 
     dispatch({
       type: types.GET_PRODUCTS_SUCCESS,
@@ -48,6 +48,52 @@ export const getProduct = (id) => async (dispatch) => {
       type: types.GET_PRODUCT_DETAILS_FAIL
     });
     dispatch(setError('errorProduct', err.response?.data?.message || err.message));
+  }
+};
+
+export const getBrands = () => async dispatch => {
+  try {
+    dispatch({
+      type: types.GET_PRODUCTS_BRANDS_START
+    });
+
+    const { data } = await api.get(`/products/brands`);
+
+    dispatch({
+      type: types.GET_PRODUCTS_BRANDS_SUCCESS,
+      payload: data,
+    });
+
+    
+  } catch (err) {
+    dispatch(clearError('errorFilter'));
+    dispatch({
+      type: types.GET_PRODUCTS_BRANDS_FAIL
+    });
+    dispatch(setError('errorFilter', err.response?.data?.message || err.message));
+  }
+};
+
+export const getCategories = () => async dispatch => {
+  try {
+    dispatch({
+      type: types.GET_PRODUCTS_CATEGORY_START
+    });
+
+    const { data } = await api.get(`/products/categories`);
+
+    dispatch({
+      type: types.GET_PRODUCTS_CATEGORY_SUCCESS,
+      payload: data,
+    });
+
+    
+  } catch (err) {
+    dispatch(clearError('errorFilter'));
+    dispatch({
+      type: types.GET_PRODUCTS_CATEGORY_FAIL
+    });
+    dispatch(setError('errorFilter', err.response?.data?.message || err.message));
   }
 };
 
@@ -153,6 +199,6 @@ export const getTopRatedProducts = () => async dispatch => {
 
   } catch (err) {
       dispatch({type: types.PRODUCT_TOP_FAIL});
-      dispatch(setError('errorProduct', err.response?.data?.message || err.message));
+      dispatch(setError('errorCarousel', err.response?.data?.message || err.message));
   }
 };

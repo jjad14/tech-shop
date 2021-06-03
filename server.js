@@ -49,9 +49,6 @@ app.get('/api/config/paypal', (req, res) =>
     res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
-app.use(notFound);
-app.use(errorHandler);
-
 // access __dirname with es6 modules
 const folder = path.resolve();
 
@@ -67,6 +64,9 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

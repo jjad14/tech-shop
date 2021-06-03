@@ -58,6 +58,16 @@ const folder = path.resolve();
 // make uploads folder static
 app.use('/uploads', express.static(path.join(folder, '/uploads')));
 
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold));

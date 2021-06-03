@@ -3,7 +3,6 @@ import { useHistory, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Button, Card, Form } from 'react-bootstrap';
 import Loading from './Loading';
-import Message from './Message';
 
 import { getBrands, getCategories } from '../../actions/productActions';
 
@@ -14,7 +13,6 @@ const Filter = ({ brandParam, categoryParam }) => {
   const { products, categories, brands, loadingFilter } = useSelector(
     (state) => state.product
   );
-  const { errorFilter } = useSelector((state) => state.error);
 
   const [brand, setBrand] = useState(brandParam ?? '');
   const [brandSelected, setBrandSelected] = useState(brands.indexOf(brandParam) ?? '');
@@ -58,7 +56,6 @@ const Filter = ({ brandParam, categoryParam }) => {
     <Loading />
   ) : (
       <>
-        {/* {errorFilter && <Message variant="danger">{errorFilter}</Message>} */}
         {products && (
           <Card className='my-3 p-3 rounded shadow'>
             <Row>

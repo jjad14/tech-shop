@@ -98,6 +98,10 @@ const Login = ({ location }) => {
           <Button type='submit' variant='primary' block>
             Sign In
           </Button>
+          <Button type='button' variant='danger' block>
+            <i className='fab fa-google left'></i>
+            {' '} Sign In With Google
+          </Button>
       </Form>
 
         <Row className='py-3 text-center'>

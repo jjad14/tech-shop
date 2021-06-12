@@ -6,14 +6,17 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import colors from 'colors';
 import morgan from 'morgan';
+import session from 'express-session';
 
 import connectDB from './data/db.js';
+import passport from './config/passport.js';
 import { notFound, errorHandler } from './middleware/errors.js';
 import productRoutes from './routes/products.js';
 import userRoutes from './routes/users.js';
 import orderRoutes from './routes/order.js';
 import cartRoutes from './routes/cart.js';
 import uploadRoutes from './routes/upload.js';
+import authRoutes from './routes/auth.js';
 
 const cloudinary = pkg;
 dotenv.config();
@@ -32,6 +35,18 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    })
+);
+  
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
@@ -44,6 +59,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/auth', authRoutes);
 
 app.get('/api/config/paypal', (req, res) => 
     res.send(process.env.PAYPAL_CLIENT_ID)

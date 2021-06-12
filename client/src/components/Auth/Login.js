@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
@@ -25,6 +25,14 @@ const Login = ({ location }) => {
   // redirect 
   const redirect = location.search ? location.search.split('=')[1] : null;
 
+
+  useEffect(() => {
+    if (!userInfo) {
+      dispatch(userActions.getGoogleUserInfo());
+    }
+    // eslint-disable-next-line
+  }, []);
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -39,6 +47,11 @@ const Login = ({ location }) => {
     // setPassword('');
     setValidated(true);
 
+  };
+
+  const signInWithGoogleHandler = (e) => {
+    e.preventDefault();
+    window.location.href = `/api/auth/google?redirect=${redirect}`;
   };
 
   // redirect if user is logged in and has a redirection
@@ -98,7 +111,11 @@ const Login = ({ location }) => {
           <Button type='submit' variant='primary' block>
             Sign In
           </Button>
-          <Button type='button' variant='danger' block>
+          <Button 
+            type='button' 
+            variant='danger'
+            onClick={signInWithGoogleHandler} 
+            block>
             <i className='fab fa-google left'></i>
             {' '} Sign In With Google
           </Button>

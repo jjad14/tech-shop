@@ -58,9 +58,33 @@ export const register = (name, email, password, confirmPassword) => async dispat
     }
 };
 
+// Get Users Google Info
+export const getGoogleUserInfo = () => {
+    return async (dispatch) => {
+      try {
+        dispatch({ type: USER_LOGIN_START });
+  
+        const { data } = await axios.get('/api/auth/currentuser');
+  
+        dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+  
+        localStorage.setItem('userInfo', JSON.stringify(data));
+      } catch (error) {
+        dispatch({type: types.USER_LOGIN_FAIL});
+        dispatch(setError('errorAuthentication', err.response?.data?.message || err.message));
+      }
+    };
+};
+
 // logout user
 export const logout = (history) => async dispatch => {
+
+    if (userInfo.googleId) {
+        await axios.get('/api/auth/logout');
+    }
+
     await api.delete('/users/logout');
+
 
     localStorage.removeItem('cartItems');
     localStorage.removeItem('shippingAddress');

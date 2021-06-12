@@ -1,12 +1,22 @@
 import express from 'express';
 import passport from 'passport';
+import session from 'express-session';
+
+import generateToken from '../utils/generateToken.js';
 
 const router = express.Router();
 
 // GET /google
 // Auth with Google
 // Public access
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+router.get(
+  '/google',
+  (req, res, next) => {
+    req.session.redirectPath = req.query.redirect;
+    next();
+  },
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
 
 // GET /google/callback
 // Google auth callback
@@ -15,8 +25,30 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
-    res.send('You are logged in');
+    const redirect = req.session.redirectPath;
+    res.redirect(`/login?redirect=${redirect}`);
   }
 );
+
+router.get('/currentuser', (req, res) => {
+  const user = req.user;
+  if (user) {
+    res.json({
+      _id: user._id,
+      googleId: user.googleId,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.send(null);
+  }
+});
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 export default router;

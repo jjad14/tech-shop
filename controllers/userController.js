@@ -35,7 +35,7 @@ const authUser = asyncHandler(async (req, res) => {
         throw new Error('Invalid User Credentials');      
     }
 
-    // gennerate token
+    // generate token
     const token = generateToken(user._id);
 
     // set cookie

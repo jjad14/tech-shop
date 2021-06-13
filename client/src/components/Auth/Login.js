@@ -8,9 +8,9 @@ import Meta from '../shared/Meta';
 import Message from '../shared/Message';
 import Loading from '../shared/Loading';
 import FormContainer from '../shared/Forms/FormContainer';
-import { login } from '../../actions/userActions';
+import { login, getGoogleUserInfo } from '../../actions/userActions';
 
-const Login = ({ location }) => {
+const Login = ({ location, history }) => {
   // local state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,12 +23,17 @@ const Login = ({ location }) => {
   const { errorAuthentication } = useSelector((state) => state.error);
 
   // redirect 
-  const redirect = location.search ? location.search.split('=')[1] : null;
+  const redirect = location.search ? location.search.split('=')[1] : '/';
 
+  useEffect(() => {
+    if (userInfo) {
+      history.push(redirect);
+    }
+  }, [userInfo, history, redirect]);
 
   useEffect(() => {
     if (!userInfo) {
-      dispatch(userActions.getGoogleUserInfo());
+      dispatch(getGoogleUserInfo());
     }
     // eslint-disable-next-line
   }, []);
@@ -55,14 +60,14 @@ const Login = ({ location }) => {
   };
 
   // redirect if user is logged in and has a redirection
-  if (userInfo && redirect) {
-    return <Redirect to={redirect} />;
-  }
+  // if (userInfo && redirect) {
+  //   return <Redirect to={redirect} />;
+  // }
 
-  // redirect if already logged in
-  if (userInfo) {
-    return <Redirect to='/' />;
-  }
+  // // redirect if already logged in
+  // if (userInfo) {
+  //   return <Redirect to='/' />;
+  // }
 
   return (
     <>

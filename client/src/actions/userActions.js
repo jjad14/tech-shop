@@ -62,14 +62,14 @@ export const register = (name, email, password, confirmPassword) => async dispat
 export const getGoogleUserInfo = () => {
     return async (dispatch) => {
       try {
-        dispatch({ type: USER_LOGIN_START });
+        dispatch({ type: types.USER_LOGIN_START });
   
-        const { data } = await axios.get('/api/auth/currentuser');
+        const { data } = await api.get('/auth/currentuser');
   
-        dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+        dispatch({ type: types.USER_LOGIN_SUCCESS, payload: data });
   
         localStorage.setItem('userInfo', JSON.stringify(data));
-      } catch (error) {
+      } catch (err) {
         dispatch({type: types.USER_LOGIN_FAIL});
         dispatch(setError('errorAuthentication', err.response?.data?.message || err.message));
       }
@@ -77,26 +77,31 @@ export const getGoogleUserInfo = () => {
 };
 
 // logout user
-export const logout = (history) => async dispatch => {
+export const logout = (history) => {
+    return async (dispatch, getState) => {
+        const {
+            user: { userInfo },
+          } = getState();
 
-    if (userInfo.googleId) {
-        await axios.get('/api/auth/logout');
-    }
-
-    await api.delete('/users/logout');
-
-
-    localStorage.removeItem('cartItems');
-    localStorage.removeItem('shippingAddress');
-    localStorage.removeItem('paymentMethod');
-
-    dispatch({ type: ORDER_MY_LIST_RESET });  
-    dispatch({ type: CLEAR_SHIPPING_PAYMENT }); 
-    dispatch({ type: ORDER_RESET}); 
-    dispatch({ type: PRODUCT_CREATE_REVIEW_RESET}); 
-    dispatch({ type: types.USER_LOGOUT });  
-
-    history.push('/login');
+        if (userInfo.googleId) {
+            await api.get('/api/auth/logout');
+        }
+    
+        await api.delete('/users/logout');
+    
+    
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('shippingAddress');
+        localStorage.removeItem('paymentMethod');
+    
+        dispatch({ type: ORDER_MY_LIST_RESET });  
+        dispatch({ type: CLEAR_SHIPPING_PAYMENT }); 
+        dispatch({ type: ORDER_RESET}); 
+        dispatch({ type: PRODUCT_CREATE_REVIEW_RESET}); 
+        dispatch({ type: types.USER_LOGOUT });  
+    
+        history.push('/login');
+    };
 };
 
 // Get currently logged in users details

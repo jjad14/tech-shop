@@ -6,6 +6,14 @@ import generateToken from '../utils/generateToken.js';
 
 const router = express.Router();
 
+// Cookie Configuration
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'Strict', // Strict | Lax | None
+  maxAge: 24 * 60 * 60, // 1 day
+};
+
 // GET /google
 // Auth with Google
 // Public access
@@ -23,23 +31,29 @@ router.get(
 // Public access
 router.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', { failureRedirect: 'http://localhost:3000' }),
   (req, res) => {
     const redirect = req.session.redirectPath;
-    res.redirect(`/login?redirect=${redirect}`);
+    res.redirect(`http://localhost:3000/login?redirect=${redirect}`);
   }
 );
 
 router.get('/currentuser', (req, res) => {
   const user = req.user;
   if (user) {
+
+    // generate token
+    const token = generateToken(user._id);
+
+    // set cookie
+    res.cookie('Bearer', token, cookieOptions);
+
     res.json({
       _id: user._id,
       googleId: user.googleId,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      isAdmin: user.isAdmin
     });
   } else {
     res.send(null);

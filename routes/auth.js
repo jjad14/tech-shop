@@ -31,7 +31,7 @@ router.get(
 // Public access
 router.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: 'http://localhost:3000' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     const redirect = req.session.redirectPath;
     res.redirect(`http://localhost:3000/login?redirect=${redirect}`);
@@ -62,7 +62,7 @@ router.get('/currentuser', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.redirect('http://localhost:3000');
 });
 
 export default router;
